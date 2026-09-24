@@ -78,7 +78,7 @@ def footer(root):
       <button class="linkbtn" type="button" data-open-snake>Snake</button>
       <span class="hint">or type <kbd>play</kbd> anywhere</span>
     </div>
-    <span>© 2026 {e(C['name'])}</span>
+    <span>© 2026 {e(C['full_name'])}</span>
   </div>
 </footer>
 <dialog class="snake-dialog" id="snake-dialog" aria-label="Grid Snake">
@@ -149,7 +149,7 @@ def index():
   </section>
 </main>
 """
-    return head(f"{C['name']}, portfolio", "Selected work by " + C["name"], "/") + nav(True) + body + footer("/")
+    return head(f"{C['full_name']}, product designer", "Selected work by " + C["full_name"] + ", product designer in Gurugram.", "/") + nav(True) + body + footer("/")
 
 def case(i):
     P = C["projects"]; p = P[i]; nxt = P[(i + 1) % len(P)]
@@ -163,27 +163,27 @@ def case(i):
       <div class="fact"><span class="label">Client</span><span>{e(p['client'])}</span></div>
       <div class="fact"><span class="label">Year</span><span>{e(p['year'])}</span></div>
       <div class="fact"><span class="label">Role</span><span>{e(p['role'])}</span></div>
-      <div class="fact"><span class="label">Deliverables</span><span>[What you shipped]</span></div>
+      <div class="fact"><span class="label">Deliverables</span><span>{e(p.get("deliverables","[What you shipped]"))}</span></div>
     </div>
   </section>
   <div class="cs-body">
     <section class="cs-block">
       <div class="label">Overview</div>
-      <div class="copy"><p class="big">[The one-paragraph version of this project: what it was, why it mattered, and what changed because of it.]</p></div>
+      <div class="copy"><p class="big">{e(p.get("overview","[The one-paragraph version of this project.]"))}</p></div>
     </section>
     <section class="cs-block"><div class="figure"><span>[Hero image]</span></div></section>
     <section class="cs-block">
       <div class="label">The problem</div>
-      <div class="copy"><p>[What wasn't working, for whom, and how you knew.]</p></div>
+      <div class="copy"><p>{e(p.get("problem","[What wasn't working, for whom, and how you knew.]"))}</p></div>
     </section>
     <section class="cs-block">
       <div class="label">Process</div>
-      <div class="copy"><p>[Research, directions you explored, and the decision that shaped the rest.]</p></div>
+      <div class="copy"><p>{e(p.get("process","[Research, directions you explored, and the decision that shaped the rest.]"))}</p></div>
     </section>
     <section class="cs-block"><div class="figure half"><span>[Image]</span></div><div class="figure half"><span>[Image]</span></div></section>
     <section class="cs-block">
       <div class="label">Outcome</div>
-      <div class="copy"><p>[What shipped and what it achieved. Real numbers if you have them.]</p></div>
+      <div class="copy"><p>{e(p.get("outcome","[What shipped and what it achieved. Real numbers if you have them.]"))}</p></div>
     </section>
   </div>
   <a class="next" href="/work/{nxt['slug']}"><span class="label">Next project</span><span class="serif">{e(nxt['title'])}</span></a>
