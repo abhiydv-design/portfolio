@@ -11,6 +11,9 @@
   var statusEl = root.querySelector('[data-voice-status]'), timeEl = root.querySelector('[data-voice-time]');
   var capEl = root.querySelector('[data-voice-caption]'), noteEl = root.querySelector('[data-voice-note]');
   var wave = root.querySelector('[data-voice-wave]'), orb = root.querySelector('[data-voice-orb]'), icon = root.querySelector('[data-voice-icon]');
+  var AV = null;
+  if (window.PORTRAIT_TONES) { var A = window.PORTRAIT_TONES.avatar, rr = atob(A.d), tt = new Float32Array(rr.length);
+    for (var z = 0; z < rr.length; z++) tt[z] = rr.charCodeAt(z) / 255; AV = { w: A.w, h: A.h, t: tt }; }
   var convo = null, state = 'idle', mode = 'listening', t0 = 0, tick = 0, raf = 0, sdkP = null, cols = null;
 
   function setState(s) { state = s; root.setAttribute('data-state', s); }
@@ -56,17 +59,18 @@
       try { outV = convo.getOutputVolume() || 0; inV = convo.getInputVolume() || 0; } catch (e) {}
       try { freq = mode === 'speaking' ? convo.getOutputByteFrequencyData() : convo.getInputByteFrequencyData(); } catch (e) { freq = null; }
     }
-    // orb
-    var o = crisp(orb), ox = o.x, n = 9, g = o.w / n, lv = Math.min(1, (mode === 'speaking' ? outV : inV) * 2.2);
+    // orb: Abhishek's halftone face; dots swell with whoever is talking
+    var o = crisp(orb), ox = o.x, lv = Math.min(1, (mode === 'speaking' ? outV : inV) * 2.4);
     ox.fillStyle = C.field; ox.fillRect(0, 0, o.w, o.h);
-    for (var j = 0; j < n; j++) for (var i = 0; i < n; i++) {
-      var dx = i - 4, dy = j - 4, d = Math.sqrt(dx * dx + dy * dy), R = 3.2 + lv * 1.4;
-      if (d > R) continue;
-      var shade = 1 - d / (R + 0.6), wob = state === 'connecting' ? 0.5 + 0.5 * Math.sin(now / 200 - d) : 1;
-      ox.fillStyle = C.mark; ox.globalAlpha = 0.35 + 0.65 * shade * wob;
-      ox.beginPath(); ox.arc(i * g + g / 2, j * g + g / 2, g * (0.18 + 0.28 * shade * (0.6 + lv * 0.6)), 0, Math.PI * 2); ox.fill();
+    if (AV) {
+      var g = o.w / AV.w;
+      for (var j = 0; j < AV.h; j++) for (var i = 0; i < AV.w; i++) {
+        var tv = AV.t[j * AV.w + i]; if (tv < 0.03) continue;
+        var wob = state === 'connecting' ? 0.55 + 0.45 * Math.sin(now / 180 - (i + j) * 0.35) : 1;
+        var boost = mode === 'speaking' ? 1 + lv * 0.45 * (0.6 + 0.4 * Math.sin(now / 70 + i * 0.9 + j * 0.7)) : 1;
+        ox.fillStyle = C.mark; ox.beginPath(); ox.arc((i + 0.5) * g, (j + 0.5) * g, Math.min(g * 0.62, (0.12 + 0.88 * tv) * g * 0.5 * boost * wob), 0, Math.PI * 2); ox.fill();
+      }
     }
-    ox.globalAlpha = 1;
     // wave: columns of stacked dots
     var w = crisp(wave), wx = w.x, colW = 6, nc = Math.floor(w.w / colW), rows = Math.floor(w.h / 5);
     if (!cols || cols.length !== nc) cols = new Float32Array(nc);

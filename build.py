@@ -108,7 +108,9 @@ def footer(root):
 </script>
 <script src="{root}assets/patterns.js" defer></script>
 <script src="{root}assets/games.js" defer></script>
+<script src="{root}assets/portrait-data.js" defer></script>
 <script src="{root}assets/voice.js" defer></script>
+<script src="{root}assets/portrait.js" defer></script>
 </body>
 </html>
 """
@@ -159,7 +161,11 @@ def index():
   </section>
 
   <section class="about" id="about">
-    <div class="label">About</div>
+    <div class="about-side">
+      <div class="label">About</div>
+      <div class="portrait"><canvas data-portrait role="img" aria-label="Portrait of Abhishek drawn in dots"></canvas></div>
+      <button class="portrait-toggle" type="button" data-portrait-toggle aria-pressed="false">Stitch it</button>
+    </div>
     <p class="about-text">{e(C['about'])}</p>
     <div class="facts">
 {facts}

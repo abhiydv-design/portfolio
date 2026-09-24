@@ -226,3 +226,13 @@ img { max-width: 100%; }
   .voice-pill { height: 48px; padding-right: 16px; }
   .voice-bar, .voice-caption { width: calc(100vw - 24px); }
 }
+
+/* ---------- portrait ---------- */
+.about-side { grid-column: 1 / span 3; grid-row: span 2; display: flex; flex-direction: column; gap: 20px; }
+.about-side > .label { padding-top: 14px; }
+.about .about-side .label { grid-column: auto; }
+.portrait { border: 1px solid var(--line); background: var(--field); }
+.portrait canvas { height: auto; cursor: crosshair; }
+.portrait-toggle { align-self: flex-start; height: 40px; padding: 0 16px; border: 1px solid var(--ink); background: none; color: var(--ink); font: 500 11px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+.portrait-toggle:hover, .portrait-toggle[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+@media (max-width: 1000px) { .about-side { grid-column: 1 / -1; grid-row: auto; } .portrait { max-width: 340px; } }
