@@ -1,0 +1,19 @@
+{
+  "name": "Abhishek",
+  "email": "you@example.com",
+  "email_label": "[you@email.com]",
+  "lede": "[One or two sentences on what you design, who you design it for, and what you care about in the work.]",
+  "about": "[A few sentences in your own voice: what you design, how you like to work, and the kind of problems you want more of.]",
+  "facts": [["Based in", "[City, Country]"], ["Currently", "[Role at Company]"], ["Open to", "[Freelance, full-time or collaborations]"]],
+  "socials": [["[LinkedIn]", "#"], ["[Behance]", "#"], ["[Instagram]", "#"]],
+  "projects": [
+    {"slug": "project-one", "title": "[Project one]", "client": "[Client]", "year": "[Year]", "role": "[Your role]", "pattern": "map", "mark": "square",
+     "summary": "[One line on the problem, your role, and the outcome.]"},
+    {"slug": "project-two", "title": "[Project two]", "client": "[Client]", "year": "[Year]", "role": "[Your role]", "pattern": "ring", "mark": "circle",
+     "summary": "[One line on the problem, your role, and the outcome.]"},
+    {"slug": "project-three", "title": "[Project three]", "client": "[Client]", "year": "[Year]", "role": "[Your role]", "pattern": "stitch", "mark": "cross",
+     "summary": "[One line on the problem, your role, and the outcome.]"},
+    {"slug": "project-four", "title": "[Project four]", "client": "[Client]", "year": "[Year]", "role": "[Your role]", "pattern": "land", "mark": "dash",
+     "summary": "[One line on the problem, your role, and the outcome.]"}
+  ]
+}
