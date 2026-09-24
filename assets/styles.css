@@ -193,3 +193,36 @@ img { max-width: 100%; }
 @media (max-width: 900px) { .stitch { grid-template-columns: 1fr; } }
 .dissolve { z-index: 0; }
 .hero-main > :not(h1):not(.dissolve) { position: relative; z-index: 1; }
+
+/* ---------- voice agent ---------- */
+.voice { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 60; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; max-width: calc(100vw - 40px); }
+.voice-pill { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 10px; background: var(--field); color: var(--mark); border: 0; cursor: pointer; font: 500 12px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; box-shadow: 0 0 0 1px var(--mark), 0 0 0 2px var(--ink); }
+.voice-pill:hover { background: var(--deep); }
+.voice-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.voice-icon { width: 32px; height: 32px; }
+.voice-pill .short { display: none; }
+.voice-bar { display: none; align-items: center; gap: 12px; width: 420px; max-width: 100%; height: 68px; padding: 10px; background: var(--page); border: 1px solid var(--ink); }
+.voice-orb { width: 48px; height: 48px; flex-shrink: 0; }
+.voice-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.voice-status { font: 500 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--meta); }
+.voice-wave { width: 100%; height: 28px; }
+.voice-time { font: 500 15px/1 var(--mono); letter-spacing: 0.06em; font-variant-numeric: tabular-nums; }
+.voice-end { width: 48px; height: 48px; flex-shrink: 0; display: grid; place-items: center; background: var(--ink); color: var(--mark); border: 0; cursor: pointer; }
+.voice-end:hover { background: var(--field); }
+.voice-caption { display: none; margin: 0; width: 420px; max-width: 100%; padding: 12px 14px; background: var(--page); border: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+.voice-note-wrap { display: none; position: relative; width: 360px; max-width: 100%; }
+.voice-note { padding: 14px 40px 14px 16px; background: var(--page); border: 1px solid var(--ink); font-size: 14px; line-height: 1.5; }
+.voice-note a { color: var(--deep); font-weight: 500; }
+.voice-dismiss { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; background: none; border: 0; font-size: 20px; cursor: pointer; color: var(--ink); }
+.voice[data-state="connecting"] .voice-pill, .voice[data-state="live"] .voice-pill, .voice[data-state="ended"] .voice-pill { display: none; }
+.voice[data-state="connecting"] .voice-bar, .voice[data-state="live"] .voice-bar, .voice[data-state="ended"] .voice-bar { display: flex; }
+.voice[data-state="live"] .voice-caption:not(:empty) { display: block; }
+.voice[data-state="ended"] .voice-wave, .voice[data-state="ended"] .voice-end { visibility: hidden; }
+.voice[data-state="error"] .voice-note-wrap { display: block; }
+.footer { padding-bottom: 104px; }
+@media (max-width: 640px) {
+  .voice { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
+  .voice-pill .full { display: none; } .voice-pill .short { display: inline; }
+  .voice-pill { height: 48px; padding-right: 16px; }
+  .voice-bar, .voice-caption { width: calc(100vw - 24px); }
+}

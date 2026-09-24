@@ -74,6 +74,7 @@ def footer(root):
 {socials}
     </div>
     <div class="socials">
+      <button class="linkbtn" type="button" data-voice-open>Talk to my AI</button>
       <a href="/play">Play</a>
       <button class="linkbtn" type="button" data-open-snake>Snake</button>
       <span class="hint">or type <kbd>play</kbd> anywhere</span>
@@ -81,6 +82,22 @@ def footer(root):
     <span>© 2026 {e(C['full_name'])}</span>
   </div>
 </footer>
+<div class="voice" data-voice data-agent="{e(C['agent_id'])}" data-email="{e(C['email'])}" data-state="idle">
+  <div class="voice-note-wrap">
+    <div class="voice-note" data-voice-note hidden role="status"></div>
+    <button class="voice-dismiss" type="button" data-voice-dismiss aria-label="Dismiss">×</button>
+  </div>
+  <p class="voice-caption" data-voice-caption aria-live="polite"></p>
+  <button class="voice-pill" type="button" data-voice-start aria-label="Talk to Abhishek's AI voice agent">
+    <canvas class="voice-icon" data-voice-icon aria-hidden="true"></canvas><span class="full">Talk to my portfolio</span><span class="short">Talk</span>
+  </button>
+  <div class="voice-bar" role="group" aria-label="Voice call with Abhishek's AI">
+    <canvas class="voice-orb" data-voice-orb aria-hidden="true"></canvas>
+    <div class="voice-mid"><span class="voice-status" data-voice-status aria-live="polite"></span><canvas class="voice-wave" data-voice-wave aria-hidden="true"></canvas></div>
+    <span class="voice-time" data-voice-time>00:00</span>
+    <button class="voice-end" type="button" data-voice-end aria-label="End call"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="2"/></svg></button>
+  </div>
+</div>
 <dialog class="snake-dialog" id="snake-dialog" aria-label="Grid Snake">
   <div class="game-bar"><span>Grid Snake</span><button type="button" data-close>Close</button></div>
   <canvas class="snake-canvas"></canvas>
@@ -91,6 +108,7 @@ def footer(root):
 </script>
 <script src="{root}assets/patterns.js" defer></script>
 <script src="{root}assets/games.js" defer></script>
+<script src="{root}assets/voice.js" defer></script>
 </body>
 </html>
 """
