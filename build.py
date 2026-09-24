@@ -73,13 +73,24 @@ def footer(root):
     <div class="socials">
 {socials}
     </div>
+    <div class="socials">
+      <a href="/play">Play</a>
+      <button class="linkbtn" type="button" data-open-snake>Snake</button>
+      <span class="hint">or type <kbd>play</kbd> anywhere</span>
+    </div>
     <span>© 2026 {e(C['name'])}</span>
   </div>
 </footer>
+<dialog class="snake-dialog" id="snake-dialog" aria-label="Grid Snake">
+  <div class="game-bar"><span>Grid Snake</span><button type="button" data-close>Close</button></div>
+  <canvas class="snake-canvas"></canvas>
+  <div class="game-foot" data-score>Score 0</div>
+</dialog>
 <script>
   (function () {{ var n = document.getElementById('nav'); function f() {{ n.classList.toggle('scrolled', window.scrollY > 8); }} f(); window.addEventListener('scroll', f, {{ passive: true }}); }})();
 </script>
 <script src="{root}assets/patterns.js" defer></script>
+<script src="{root}assets/games.js" defer></script>
 </body>
 </html>
 """
@@ -117,6 +128,7 @@ def index():
     </div>
     <div class="hero-art">
       <canvas data-hero role="img" aria-label="A large flower drawn from thousands of dots on a grid; the dots scatter away from the cursor and settle back."></canvas>
+      <button class="play-btn" type="button" data-breakout aria-pressed="false">Play Breakout</button>
       <div class="fig">Fig. 1, halftone bloom</div>
     </div>
   </section>
@@ -179,7 +191,64 @@ def case(i):
 """
     return head(f"{p['title']}, {C['name']}", p["summary"], "/") + nav(False) + body + footer("/")
 
+def play():
+    threads = [("A", "#2146C7", "Petals, deep blue", '<circle cx="11" cy="11" r="3" fill="#111"/>'),
+               ("B", "#8EA4FF", "Petal edges, soft blue", '<circle cx="11" cy="11" r="3" fill="none" stroke="#111"/>'),
+               ("C", "#111111", "Heart and stem, black", '<path d="M8 8l6 6M14 8l-6 6" stroke="#fff" stroke-width="1.4"/>'),
+               ("D", "#315BEF", "Leaves, bright blue", '<rect x="8" y="8" width="6" height="6" fill="none" stroke="#fff"/>')]
+    btns = "\n".join(f'          <button class="thread" type="button" data-thread="{k}" aria-pressed="false"><svg class="swatch" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" fill="{c}"/>{sym}</svg>{e(label)}<span class="key">{i+1}</span></button>'
+                      for i, (k, c, label, sym) in enumerate(threads))
+    body = f"""<main id="main">
+  <section class="play-head">
+    <a class="label" href="/">Back home</a>
+    <h1>Stitch the flower</h1>
+    <p>Each cell shows a faint symbol. Pick the thread with the matching symbol, then click or drag across the hoop to stitch. Finish the flower as fast as you can.</p>
+  </section>
+  <section class="stitch" data-stitch>
+    <div class="hoop"><canvas role="img" aria-label="Cross-stitch grid of a flower to fill in"></canvas></div>
+    <div class="side">
+      <div class="threads" role="group" aria-label="Threads">
+{btns}
+      </div>
+      <div class="stats">
+        <div class="fact"><span class="label">Progress</span><span data-progress>0%</span></div>
+        <div class="fact"><span class="label">Time</span><span data-time>0.0 s</span></div>
+        <div class="fact"><span class="label">Wrong stitches</span><span data-miss>0</span></div>
+        <div class="fact"><span class="label">Best time</span><span data-best>None yet</span></div>
+      </div>
+      <p class="msg" data-msg aria-live="polite"></p>
+      <div class="ctas"><button class="btn btn-ghost" type="button" data-clear style="background:none;cursor:pointer;font-family:inherit">Clear the hoop</button></div>
+      <div class="more-games">
+        <span class="label">More games</span>
+        <div class="ctas">
+          <a class="btn btn-solid" href="/#top">Halftone Breakout</a>
+          <button class="btn btn-ghost" type="button" data-open-snake style="background:none;cursor:pointer;font-family:inherit">Grid Snake</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+"""
+    return head(f"Play, {C['name']}", "Stitch the flower, a small cross-stitch game.", "/") + nav(False) + body + footer("/")
+
+def notfound():
+    body = """<main id="main">
+  <section class="play-head">
+    <span class="label">Error 404</span>
+    <h1>This page wandered off the grid.</h1>
+    <p>While you're here, have a round of snake. Arrow keys or swipe to move. Or head back to the <a href="/">home page</a>.</p>
+  </section>
+  <section class="inline-snake" data-snake-inline aria-label="Grid Snake">
+    <canvas class="snake-canvas"></canvas>
+    <div class="game-foot" data-score>Score 0</div>
+  </section>
+</main>
+"""
+    return head(f"Not found, {C['name']}", "Page not found.", "/") + nav(False) + body + footer("/")
+
 Path("index.html").write_text(index())
+Path("play.html").write_text(play())
+Path("404.html").write_text(notfound())
 Path("work").mkdir(exist_ok=True)
 for i, p in enumerate(C["projects"]):
     Path(f"work/{p['slug']}.html").write_text(case(i))

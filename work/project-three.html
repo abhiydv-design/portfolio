@@ -74,12 +74,23 @@
         <a href="#">[Behance]</a>
         <a href="#">[Instagram]</a>
     </div>
+    <div class="socials">
+      <a href="/play">Play</a>
+      <button class="linkbtn" type="button" data-open-snake>Snake</button>
+      <span class="hint">or type <kbd>play</kbd> anywhere</span>
+    </div>
     <span>© 2026 Abhishek</span>
   </div>
 </footer>
+<dialog class="snake-dialog" id="snake-dialog" aria-label="Grid Snake">
+  <div class="game-bar"><span>Grid Snake</span><button type="button" data-close>Close</button></div>
+  <canvas class="snake-canvas"></canvas>
+  <div class="game-foot" data-score>Score 0</div>
+</dialog>
 <script>
   (function () { var n = document.getElementById('nav'); function f() { n.classList.toggle('scrolled', window.scrollY > 8); } f(); window.addEventListener('scroll', f, { passive: true }); })();
 </script>
 <script src="/assets/patterns.js" defer></script>
+<script src="/assets/games.js" defer></script>
 </body>
 </html>
