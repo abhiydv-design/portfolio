@@ -154,6 +154,7 @@ def footer(root):
 <script src="{root}assets/sprout.js" defer></script>
 <script src="{root}assets/cursor.js" defer></script>
 <script src="{root}assets/fun.js" defer></script>
+<script src="{root}assets/creatures.js" defer></script>
 </body>
 </html>
 """

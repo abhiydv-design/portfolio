@@ -122,7 +122,7 @@ img { max-width: 100%; }
 
 /* ---------- footer ---------- */
 .band { height: 112px; }
-.footer { background: var(--footer-bg); color: var(--on-footer); padding: clamp(64px, 6vw, 88px) var(--gutter) 40px; display: flex; flex-direction: column; gap: clamp(72px, 9vw, 140px); }
+.footer { background: var(--footer-bg); color: var(--on-footer); padding: clamp(64px, 6vw, 88px) var(--gutter) 40px; display: flex; flex-direction: column; gap: clamp(150px, 17vw, 240px); }
 .footer h2 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(60px, 9.2vw, 132px); line-height: 0.95; letter-spacing: -0.025em; }
 .email { display: inline-block; margin-top: 36px; font-family: var(--serif); font-size: clamp(28px, 3vw, 44px); color: var(--foot-accent); text-underline-offset: 8px; text-decoration-thickness: 1px; }
 .email:hover { color: var(--on-footer); }
@@ -536,3 +536,9 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .team-note { font-size: 15px !important; color: var(--meta); }
 .cs-meta:has(.fact:nth-child(5)) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 @media (max-width: 1000px) { .cs-meta:has(.fact:nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* footer creatures */
+.footer { position: relative; }
+.footer > :not(.creatures) { position: relative; z-index: 1; }
+.creatures { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; }
+@media print { .creatures { display: none !important; } }
