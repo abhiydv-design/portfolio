@@ -75,10 +75,182 @@
       "role": "Visual Designer Intern",
       "pattern": "land",
       "mark": "dash",
-      "summary": "Daily video content and data-informed in-app banners for a platform built for India's neighbourhood stores.",
-      "deliverables": "Video content, in-app banners, brand partnership creatives",
+      "summary": "Content and campaign creatives for India's kirana store owners: busy people who give a banner or video only a glance.",
+      "deliverables": "Short-form video, thumbnails, in-app banners, brand creatives",
       "overview": "At Kirana Club I produced and edited daily video content for the app and social platforms, designed in-app banners and promotional creatives, and worked with consumer brands on bespoke campaign creatives.",
-      "outcome": "Average daily viewership grew to around 6,000 to 6,500 views, and the data-informed banners significantly improved click-through rates on key campaigns."
+      "outcome": "Average daily viewership grew to around 6,000 to 6,500 views, and the data-informed banners significantly improved click-through rates on key campaigns.",
+      "sections": [
+        {
+          "type": "text",
+          "label": "Overview",
+          "big": "Kirana Club is a community app for kirana and small retail shop owners, mostly in Tier 2 and Tier 3 cities. They use it to discover products, check mandi rates, manage orders and find offers and schemes. I joined the content and marketing team as a visual designer, making the app's videos, banners and brand campaigns easier to notice and faster to understand."
+        },
+        {
+          "type": "text",
+          "label": "Who I designed for",
+          "body": [
+            "A kirana owner opens the app between customers. They're busy, often more comfortable reading Hindi, and they don't owe any creative their attention. Generic social-media styling, with decorative layouts and clever copy, wasn't built for them.",
+            "So everything I made had to pass one test, in a glance:"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Why should I stop and look at this?"
+        },
+        {
+          "type": "list",
+          "label": "What the team needed",
+          "items": [
+            "More views and engagement on video content",
+            "Content that was easier to discover in the app",
+            "More engagement on in-app banners",
+            "Offers and products explained clearly, fast",
+            "Brand-partner creatives that still felt like the partner's brand"
+          ]
+        },
+        {
+          "type": "hierarchy",
+          "label": "One rule for every creative",
+          "intro": "The most important information had to be the most visually dominant. For promotional creatives I worked to a fixed order:",
+          "tiers": [
+            [
+              "Offer or value",
+              "What's in it for the shop owner"
+            ],
+            [
+              "Product",
+              "A real product photo, not a generic graphic"
+            ],
+            [
+              "Supporting info",
+              "Dates, conditions, details"
+            ],
+            [
+              "Call to action",
+              "Clear, but last"
+            ]
+          ],
+          "note": "For this audience, bold type, strong product imagery and simple Hindi were usually more effective than complex or decorative layouts."
+        },
+        {
+          "type": "text",
+          "label": "A daily content engine",
+          "body": [
+            "I supported roughly one video or content piece a day. That pace only works with a system, so instead of designing every video from scratch I built reusable patterns for typography, headlines, product placement, backgrounds, brand elements and information hierarchy.",
+            "It made production faster and kept every piece recognisably Kirana Club, whether it was a retail tip, an offer, mandi and market updates, a trending topic or a brand message."
+          ]
+        },
+        {
+          "type": "list",
+          "label": "What I changed in the videos",
+          "items": [
+            "Stronger hooks in the opening moments",
+            "Bigger, bolder headlines",
+            "Shorter messages that are easy to take in",
+            "Hindi and simple language where it helped",
+            "Product-focused imagery",
+            "Thumbnails designed to be noticed in a busy feed"
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Video thumbnail",
+              "third"
+            ],
+            [
+              "Video thumbnail",
+              "third"
+            ],
+            [
+              "Video thumbnail",
+              "third"
+            ],
+            [
+              "Short video example",
+              "full"
+            ]
+          ],
+          "caption": "Thumbnails and a short video from the daily content."
+        },
+        {
+          "type": "text",
+          "label": "In-app banners",
+          "body": [
+            "Banners carried offers and schemes, new products, campaigns and brand messages. For the अप्रैल धमाका स्कीम (April Dhamaka scheme), the offer had to be clear to a shop owner almost instantly. I also designed formats for the Punji reward scheme and for product and category communication.",
+            "Where past performance data was available, it shaped what to emphasise: the offer or the price, product photos or generic graphics, Hindi or English, and how visible the call to action should be."
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "In-app banner",
+              "half"
+            ],
+            [
+              "In-app banner",
+              "half"
+            ],
+            [
+              "In-app banner",
+              "half"
+            ],
+            [
+              "In-app banner",
+              "half"
+            ],
+            [
+              "Before and after",
+              "full"
+            ]
+          ],
+          "caption": "In-app banners, including the April Dhamaka scheme."
+        },
+        {
+          "type": "chips",
+          "label": "Brand partnerships",
+          "intro": "I made campaign, product and promotional creatives for FMCG and consumer brands, including:",
+          "items": [
+            "Mangaldeep",
+            "Pansari",
+            "Anmol",
+            "Johnson's Baby",
+            "Maxkleen",
+            "Vasmol",
+            "Somnath",
+            "Chukde",
+            "Sugandh Chai",
+            "Apsara Chai"
+          ]
+        },
+        {
+          "type": "process",
+          "steps": [
+            "Brief",
+            "Objective",
+            "Visual direction",
+            "First draft",
+            "Feedback",
+            "Revisions",
+            "Final"
+          ],
+          "note": "The balance in every project was the partner's own brand identity against Kirana Club's audience and communication style. Depending on the campaign, I decided how much weight to give the product, the offer, the price, the Hindi message, the key benefit and the brand itself."
+        },
+        {
+          "type": "stat",
+          "label": "Outcome",
+          "value": "6,000 to 6,500",
+          "unit": "views a day, approximately",
+          "note": "Daily viewership grew clearly over my time on the content, reaching roughly 6,000 to 6,500 views a day."
+        },
+        {
+          "type": "text",
+          "label": "What I learned",
+          "big": "Designing for one specific audience changes everything. Kirana owners have little time and different needs from a typical consumer app's users, so clarity, relevance, language and hierarchy mattered far more than style. I carry that into every product I design now."
+        }
+      ]
     }
   ],
   "agent_id": "agent_1501m3a7mmgzeqp87dq6kp0vzvaj",

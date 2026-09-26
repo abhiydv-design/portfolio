@@ -51,7 +51,7 @@ def head(title, desc, root):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Devanagari:wght@400;500&display=swap">
 <link rel="stylesheet" href="{root}assets/styles.css">
 </head>
 <body>
@@ -241,8 +241,55 @@ def index():
 """
     return head(f"{C['full_name']}, product designer", "Selected work by " + C["full_name"] + ", product designer in Gurugram.", "/") + nav(True) + body + footer("/")
 
+def render_sections(secs):
+    out = []
+    for x in secs:
+        t = x["type"]
+        lab = f'<div class="label">{e(x["label"])}</div>' if x.get("label") else '<div class="label"></div>'
+        if t == "text":
+            body = (f'<p class="big">{e(x["big"])}</p>' if x.get("big") else "") + "".join(f"<p>{e(p)}</p>" for p in x.get("body", []))
+            out.append(f'<section class="cs-block">{lab}<div class="copy">{body}</div></section>')
+        elif t == "quote":
+            out.append(f'<section class="cs-block"><div class="label"></div><blockquote class="pull">{e(x["text"])}</blockquote></section>')
+        elif t == "list":
+            items = "".join(f"<li>{e(i)}</li>" for i in x["items"])
+            intro = f'<p>{e(x["intro"])}</p>' if x.get("intro") else ""
+            out.append(f'<section class="cs-block">{lab}<div class="copy">{intro}<ul class="ticks">{items}</ul></div></section>')
+        elif t == "hierarchy":
+            tiers = "".join(f'<li><span class="tier-n">{n+1}</span><span class="tier-t">{e(a)}</span><span class="tier-d">{e(d)}</span></li>' for n, (a, d) in enumerate(x["tiers"]))
+            out.append(f"""<section class="cs-block">{lab}<div class="copy"><p>{e(x['intro'])}</p>
+        <div class="hier">
+          <div class="mock" aria-hidden="true"><div class="m1">1</div><div class="m2">2</div><div class="m3"><i></i><i></i><i></i></div><div class="m4">4</div></div>
+          <ol class="tiers">{tiers}</ol>
+        </div><p>{e(x['note'])}</p></div></section>""")
+        elif t == "figures":
+            figs = "".join(f'<div class="figure {sz}"><span>[{e(lbl)}]</span></div>' for lbl, sz in x["items"])
+            cap = f'<p class="fig-cap">{e(x["caption"])}</p>' if x.get("caption") else ""
+            out.append(f'<section class="cs-block figs">{figs}{cap}</section>')
+        elif t == "chips":
+            chips = "".join(f'<li>{e(i)}</li>' for i in x["items"])
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p><ul class="chips">{chips}</ul></div></section>')
+        elif t == "process":
+            steps = "".join(f'<li><span>{n+1:02d}</span>{e(st)}</li>' for n, st in enumerate(x["steps"]))
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><ol class="process">{steps}</ol><p>{e(x["note"])}</p></div></section>')
+        elif t == "stat":
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
+    return "\n    ".join(out)
+
 def case(i):
     P = C["projects"]; p = P[i]; nxt = P[(i + 1) % len(P)]
+    if p.get("sections"):
+        body_html = render_sections(p["sections"])
+    else:
+        g = lambda k, d: e(p.get(k, d))
+        body_html = render_sections([
+            {"type": "text", "label": "Overview", "big": p.get("overview", "[The one-paragraph version of this project.]")},
+            {"type": "figures", "items": [["Hero image", "full"]]},
+            {"type": "text", "label": "The problem", "body": [p.get("problem", "[What wasn't working, for whom, and how you knew.]")]},
+            {"type": "text", "label": "Process", "body": [p.get("process", "[Research, directions you explored, and the decision that shaped the rest.]")]},
+            {"type": "figures", "items": [["Image", "half"], ["Image", "half"]]},
+            {"type": "text", "label": "Outcome", "body": [p.get("outcome", "[What shipped and what it achieved. Real numbers if you have them.]")]},
+        ])
     body = f"""<main id="main">
   <div class="cs-hero" style="view-transition-name: art-{p['slug']}"><canvas data-pattern="{p['pattern']}" data-instant role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
   <section class="cs-head">
@@ -253,28 +300,11 @@ def case(i):
       <div class="fact"><span class="label">Client</span><span>{e(p['client'])}</span></div>
       <div class="fact"><span class="label">Year</span><span>{e(p['year'])}</span></div>
       <div class="fact"><span class="label">Role</span><span>{e(p['role'])}</span></div>
-      <div class="fact"><span class="label">Deliverables</span><span>{e(p.get("deliverables","[What you shipped]"))}</span></div>
+      <div class="fact"><span class="label">Deliverables</span><span>{e(p.get('deliverables', '[What you shipped]'))}</span></div>
     </div>
   </section>
   <div class="cs-body">
-    <section class="cs-block">
-      <div class="label">Overview</div>
-      <div class="copy"><p class="big">{e(p.get("overview","[The one-paragraph version of this project.]"))}</p></div>
-    </section>
-    <section class="cs-block"><div class="figure"><span>[Hero image]</span></div></section>
-    <section class="cs-block">
-      <div class="label">The problem</div>
-      <div class="copy"><p>{e(p.get("problem","[What wasn't working, for whom, and how you knew.]"))}</p></div>
-    </section>
-    <section class="cs-block">
-      <div class="label">Process</div>
-      <div class="copy"><p>{e(p.get("process","[Research, directions you explored, and the decision that shaped the rest.]"))}</p></div>
-    </section>
-    <section class="cs-block"><div class="figure half"><span>[Image]</span></div><div class="figure half"><span>[Image]</span></div></section>
-    <section class="cs-block">
-      <div class="label">Outcome</div>
-      <div class="copy"><p>{e(p.get("outcome","[What shipped and what it achieved. Real numbers if you have them.]"))}</p></div>
-    </section>
+    {body_html}
   </div>
   <a class="next" href="/work/{nxt['slug']}"><span class="label">Next project</span><span class="serif">{e(nxt['title'])}</span></a>
 </main>
