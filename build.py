@@ -10,6 +10,7 @@ ALT = {
     "ring": "A circular chart built from hundreds of small outlined circles.",
     "stitch": "A leafy branch in cross-stitch on a visible grid.",
     "land": "Two mountain ridges and a moon drawn in short horizontal lines.",
+    "ten": "A large number 10 drawn in pixels, with scattered confetti squares.",
 }
 MARK = {
     "square": '<rect width="10" height="10" style="fill:var(--accent)"/>',
@@ -272,6 +273,16 @@ def render_sections(secs):
         elif t == "process":
             steps = "".join(f'<li><span>{n+1:02d}</span>{e(st)}</li>' for n, st in enumerate(x["steps"]))
             out.append(f'<section class="cs-block">{lab}<div class="copy"><ol class="process">{steps}</ol><p>{e(x["note"])}</p></div></section>')
+        elif t == "compare":
+            cols = "".join(f'<div class="cmp"><span class="cmp-day">{e(dy)}</span><h3>{e(nm)}</h3><span class="cmp-mood">{e(md)}</span><p>{e(tx)}</p></div>' for dy, nm, md, tx in x["items"])
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><div class="compare">{cols}</div></div></section>')
+        elif t == "scale":
+            n = len(x["items"])
+            rows = "".join(f'<li><span class="sc-sq" style="--s:{round(1 - k / n, 3)}" aria-hidden="true"></span><span class="sc-t">{e(a)}</span><span class="sc-d">{e(dd)}</span></li>' for k, (a, dd) in enumerate(x["items"]))
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p><ol class="scale">{rows}</ol><p>{e(x["note"])}</p></div></section>')
+        elif t == "decisions":
+            rows = "".join(f'<li><span class="dc-n">{k + 1:02d}</span><div><h3>{e(a)}</h3><p>{e(dd)}</p></div></li>' for k, (a, dd) in enumerate(x["items"]))
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><ol class="decisions">{rows}</ol></div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)

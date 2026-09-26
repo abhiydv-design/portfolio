@@ -48,10 +48,176 @@
       "client": "FarMart",
       "year": "2026",
       "role": "Creative & Product Designer",
-      "pattern": "ring",
+      "pattern": "ten",
       "mark": "circle",
-      "summary": "[One line on what FarMart Dashak is, your role, and the result.]",
-      "deliverables": "[What you shipped]"
+      "summary": "Branding for FarMart's 10-year anniversary: one identity for a two-day celebration, from ten-year walls to trophies.",
+      "deliverables": "Event identity, walls, backdrops, flags, certificates, trophies, mementos, printables",
+      "sections": [
+        {
+          "type": "text",
+          "label": "Overview",
+          "big": "FarMart Dashak was FarMart's tenth anniversary, a two-day, company-wide celebration. Day one was Sports Day; day two was the main anniversary function. I worked on the event's branding and visual design, taking one identity from ten-year walls and stage backdrops all the way down to certificates, trophies and mementos."
+        },
+        {
+          "type": "compare",
+          "label": "Two days, two moods",
+          "items": [
+            [
+              "Day 1",
+              "Sports Day",
+              "Energetic",
+              "Sports, team activities and employee participation, with its own sports awards."
+            ],
+            [
+              "Day 2",
+              "Main function",
+              "Polished",
+              "The formal ten-year celebration: FarMart's journey, recognition and awards."
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "label": "The challenge",
+          "intro": "The identity needed to:",
+          "items": [
+            "Celebrate the ten-year milestone",
+            "Work across both days of the event",
+            "Feel energetic for Sports Day and polished for the main function",
+            "Stay consistent across printed and physical materials",
+            "Scale from a large wall down to a certificate or trophy"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "A complete branded experience, not a collection of event assets."
+        },
+        {
+          "type": "text",
+          "label": "Mapping the two days",
+          "body": [
+            "I started by mapping what each day needed: the activities, the tone, and the awards. That showed where the identity had to stay fixed and where it could flex for the context.",
+            "I worked with FarMart's marketing and event teams throughout, from understanding requirements and exploring directions to incorporating feedback and preparing final files for production."
+          ]
+        },
+        {
+          "type": "scale",
+          "label": "One system, every size",
+          "intro": "The same visual language had to hold up across very different formats, each seen at a different distance:",
+          "items": [
+            [
+              "10-year walls",
+              "Seen from across the venue"
+            ],
+            [
+              "Backdrops and stage",
+              "Read in photos and from the audience"
+            ],
+            [
+              "Flags and venue branding",
+              "Glimpsed while moving through the space"
+            ],
+            [
+              "Event printables",
+              "Picked up and read"
+            ],
+            [
+              "Certificates",
+              "Read up close, kept"
+            ],
+            [
+              "Trophies",
+              "Held, photographed"
+            ],
+            [
+              "Mementos",
+              "Taken home"
+            ]
+          ],
+          "note": "Large-format pieces had to work from a distance, while certificates, trophies and mementos needed finer, more refined detail. Everything was designed in Figma with physical production in mind."
+        },
+        {
+          "type": "decisions",
+          "label": "Key decisions",
+          "items": [
+            [
+              "Make “10 Years” the hero",
+              "The milestone became the central visual element and the common thread connecting every asset and both days."
+            ],
+            [
+              "One identity, two experiences",
+              "Instead of separate branding for each day, a shared system that adapts, so the days feel connected while keeping their own character."
+            ],
+            [
+              "Take the identity off the wall",
+              "The branding extended into certificates, trophies and mementos, so the identity became something employees could take home."
+            ]
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "10-year wall",
+              "full"
+            ],
+            [
+              "Sports Day environment",
+              "half"
+            ],
+            [
+              "Main function stage",
+              "half"
+            ],
+            [
+              "Flags",
+              "third"
+            ],
+            [
+              "Certificate",
+              "third"
+            ],
+            [
+              "Trophy",
+              "third"
+            ],
+            [
+              "Memento",
+              "half"
+            ],
+            [
+              "Figma explorations",
+              "half"
+            ],
+            [
+              "One identity across every touchpoint",
+              "full"
+            ]
+          ],
+          "caption": "The identity across both days, from environment to objects."
+        },
+        {
+          "type": "chips",
+          "label": "Outcome",
+          "intro": "The branding ran across both days of the celebration, with one visual language across:",
+          "items": [
+            "10-year walls",
+            "Backdrops",
+            "Flags",
+            "Certificates",
+            "Trophies",
+            "Mementos",
+            "Event printables",
+            "On-ground branding",
+            "Event creatives"
+          ]
+        },
+        {
+          "type": "text",
+          "label": "What I learned",
+          "big": "Designing beyond the screen. Physical production meant thinking about viewing distance, scale and the object in someone's hand, not just a frame in Figma."
+        }
+      ]
     },
     {
       "slug": "ai-brand-creatives",

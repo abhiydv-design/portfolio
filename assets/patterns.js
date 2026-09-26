@@ -128,6 +128,29 @@
     }
   };
 
+  /* a pixel "10" for the tenth anniversary, with confetti */
+  DRAW.ten = function (ctx, W, H, p, show) {
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var GLYPH = ['..##..####..', '.###.##..##.', '..##.##..##.', '..##.##..##.', '..##.##..##.', '..##.##..##.', '.####.####..'];
+    var gw = GLYPH[0].length, gh = GLYPH.length, block = Math.floor(Math.min(W * 0.62 / gw, H * 0.62 / gh));
+    var ox = Math.round(W * 0.56 - gw * block / 2), oy = Math.round(H * 0.5 - gh * block / 2), cell = 8;
+    var cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+    for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) {
+      if (!show(i, j)) continue;
+      var x = i * cell + 4, y = j * cell + 4, gx = Math.floor((x - ox) / block), gy = Math.floor((y - oy) / block);
+      var inside = gx >= 0 && gy >= 0 && gx < gw && gy < gh && GLYPH[gy][gx] === '#';
+      if (inside) {
+        var fx = ((x - ox) % block) / block, fy = ((y - oy) % block) / block, edge = Math.min(fx, fy, 1 - fx, 1 - fy);
+        var r = edge < 0.12 ? 1.6 : 2.9; ctx.fillStyle = hash(i, j, 61) < 0.08 ? p.soft : p.accent;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      } else {
+        var hh = hash(i, j, 62);
+        if (hh < 0.018) { var cs = [p.accent, p.soft, p.deep, p.ink][Math.floor(hash(i, j, 63) * 4)]; ctx.fillStyle = cs; var s = hh < 0.006 ? 6 : 4; ctx.fillRect(x - s / 2, y - s / 2, s, s); }
+        else if (hh < 0.08) { ctx.fillStyle = p.ink; ctx.globalAlpha = 0.18; ctx.fillRect(x - 0.7, y - 0.7, 1.4, 1.4); ctx.globalAlpha = 1; }
+      }
+    }
+  };
+
   DRAW.band = function (ctx, W, H, p) {
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var cell = 8, cols = Math.ceil(W / cell), rows = Math.round(H / cell);

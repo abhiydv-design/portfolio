@@ -505,3 +505,24 @@ section[id], footer[id] { scroll-margin-top: 88px; }
   .hier { grid-template-columns: 1fr; } .mock { max-width: 220px; }
   .figs .figure, .figs .figure.third { grid-column: 1 / -1; }
 }
+
+/* compare, scale, decisions */
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.cmp { border: 1px solid var(--ink); padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+.cmp:first-child { background: var(--accent); color: var(--page); border-color: var(--accent); }
+.cmp-day { font: 500 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; opacity: .8; }
+.cmp h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.05; }
+.cmp-mood { font: 500 12px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.cmp p { margin: 6px 0 0 !important; font-size: 16px !important; }
+.scale { list-style: none; margin: 8px 0 28px; padding: 0; }
+.scale li { display: grid; grid-template-columns: 64px minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+.sc-sq { width: calc(12px + 40px * var(--s)); height: calc(12px + 40px * var(--s)); background: var(--accent); justify-self: center;
+  background-image: radial-gradient(var(--page) 1px, transparent 1.4px); background-size: 6px 6px; }
+.sc-t { font-family: var(--serif); font-size: 22px; line-height: 1.15; }
+.sc-d { font-size: 14px; color: var(--meta); }
+.decisions { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.decisions li { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
+.dc-n { font: 500 13px var(--mono); color: var(--accent); padding-top: 8px; }
+.decisions h3 { margin: 0 0 6px; font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.1; }
+.decisions p { margin: 0 !important; }
+@media (max-width: 640px) { .compare { grid-template-columns: 1fr; } .scale li { grid-template-columns: 52px 1fr; } .sc-d { grid-column: 2; } }
