@@ -4,7 +4,8 @@
   var root = document.querySelector('[data-voice]'); if (!root) return;
   var AGENT = root.getAttribute('data-agent'), EMAIL = root.getAttribute('data-email');
   var SDK = '/assets/vendor/elevenlabs-1.25.0.js';
-  var C = { field: '#315BEF', soft: '#8EA4FF', mark: '#F7F7F2', ink: '#111111' };
+  var C = window.themeColors();
+  window.addEventListener('themechange', function () { C = window.themeColors(); if (state === 'idle' || state === 'error') drawIcon(performance.now()); });
   var reduced = false; try { reduced = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   var startBtn = root.querySelector('[data-voice-start]'), endBtn = root.querySelector('[data-voice-end]');
@@ -45,7 +46,7 @@
     for (var j = 0; j < n; j++) for (var i = 0; i < n; i++) {
       var dx = i - 2, dy = j - 2, d = Math.sqrt(dx * dx + dy * dy); if (d > 2.4) continue;
       var pulse = reduced ? 0.6 : 0.5 + 0.5 * Math.sin(t / 420 - d * 1.3);
-      x.fillStyle = C.mark; x.beginPath(); x.arc(i * g + g / 2, j * g + g / 2, g * (0.16 + 0.26 * pulse * (1 - d / 3)), 0, Math.PI * 2); x.fill();
+      x.fillStyle = getComputedStyle(startBtn).color; x.beginPath(); x.arc(i * g + g / 2, j * g + g / 2, g * (0.16 + 0.26 * pulse * (1 - d / 3)), 0, Math.PI * 2); x.fill();
     }
   }
   function idleLoop(t) { if (state !== 'idle' && state !== 'error') return; drawIcon(t); if (!reduced) requestAnimationFrame(idleLoop); }
@@ -85,7 +86,7 @@
       target = Math.max(0.06, Math.min(1, target));
       cols[k] += (target - cols[k]) * 0.35;
       var hDots = Math.max(1, Math.round(cols[k] * rows)), cx = k * colW + colW / 2, mid = w.h / 2;
-      wx.fillStyle = mode === 'speaking' ? C.field : C.soft;
+      wx.fillStyle = mode === 'speaking' ? C.accent : C.soft;
       for (var r = 0; r < hDots; r++) {
         var off = (r - (hDots - 1) / 2) * 5;
         wx.beginPath(); wx.arc(cx, mid + off, 1.6, 0, Math.PI * 2); wx.fill();

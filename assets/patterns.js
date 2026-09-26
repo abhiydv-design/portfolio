@@ -1,10 +1,9 @@
 /* Pixel / halftone pattern system for Abhishek's portfolio.
    Every graphic on the site is drawn here from a small grid of marks. */
 (function () {
-  var PAL = {
-    page: '#F7F7F2', ink: '#111111', field: '#315BEF', mark: '#F7F7F2',
-    soft: '#8EA4FF', deep: '#2146C7', dark: '#111111'
-  };
+  var PAL = {};
+  function refreshPal() { var t = window.themeColors ? window.themeColors() : null; if (t) for (var k in t) PAL[k] = t[k]; }
+  refreshPal();
   var reduced = false;
   try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
@@ -61,7 +60,7 @@
         if (!show(k, j)) continue;
         var rr = r0 + j * step, x = cx + Math.cos(ang) * rr, y = cy + Math.sin(ang) * rr;
         if (j === n - 1) { ctx.fillStyle = p.deep; ctx.beginPath(); ctx.arc(x, y, cr + 0.2, 0, Math.PI * 2); ctx.fill(); }
-        else { ctx.strokeStyle = p.field; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, cr, 0, Math.PI * 2); ctx.stroke(); }
+        else { ctx.strokeStyle = p.accent; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, cr, 0, Math.PI * 2); ctx.stroke(); }
       }
     }
     ctx.fillStyle = p.ink;
@@ -97,7 +96,7 @@
           var half = lf.w * Math.sin(Math.PI * along / lf.L);
           if (Math.abs(across) < half) {
             var sn = Math.abs(across) / half;
-            col = sn < 0.16 ? p.ink : (sn > 0.8 ? p.deep : (across * lf.side > 0 ? p.field : p.soft));
+            col = sn < 0.16 ? p.ink : (sn > 0.8 ? p.deep : (across * lf.side > 0 ? p.accent : p.soft));
             break;
           }
         }
@@ -107,7 +106,7 @@
   };
 
   DRAW.land = function (ctx, W, H, p, show) {
-    ctx.fillStyle = p.dark; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = p.night; ctx.fillRect(0, 0, W, H);
     var mx = W * 0.76, my = H * 0.22, mr = Math.min(36, W * 0.07);
     for (var y = 4, j = 0; y < H; y += 7, j++) for (var x = 0, i = 0; x < W; x += 6, i++) {
       if (!show(i, j)) continue;
@@ -132,7 +131,7 @@
   DRAW.band = function (ctx, W, H, p) {
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var cell = 8, cols = Math.ceil(W / cell), rows = Math.round(H / cell);
-    ctx.fillStyle = p.dark;
+    ctx.fillStyle = p.footer;
     for (var j = 0; j < rows; j++) {
       var f = j / (rows - 1), prob = Math.pow(f, 1.7), size = 3 + 5 * f;
       for (var i = 0; i < cols; i++) {
@@ -236,7 +235,7 @@
   };
   Band.prototype.render = function () {
     var ctx = this.ctx; if (!ctx) return;
-    ctx.fillStyle = PAL.page; ctx.fillRect(0, 0, this.W, this.H); ctx.fillStyle = PAL.dark;
+    ctx.fillStyle = PAL.page; ctx.fillRect(0, 0, this.W, this.H); ctx.fillStyle = PAL.footer;
     for (var j = 0; j < this.rows; j++) { var f = j / (this.rows - 1), size = 3 + 5 * f;
       for (var i = 0; i < this.cols; i++) if (this.on[j * this.cols + i]) ctx.fillRect(i * 8 + (8 - size) / 2, j * 8 + (8 - size) / 2, size, size); }
   };
@@ -274,7 +273,7 @@
     var ctx = this.ctx, live = false; ctx.clearRect(0, 0, this.W, this.H);
     ctx.fillStyle = PAL.ink; ctx.globalAlpha = 0.11;
     for (var j = 0; j < this.rows; j++) for (var i = 0; i < this.cols; i++) ctx.fillRect(i * 16 + 7.4, j * 16 + 7.4, 1.2, 1.2);
-    ctx.globalAlpha = 1; ctx.fillStyle = PAL.field;
+    ctx.globalAlpha = 1; ctx.fillStyle = PAL.accent;
     for (var k = 0; k < this.e.length; k++) {
       var v = this.e[k]; if (v < 0.03) { this.e[k] = 0; continue; }
       live = true; var i2 = k % this.cols, j2 = (k / this.cols) | 0, s = 2 + 9 * v;
@@ -411,7 +410,8 @@
       ctx.strokeStyle = PAL.mark; ctx.lineWidth = 1;
       if (o.t > 0.6) cross(ctx, X, Y, rad * 0.7);
       else { ctx.beginPath(); ctx.arc(X, Y, Math.max(1.5, rad), 0, Math.PI * 2); ctx.stroke(); }
-    } else { ctx.fillStyle = PAL.mark; ctx.beginPath(); ctx.arc(X, Y, rad, 0, Math.PI * 2); ctx.fill(); }
+    } else if (PAL.dark) { var sq = rad * 1.72; ctx.fillStyle = PAL.mark; ctx.fillRect(X - sq / 2, Y - sq / 2, sq, sq); }
+    else { ctx.fillStyle = PAL.mark; ctx.beginPath(); ctx.arc(X, Y, rad, 0, Math.PI * 2); ctx.fill(); }
   };
   Hero.prototype.step = function () {
     var p = PAL, ctx = this.ctx, moving = false, R0 = 110;
@@ -576,6 +576,14 @@
     if (fine && !reduced) field = new Field();
     var h1 = document.querySelector('.hero h1');
     if (h1 && !reduced) dis = new Dissolve(h1);
+    window.addEventListener('themechange', function () {
+      refreshPal();
+      statics.forEach(function (s) { s.draw(); });
+      if (band) band.render();
+      if (field) field.render();
+      if (dis) dis.render();
+      if (hero) hero.kick();
+    });
     var lastW = window.innerWidth, t;
     window.addEventListener('resize', function () {
       clearTimeout(t);

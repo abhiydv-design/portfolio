@@ -1,6 +1,8 @@
 /* Grid Snake and Stitch the Flower. */
 (function () {
-  var C = { page: '#F7F7F2', ink: '#111111', field: '#315BEF', soft: '#8EA4FF', deep: '#2146C7', meta: '#55565A' };
+  var C = {};
+  function refresh() { var t = window.themeColors(); for (var k in t) C[k] = t[k];
+    THREADS.A.color = C.ta; THREADS.B.color = C.tb; THREADS.C.color = C.tc; THREADS.D.color = C.td; }
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function crisp(el, W, H) {
     var d = Math.min(2, window.devicePixelRatio || 1); el.width = W * d; el.height = H * d;
@@ -77,9 +79,9 @@
     ctx.globalAlpha = 1;
     ctx.strokeStyle = C.soft; ctx.lineWidth = 1.2;
     this.eaten.forEach(function (e) { ctx.strokeRect(e[0] * c + 5.5, e[1] * c + 5.5, c - 11, c - 11); });
-    ctx.fillStyle = C.field; ctx.beginPath(); ctx.arc(this.food[0] * c + c / 2, this.food[1] * c + c / 2, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = C.accent; ctx.beginPath(); ctx.arc(this.food[0] * c + c / 2, this.food[1] * c + c / 2, 5, 0, Math.PI * 2); ctx.fill();
     this.body.forEach(function (b, i) {
-      if (i === 0) { ctx.fillStyle = C.field; ctx.fillRect(b[0] * c + 2, b[1] * c + 2, c - 4, c - 4); }
+      if (i === 0) { ctx.fillStyle = C.accent; ctx.fillRect(b[0] * c + 2, b[1] * c + 2, c - 4, c - 4); }
       else { ctx.fillStyle = C.ink; var s = Math.max(8, c - 4 - i * 0.25); ctx.fillRect(b[0] * c + (c - s) / 2, b[1] * c + (c - s) / 2, s, s); }
     });
     var msg = this.dead ? 'Game over. Press space or tap to go again' : (!this.running ? 'Arrow keys or swipe to start' : null);
@@ -116,7 +118,8 @@
     '....DDDCCDDD....',
     '.......CC.......'
   ];
-  var THREADS = { A: { color: C.deep, sym: 'dot' }, B: { color: C.soft, sym: 'ring' }, C: { color: C.ink, sym: 'cross' }, D: { color: C.field, sym: 'square' } };
+  var THREADS = { A: { color: '', sym: 'dot' }, B: { color: '', sym: 'ring' }, C: { color: '', sym: 'cross' }, D: { color: '', sym: 'square' } };
+  refresh();
 
   function Stitch(root) {
     this.root = root; this.el = root.querySelector('canvas'); this.cols = 16; this.rows = PATTERN.length;
@@ -224,8 +227,12 @@
       });
     }
     var inline = document.querySelector('[data-snake-inline]');
-    if (inline) { var sn = new Snake(inline.querySelector('canvas'), inline.querySelector('[data-score]')); sn.activate(true); }
-    var st = document.querySelector('[data-stitch]'); if (st) new Stitch(st);
+    var inlineSnake = null;
+    if (inline) { inlineSnake = new Snake(inline.querySelector('canvas'), inline.querySelector('[data-score]')); inlineSnake.activate(true); }
+    var st = document.querySelector('[data-stitch]'), stitch = st ? new Stitch(st) : null;
+    window.addEventListener('themechange', function () {
+      refresh(); if (modal) modal.draw(); if (inlineSnake) inlineSnake.draw(); if (stitch) stitch.draw();
+    });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

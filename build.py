@@ -12,16 +12,16 @@ ALT = {
     "land": "Two mountain ridges and a moon drawn in short horizontal lines.",
 }
 MARK = {
-    "square": '<rect width="10" height="10" fill="#315BEF"/>',
-    "circle": '<circle cx="5" cy="5" r="4" fill="none" stroke="#315BEF" stroke-width="1.4"/>',
-    "cross": '<path d="M1 1L9 9M9 1L1 9" stroke="#315BEF" stroke-width="1.6"/>',
-    "dash": '<rect y="4" width="10" height="2" fill="#315BEF"/>',
+    "square": '<rect width="10" height="10" style="fill:var(--accent)"/>',
+    "circle": '<circle cx="5" cy="5" r="4" style="fill:none;stroke:var(--accent)" stroke-width="1.4"/>',
+    "cross": '<path d="M1 1L9 9M9 1L1 9" style="stroke:var(--accent)" stroke-width="1.6"/>',
+    "dash": '<rect y="4" width="10" height="2" style="fill:var(--accent)"/>',
 }
 LAYOUT = [("span-7", ""), ("span-5", " drop"), ("span-5", ""), ("span-7", "")]
 
-LOGO = ('<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect width="5" height="5" fill="#315BEF"/>'
-        '<rect x="6.5" y="6.5" width="5" height="5" fill="#315BEF"/><rect x="13" width="5" height="5" fill="#315BEF"/>'
-        '<rect y="13" width="5" height="5" fill="#315BEF"/><rect x="13.5" y="13.5" width="4" height="4" fill="none" stroke="#315BEF"/></svg>')
+LOGO = ('<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect width="5" height="5" style="fill:var(--accent)"/>'
+        '<rect x="6.5" y="6.5" width="5" height="5" style="fill:var(--accent)"/><rect x="13" width="5" height="5" style="fill:var(--accent)"/>'
+        '<rect y="13" width="5" height="5" style="fill:var(--accent)"/><rect x="13.5" y="13.5" width="4" height="4" style="fill:none;stroke:var(--accent)"/></svg>')
 
 def mark(m): return f'<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">{MARK[m]}</svg>'
 
@@ -33,7 +33,16 @@ def head(title, desc, root):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-<meta name="theme-color" content="#F7F7F2">
+<meta name="theme-color" content="#F7F7F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1621" media="(prefers-color-scheme: dark)">
+<script>
+  try {{ var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}}
+  window.themeColors = function () {{
+    var s = getComputedStyle(document.documentElement), g = function (n) {{ return s.getPropertyValue('--' + n).trim(); }};
+    return {{ page: g('page'), ink: g('ink'), meta: g('meta'), field: g('field'), mark: g('mark'), soft: g('soft'), deep: g('deep'),
+      accent: g('accent'), night: g('night'), footer: g('footer-bg'), ta: g('t-a'), tb: g('t-b'), tc: g('t-c'), td: g('t-d'), dark: g('scheme') === 'dark' }};
+  }};
+</script>
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:type" content="website">
@@ -57,6 +66,10 @@ def nav(home):
     <a href="{pre}#work">Work</a>
     <a href="{pre}#about">About</a>
     <a href="/resume">Resume</a>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">
+      <svg class="sun" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="6" y="6" width="6" height="6" fill="currentColor"/><rect x="8" y="0" width="2" height="3" fill="currentColor"/><rect x="8" y="15" width="2" height="3" fill="currentColor"/><rect x="0" y="8" width="3" height="2" fill="currentColor"/><rect x="15" y="8" width="3" height="2" fill="currentColor"/><rect x="2" y="2" width="2" height="2" fill="currentColor"/><rect x="14" y="2" width="2" height="2" fill="currentColor"/><rect x="2" y="14" width="2" height="2" fill="currentColor"/><rect x="14" y="14" width="2" height="2" fill="currentColor"/></svg>
+      <svg class="moon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M7 1h5v2H9v2H7v8h2v2h3v2H7v-2H5v-2H3V5h2V3h2z" fill="currentColor"/><rect x="12" y="11" width="4" height="2" fill="currentColor"/><rect x="14" y="9" width="2" height="2" fill="currentColor"/></svg>
+    </button>
     <a class="btn-line" href="{pre}#contact">Get in touch</a>
   </nav>
 </header>
@@ -106,6 +119,20 @@ def footer(root):
   <div class="game-foot" data-score>Score 0</div>
 </dialog>
 <script>
+  (function () {{
+    var root = document.documentElement, mq = window.matchMedia('(prefers-color-scheme: dark)');
+    function current() {{ return root.getAttribute('data-theme') || (mq.matches ? 'dark' : 'light'); }}
+    function label() {{ var b = document.querySelector('[data-theme-toggle]'); if (b) b.setAttribute('aria-label', current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); }}
+    function changed() {{ label(); window.dispatchEvent(new Event('themechange')); }}
+    var btn = document.querySelector('[data-theme-toggle]');
+    if (btn) btn.addEventListener('click', function () {{
+      var next = current() === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', next);
+      try {{ localStorage.setItem('theme', next); }} catch (e) {{}}
+      changed();
+    }});
+    mq.addEventListener('change', function () {{ if (!root.getAttribute('data-theme')) changed(); }});
+    label();
+  }})();
   (function () {{ var n = document.getElementById('nav'); function f() {{ n.classList.toggle('scrolled', window.scrollY > 8); }} f(); window.addEventListener('scroll', f, {{ passive: true }}); }})();
 </script>
 <script src="{root}assets/patterns.js" defer></script>
@@ -218,11 +245,11 @@ def case(i):
     return head(f"{p['title']}, {C['name']}", p["summary"], "/") + nav(False) + body + footer("/")
 
 def play():
-    threads = [("A", "#2146C7", "Petals, deep blue", '<circle cx="11" cy="11" r="3" fill="#111"/>'),
-               ("B", "#8EA4FF", "Petal edges, soft blue", '<circle cx="11" cy="11" r="3" fill="none" stroke="#111"/>'),
-               ("C", "#111111", "Heart and stem, black", '<path d="M8 8l6 6M14 8l-6 6" stroke="#fff" stroke-width="1.4"/>'),
-               ("D", "#315BEF", "Leaves, bright blue", '<rect x="8" y="8" width="6" height="6" fill="none" stroke="#fff"/>')]
-    btns = "\n".join(f'          <button class="thread" type="button" data-thread="{k}" aria-pressed="false"><svg class="swatch" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" fill="{c}"/>{sym}</svg>{e(label)}<span class="key">{i+1}</span></button>'
+    threads = [("A", "var(--t-a)", "Petals", '<circle class="sym" cx="11" cy="11" r="3" fill="#fff"/>'),
+               ("B", "var(--t-b)", "Petal edges", '<circle class="sym" cx="11" cy="11" r="3" fill="none" stroke="#fff" stroke-width="1.3"/>'),
+               ("C", "var(--t-c)", "Heart and stem", '<path class="sym" d="M8 8l6 6M14 8l-6 6" stroke="#fff" stroke-width="1.4"/>'),
+               ("D", "var(--t-d)", "Leaves", '<rect class="sym" x="8" y="8" width="6" height="6" fill="none" stroke="#fff"/>')]
+    btns = "\n".join(f'          <button class="thread" type="button" data-thread="{k}" aria-pressed="false"><svg class="swatch" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" style="fill:{c}"/>{sym}</svg>{e(label)}<span class="key">{i+1}</span></button>'
                       for i, (k, c, label, sym) in enumerate(threads))
     body = f"""<main id="main">
   <section class="play-head">

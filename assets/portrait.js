@@ -5,7 +5,8 @@
   if (!T || !el) return;
   var P = T.portrait, raw = atob(P.d), tones = new Float32Array(raw.length);
   for (var q = 0; q < raw.length; q++) tones[q] = raw.charCodeAt(q) / 255;
-  var C = { field: '#315BEF', mark: '#F7F7F2', soft: '#8EA4FF' };
+  var C = window.themeColors();
+  window.addEventListener('themechange', function () { C = window.themeColors(); kick(); });
   var reduced = false; try { reduced = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   var ctx, W, H, cell, dots = [], mx = -1e4, my = -1e4, inside = false, raf = 0, stitch = false, prog = reduced ? 1 : 0;
   function h(x, y) { var n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n); }
@@ -36,7 +37,8 @@
         var s = cell * (0.14 + 0.3 * o.v); ctx.strokeStyle = o.v > 0.45 ? C.mark : C.soft; ctx.lineWidth = Math.max(1, cell * 0.16); ctx.lineCap = 'round';
         ctx.beginPath(); ctx.moveTo(X - s, Y - s); ctx.lineTo(X + s, Y + s); ctx.moveTo(X + s, Y - s); ctx.lineTo(X - s, Y + s); ctx.stroke();
       } else {
-        ctx.fillStyle = C.mark; ctx.beginPath(); ctx.arc(X, Y, (0.1 + 0.9 * o.v) * cell * 0.5, 0, Math.PI * 2); ctx.fill();
+        var rr = (0.1 + 0.9 * o.v) * cell * 0.5; ctx.fillStyle = C.mark;
+        if (C.dark) { var sq = rr * 1.72; ctx.fillRect(X - sq / 2, Y - sq / 2, sq, sq); } else { ctx.beginPath(); ctx.arc(X, Y, rr, 0, Math.PI * 2); ctx.fill(); }
       }
     }
     if (moving || inside) kick();
