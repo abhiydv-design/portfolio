@@ -56,13 +56,14 @@ def nav(home):
   <nav class="nav-links" aria-label="Main">
     <a href="{pre}#work">Work</a>
     <a href="{pre}#about">About</a>
+    <a href="/resume">Resume</a>
     <a class="btn-line" href="{pre}#contact">Get in touch</a>
   </nav>
 </header>
 """
 
 def footer(root):
-    socials = "\n".join(f'        <a href="{e(u)}">{e(n)}</a>' for n, u in C["socials"])
+    socials = "\n".join(f'        <a href="{e(u)}" rel="me">{e(n)}</a>' for n, u in C["socials"])
     return f"""<div class="band"><canvas data-pattern="band" data-instant aria-hidden="true"></canvas></div>
 <footer class="footer" id="contact">
   <div>
@@ -75,6 +76,7 @@ def footer(root):
     </div>
     <div class="socials">
       <button class="linkbtn" type="button" data-voice-open>Talk to my AI</button>
+      <a href="/resume">Resume</a>
       <a href="/play">Play</a>
       <button class="linkbtn" type="button" data-open-snake>Snake</button>
       <span class="hint">or type <kbd>play</kbd> anywhere</span>
@@ -121,7 +123,7 @@ def index():
     cards = []
     for p, (span, drop) in zip(P, LAYOUT):
         cards.append(f"""      <a class="card {span}{drop}" href="/work/{p['slug']}">
-        <div class="card-art"><canvas data-pattern="{p['pattern']}" role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
+        <div class="card-art" style="view-transition-name: art-{p['slug']}"><canvas data-pattern="{p['pattern']}" role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
         <div class="card-title"><h3>{e(p['title'])}</h3><span class="meta">{e(p['client'])}, {e(p['year'])}</span></div>
         <p>{e(p['summary'])}</p>
         <span class="more">View case study</span>
@@ -178,7 +180,7 @@ def index():
 def case(i):
     P = C["projects"]; p = P[i]; nxt = P[(i + 1) % len(P)]
     body = f"""<main id="main">
-  <div class="cs-hero"><canvas data-pattern="{p['pattern']}" data-instant role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
+  <div class="cs-hero" style="view-transition-name: art-{p['slug']}"><canvas data-pattern="{p['pattern']}" data-instant role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
   <section class="cs-head">
     <a class="back label" href="/#work">Back to work</a>
     <h1>{e(p['title'])}</h1>
@@ -270,6 +272,43 @@ def notfound():
 """
     return head(f"Not found, {C['name']}", "Page not found.", "/") + nav(False) + body + footer("/")
 
+def resume():
+    R = C["resume"]
+    jobs = "\n".join(f"""      <article class="job">
+        <div class="job-head"><h3>{e(j['role'])}, {e(j['company'])}</h3><span class="meta">{e(j['dates'])}</span></div>
+        <ul>{''.join(f'<li>{e(x)}</li>' for x in j['points'])}</ul>
+      </article>""" for j in R["jobs"])
+    skills = "\n".join(f'      <div class="skill"><span class="label">{e(k)}</span><p>{e(v)}</p></div>' for k, v in R["skills"])
+    edu = "\n".join(f'      <div class="job-head"><h3>{e(a)}, {e(b)}</h3><span class="meta">{e(c)}</span></div>' for a, b, c in R["education"])
+    body = f"""<main id="main" class="resume">
+  <section class="cs-head">
+    <a class="back label" href="/">Back home</a>
+    <h1>{e(C['full_name'])}</h1>
+    <p class="summary">{e(R['title'])}, Gurugram, Haryana</p>
+    <p class="print-only contact-line">{e(C['email'])}   ·   linkedin.com/in/ydvabhishek   ·   portfolio-ruby-kappa-tt8k4o39g1.vercel.app</p>
+    <div class="resume-links">
+      <a class="btn btn-solid" href="/abhishek-yadav-resume.pdf" download>Download PDF</a>
+      <a class="btn btn-ghost" href="mailto:{e(C['email'])}">{e(C['email'])}</a>
+      <a class="btn btn-ghost" href="{e(C['linkedin'])}" rel="me">LinkedIn</a>
+    </div>
+  </section>
+  <div class="cs-body">
+    <section class="cs-block"><div class="label">Summary</div><div class="copy"><p class="big">{e(R['summary'])}</p></div></section>
+    <section class="cs-block"><div class="label">Experience</div><div class="copy jobs">
+{jobs}
+    </div></section>
+    <section class="cs-block"><div class="label">Skills</div><div class="copy skills">
+{skills}
+    </div></section>
+    <section class="cs-block"><div class="label">Education</div><div class="copy">
+{edu}
+    </div></section>
+  </div>
+</main>
+"""
+    return head(f"Resume, {C['full_name']}", f"Resume of {C['full_name']}, product designer in Gurugram.", "/") + nav(False) + body + footer("/")
+
+Path("resume.html").write_text(resume())
 Path("index.html").write_text(index())
 Path("play.html").write_text(play())
 Path("404.html").write_text(notfound())

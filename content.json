@@ -19,7 +19,12 @@
       "Figma, Framer, Claude, Cursor, Adobe CC"
     ]
   ],
-  "socials": [],
+  "socials": [
+    [
+      "LinkedIn",
+      "https://www.linkedin.com/in/ydvabhishek/"
+    ]
+  ],
   "projects": [
     {
       "slug": "truck-tracking",
@@ -72,5 +77,63 @@
       "outcome": "Average daily viewership grew to around 6,000 to 6,500 views, and the data-informed banners significantly improved click-through rates on key campaigns."
     }
   ],
-  "agent_id": "agent_1501m3a7mmgzeqp87dq6kp0vzvaj"
+  "agent_id": "agent_1501m3a7mmgzeqp87dq6kp0vzvaj",
+  "linkedin": "https://www.linkedin.com/in/ydvabhishek/",
+  "resume": {
+    "title": "Product Designer",
+    "summary": "Product designer with 1.5+ years of experience designing scalable, engaging digital experiences for B2B and B2C platforms. I translate complex requirements into intuitive interfaces and work end to end, from user research to high-fidelity prototypes, with strong skills in motion graphics and AI-driven workflows.",
+    "jobs": [
+      {
+        "company": "FarMart",
+        "role": "Creative & Product Designer",
+        "dates": "Jan 2026 to present",
+        "points": [
+          "Collaborate with two product designers and engineering to design and improve internal products across FarMart OS, making operations more efficient for business users.",
+          "Redesigned the truck tracking experience, simplifying shipment visibility so users can monitor deliveries with more clarity and confidence.",
+          "Create AI-driven ad creatives for FarMart's staple brands, TrulySafe and Sugarwatchers, for digital campaigns and brand promotion."
+        ]
+      },
+      {
+        "company": "Kirana Club",
+        "role": "Visual Designer Intern",
+        "dates": "Apr 2025 to Oct 2025",
+        "points": [
+          "Produced and edited daily video content for in-app and social platforms, growing average daily viewership to 6,000 to 6,500 views.",
+          "Designed data-informed in-app banners and promotional creatives that significantly improved click-through rates on key campaigns.",
+          "Worked with consumer brands to conceptualise and deliver bespoke promotional creatives."
+        ]
+      },
+      {
+        "company": "Roarink",
+        "role": "Product Designer Intern",
+        "dates": "Apr 2024 to Dec 2024",
+        "points": [
+          "Led end-to-end UI and UX for the RoarINK mobile app and responsive website from zero to one, establishing a cohesive brand presence across platforms.",
+          "Built a library of reusable UI components with thorough documentation, making developer handoff faster and more streamlined.",
+          "Iterated on designs in an agile team with four engineers and two stakeholders."
+        ]
+      }
+    ],
+    "skills": [
+      [
+        "Product strategy and UX",
+        "Product thinking, UX research, information architecture, user flows, interaction design, wireframing, prototyping, design systems, accessibility, A/B testing"
+      ],
+      [
+        "AI and design engineering",
+        "Design engineering, prompt engineering, vibe coding with Claude, Cursor and Codex, rapid prototyping, frontend collaboration"
+      ],
+      [
+        "Tools",
+        "Figma, Framer, Adobe Creative Suite, Claude, ChatGPT, Cursor, Codex CLI, HeyGen, Jitter, Imagine Art, ElevenLabs"
+      ]
+    ],
+    "education": [
+      [
+        "BSc (Hons.) Agriculture",
+        "Galgotias University",
+        "2020 to 2024"
+      ]
+    ]
+  }
 }
