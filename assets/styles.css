@@ -350,3 +350,34 @@ img { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { .sprout.hop, .sprout.hop3 { animation: none; } }
 @media (max-width: 640px) { .sprout-bubble { left: 66px; bottom: 60px; max-width: 180px; font-size: 11px; } }
 @media print { .sprout, .sprout-bubble { display: none !important; } }
+
+/* ---------- pixel cursor ---------- */
+html.has-cursor.cursor-on:not(.cursor-native), html.has-cursor.cursor-on:not(.cursor-native) * { cursor: none !important; }
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity .2s; }
+html.cursor-on:not(.cursor-native) .cursor-dot, html.cursor-on:not(.cursor-native) .cursor-ring { opacity: 1; }
+.cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--accent); }
+.cursor-ring { --c: var(--ink); width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+html.cursor-footer .cursor-ring { --c: var(--on-footer); }
+html.cursor-footer .cursor-dot { background: var(--foot-accent); }
+.cursor-ring::before { content: ""; position: absolute; inset: 0; border: 1.5px solid var(--c); transition: inset .18s steps(3), opacity .15s; }
+.cursor-ring i { position: absolute; width: 8px; height: 8px; border: 0 solid var(--c); opacity: 0; transition: opacity .15s, inset .18s steps(3); }
+.cursor-ring i:nth-child(1) { left: -8px; top: -8px; border-top-width: 2px; border-left-width: 2px; }
+.cursor-ring i:nth-child(2) { right: -8px; top: -8px; border-top-width: 2px; border-right-width: 2px; }
+.cursor-ring i:nth-child(3) { left: -8px; bottom: -8px; border-bottom-width: 2px; border-left-width: 2px; }
+.cursor-ring i:nth-child(4) { right: -8px; bottom: -8px; border-bottom-width: 2px; border-right-width: 2px; }
+/* links and buttons: the square opens into viewfinder brackets */
+.cursor-ring[data-mode="link"]::before { opacity: 0; }
+.cursor-ring[data-mode="link"] i { opacity: 1; }
+.cursor-dot[data-mode="link"] { opacity: 0 !important; }
+/* interactive art: a pixel crosshair */
+.cursor-ring[data-mode="cross"]::before { inset: 13px -2px; border: 0; background: var(--c); }
+.cursor-ring[data-mode="cross"]::after { content: ""; position: absolute; inset: -2px 13px; background: var(--c); }
+.hero-art .cursor-ring, .cursor-ring[data-mode="cross"] { }
+.cursor-dot[data-mode="cross"] { opacity: 0 !important; }
+/* during Breakout the paddle is the cursor */
+.cursor-ring[data-mode="hide"], .cursor-dot[data-mode="hide"] { opacity: 0 !important; }
+.cursor-ring.down::before { inset: 5px; }
+.cursor-ring.down i { opacity: .6; }
+.cursor-bit { position: fixed; z-index: 9999; width: 4px; height: 4px; margin: -2px 0 0 -2px; background: var(--accent); pointer-events: none; animation: cursor-bit .42s steps(5) forwards; }
+@keyframes cursor-bit { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+@media print { .cursor-dot, .cursor-ring, .cursor-bit { display: none !important; } }

@@ -145,6 +145,7 @@ def footer(root):
 <script src="{root}assets/voice.js" defer></script>
 <script src="{root}assets/portrait.js" defer></script>
 <script src="{root}assets/sprout.js" defer></script>
+<script src="{root}assets/cursor.js" defer></script>
 </body>
 </html>
 """
