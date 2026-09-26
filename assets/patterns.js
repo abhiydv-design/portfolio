@@ -480,7 +480,7 @@
       o.alive = false; g.left--; g.score += 1 + Math.round(o.t * 4);
       if (g.parts.length < 400) g.parts.push({ x: o.x, y: o.y, vx: (hash(i, j, 51) - 0.5) * 80, vy: -40 - hash(i, j, 52) * 60, life: 1, t: o.t });
     }
-    if (g.left <= 0) g.msg = 'Bloom cleared. Score ' + g.score + '. Click to play again';
+    if (g.left <= 0) { g.msg = 'Bloom cleared. Score ' + g.score + '. Click to play again'; dispatchEvent(new CustomEvent('sprout:cheer', { detail: 'You cleared the whole bloom!' })); }
   };
   Hero.prototype.gameStep = function (now) {
     var g = this.g, ctx = this.ctx; if (!ctx) return;

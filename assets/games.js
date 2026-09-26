@@ -64,7 +64,7 @@
       this.body.some(function (b, i) { return i < this.body.length - 1 && b[0] === n[0] && b[1] === n[1]; }, this);
     if (hit) {
       this.dead = true; this.stop();
-      if (this.score > this.best) { this.best = this.score; store('snake-best', String(this.best)); }
+      if (this.score > this.best) { this.best = this.score; store('snake-best', String(this.best)); if (this.score > 2) dispatchEvent(new CustomEvent('sprout:cheer', { detail: 'New snake record: ' + this.score + '!' })); }
       return;
     }
     this.body.unshift(n);
@@ -168,6 +168,7 @@
   Stitch.prototype.finish = function () {
     clearInterval(this.timer); this.endT = performance.now(); var t = this.elapsed();
     var rec = !this.best || t < this.best; if (rec) { this.best = t; store('stitch-best', t.toFixed(1)); }
+    dispatchEvent(new CustomEvent('sprout:cheer', { detail: rec ? 'New best stitch time!' : 'Beautiful stitching.' }));
     this.root.querySelector('[data-msg]').textContent = 'Finished in ' + t.toFixed(1) + ' s' + (rec ? '. New best.' : '.') + ' Clear the hoop to go again.';
     this.stats();
   };

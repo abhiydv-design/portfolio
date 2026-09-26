@@ -246,7 +246,7 @@ img { max-width: 100%; }
 .voice[data-state="live"] .voice-caption:not(:empty) { display: block; }
 .voice[data-state="ended"] .voice-wave, .voice[data-state="ended"] .voice-end { visibility: hidden; }
 .voice[data-state="error"] .voice-note-wrap { display: block; }
-.footer { padding-bottom: 104px; }
+.footer { padding-bottom: 136px; }
 @media (max-width: 640px) {
   .voice { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
   .voice-pill .full { display: none; } .voice-pill .short { display: inline; }
@@ -335,3 +335,18 @@ img { max-width: 100%; }
 @media print {
   :root:root:not([data-print-x]) { --page: #FFFFFF; --ink: #111111; --meta: #55565A; --line: rgba(17,17,17,0.14); --accent: #315BEF; --deep: #2146C7; color-scheme: light; }
 }
+
+/* ---------- Sprout the mascot ---------- */
+.sprout { position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 58; padding: 8px 8px 6px; background: var(--page); border: 1px solid var(--line); cursor: pointer; line-height: 0; }
+.sprout:hover { border-color: var(--ink); }
+.sprout canvas { image-rendering: pixelated; }
+.sprout:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sprout.hop { animation: sprout-hop .5s steps(4) 1; }
+.sprout.hop3 { animation: sprout-hop .5s steps(4) 3; }
+@keyframes sprout-hop { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-9px); } 70% { transform: translateY(-3px); } }
+.sprout-bubble { position: fixed; left: max(84px, calc(env(safe-area-inset-left) + 84px)); bottom: max(78px, calc(env(safe-area-inset-bottom) + 78px)); z-index: 58; max-width: 230px; padding: 10px 12px; background: var(--page); color: var(--ink); border: 1px solid var(--ink); font: 500 12px/1.45 var(--mono); letter-spacing: 0.02em; transition: opacity .3s; pointer-events: none; }
+.sprout-bubble::after { content: ""; position: absolute; left: -7px; bottom: 10px; width: 10px; height: 10px; background: var(--page); border-left: 1px solid var(--ink); border-bottom: 1px solid var(--ink); transform: rotate(45deg); }
+.sprout-bubble.out { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .sprout.hop, .sprout.hop3 { animation: none; } }
+@media (max-width: 640px) { .sprout-bubble { left: 66px; bottom: 60px; max-width: 180px; font-size: 11px; } }
+@media print { .sprout, .sprout-bubble { display: none !important; } }

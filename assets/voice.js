@@ -123,10 +123,11 @@
       convo = await SDKmod.Conversation.startSession({
         agentId: AGENT,
         onConnect: function () { setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
-        onModeChange: function (m) { mode = m.mode; if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
+        onModeChange: function (m) { mode = m.mode; dispatchEvent(new CustomEvent('sprout:voice', { detail: m.mode })); if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
         onMessage: function (m) { if (m && (m.role === 'agent' || m.source === 'ai') && m.message) capEl.textContent = m.message; },
         onError: function (m) { console.warn('Voice agent:', m); if (state === 'connecting') fail(friendly(m)); },
         onDisconnect: function (d) {
+          dispatchEvent(new CustomEvent('sprout:voice', { detail: 'idle' }));
           if (state === 'error') return;
           var dur = t0 ? fmt((performance.now() - t0) / 1000) : null;
           cancelAnimationFrame(raf); convo = null;

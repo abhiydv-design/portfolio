@@ -97,6 +97,10 @@ def footer(root):
     <span>© 2026 {e(C['full_name'])}</span>
   </div>
 </footer>
+<button class="sprout" type="button" data-sprout aria-label="Sprout, the portfolio mascot. It grows as you scroll. Click to water it.">
+  <canvas aria-hidden="true"></canvas>
+</button>
+<div class="sprout-bubble" data-sprout-bubble role="status" aria-live="polite" hidden></div>
 <div class="voice" data-voice data-agent="{e(C['agent_id'])}" data-email="{e(C['email'])}" data-state="idle">
   <div class="voice-note-wrap">
     <div class="voice-note" data-voice-note hidden role="status"></div>
@@ -140,6 +144,7 @@ def footer(root):
 <script src="{root}assets/portrait-data.js" defer></script>
 <script src="{root}assets/voice.js" defer></script>
 <script src="{root}assets/portrait.js" defer></script>
+<script src="{root}assets/sprout.js" defer></script>
 </body>
 </html>
 """
