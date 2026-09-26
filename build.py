@@ -168,6 +168,23 @@ def index():
         <p>{e(p['summary'])}</p>
         <span class="more">View case study</span>
       </a>""")
+    R = C["resume"]
+    rows = []
+    for k, j in enumerate(R["jobs"]):
+        now = "present" in j["dates"]
+        tag = '<span class="xp-now"><i aria-hidden="true"></i>Now</span>' if now else ""
+        rows.append(f"""      <li class="xp-row">
+        <span class="xp-dates">{e(j['dates'])}{tag}</span>
+        <div class="xp-role"><h3>{e(j['role'])}</h3><span class="xp-co">{e(j['company'])}</span></div>
+        <p class="xp-text">{e(j['short'])}</p>
+      </li>""")
+    for deg, school, yrs in R["education"]:
+        rows.append(f"""      <li class="xp-row xp-edu">
+        <span class="xp-dates">{e(yrs)}</span>
+        <div class="xp-role"><h3>{e(deg)}</h3><span class="xp-co">{e(school)}</span></div>
+        <p class="xp-text">Education</p>
+      </li>""")
+    xp = "\n".join(rows)
     facts = "\n".join(f'      <div class="fact"><span class="label">{e(k)}</span><span>{e(v)}</span></div>' for k, v in C["facts"])
     body = f"""<main id="main">
   <section class="hero">
@@ -200,6 +217,13 @@ def index():
     <div class="work-grid">
 {chr(10).join(cards)}
     </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="section-head"><h2>Experience</h2><a class="label" href="/resume">Full resume</a></div>
+    <ol class="xp">
+{xp}
+    </ol>
   </section>
 
   <section class="about" id="about">

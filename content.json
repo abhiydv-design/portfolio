@@ -95,7 +95,8 @@
           "Collaborate with two product designers and engineering to design and improve internal products across FarMart OS, making operations more efficient for business users.",
           "Redesigned the truck tracking experience, simplifying shipment visibility so users can monitor deliveries with more clarity and confidence.",
           "Create AI-driven ad creatives for FarMart's staple brands, TrulySafe and Sugarwatchers, for digital campaigns and brand promotion."
-        ]
+        ],
+        "short": "Designing internal products across FarMart OS, including a redesign of truck tracking, plus AI-driven ad creatives for TrulySafe and Sugarwatchers."
       },
       {
         "company": "Kirana Club",
@@ -105,7 +106,8 @@
           "Produced and edited daily video content for in-app and social platforms, growing average daily viewership to 6,000 to 6,500 views.",
           "Designed data-informed in-app banners and promotional creatives that significantly improved click-through rates on key campaigns.",
           "Worked with consumer brands to conceptualise and deliver bespoke promotional creatives."
-        ]
+        ],
+        "short": "Daily video content and data-informed in-app banners for a platform built for neighbourhood stores. Grew daily views to around 6,000 to 6,500."
       },
       {
         "company": "Roarink",
@@ -115,7 +117,8 @@
           "Led end-to-end UI and UX for the RoarINK mobile app and responsive website from zero to one, establishing a cohesive brand presence across platforms.",
           "Built a library of reusable UI components with thorough documentation, making developer handoff faster and more streamlined.",
           "Iterated on designs in an agile team with four engineers and two stakeholders."
-        ]
+        ],
+        "short": "Led the RoarINK mobile app and responsive website from zero to one, with a reusable component library for faster handoff."
       }
     ],
     "skills": [

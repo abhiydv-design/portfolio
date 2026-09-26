@@ -444,3 +444,25 @@ html.stitch-mode .hero h1, html.stitch-mode .section-head h2, html.stitch-mode .
   .btn-line { padding: 0 14px; height: 40px; }
   .cta-full { display: none; } .cta-short { display: inline; }
 }
+
+/* ---------- experience ---------- */
+.experience { padding: 0 var(--gutter) clamp(96px, 10vw, 140px); display: flex; flex-direction: column; gap: 48px; }
+.xp { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+.xp-row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 10px; align-items: baseline; padding: 28px 0; border-top: 1px solid var(--line); position: relative; }
+.xp-row::before { content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: 0; background: var(--ink); transition: width .5s steps(12); }
+.xp-row:hover::before { width: 100%; }
+.xp-dates { grid-column: 1 / span 3; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font: 500 12px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--meta); }
+.xp-now { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); }
+.xp-now i { width: 8px; height: 8px; background: var(--accent); animation: xp-blink 1.2s steps(1) infinite; }
+@keyframes xp-blink { 50% { opacity: 0.2; } }
+@media (prefers-reduced-motion: reduce) { .xp-now i { animation: none; } .xp-row::before { transition: none; } }
+.xp-role { grid-column: 4 / span 4; display: flex; flex-direction: column; gap: 4px; }
+.xp-role h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 2.4vw, 34px); line-height: 1.1; }
+.xp-co { font-size: 16px; color: var(--meta); }
+.xp-text { grid-column: 8 / span 5; margin: 0; font-size: 16px; line-height: 1.6; }
+.xp-edu .xp-text { font: 500 12px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--meta); }
+@media (max-width: 1000px) {
+  .xp-dates, .xp-role, .xp-text { grid-column: 1 / -1; }
+  .xp-row { padding: 22px 0; }
+}
+section[id], footer[id] { scroll-margin-top: 88px; }
