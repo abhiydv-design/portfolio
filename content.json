@@ -43,17 +43,15 @@
       "overview": "FarMart OS is the internal platform FarMart's operations teams use every day. Working with two product designers and the engineering team, I redesigned the truck tracking experience to make shipment visibility simpler and easier to trust."
     },
     {
-      "slug": "roarink",
-      "title": "RoarINK",
-      "client": "Roarink",
-      "year": "2024",
-      "role": "Product Designer Intern",
+      "slug": "farmart-dashak",
+      "title": "FarMart Dashak",
+      "client": "FarMart",
+      "year": "2026",
+      "role": "Creative & Product Designer",
       "pattern": "ring",
       "mark": "circle",
-      "summary": "A zero-to-one mobile app and responsive website, plus the component library that made them consistent and quick to build.",
-      "deliverables": "Mobile app, responsive website, design system",
-      "overview": "I led the end-to-end UI and UX for RoarINK's mobile app and responsive website, giving the brand one cohesive presence across platforms. I worked in an agile setup with four engineers and two stakeholders.",
-      "outcome": "A library of reusable UI components and thorough design documentation made developer handoff faster and more streamlined."
+      "summary": "[One line on what FarMart Dashak is, your role, and the result.]",
+      "deliverables": "[What you shipped]"
     },
     {
       "slug": "ai-brand-creatives",
