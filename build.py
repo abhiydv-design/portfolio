@@ -283,6 +283,9 @@ def render_sections(secs):
         elif t == "decisions":
             rows = "".join(f'<li><span class="dc-n">{k + 1:02d}</span><div><h3>{e(a)}</h3><p>{e(dd)}</p></div></li>' for k, (a, dd) in enumerate(x["items"]))
             out.append(f'<section class="cs-block">{lab}<div class="copy"><ol class="decisions">{rows}</ol></div></section>')
+        elif t == "team":
+            ppl = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank"><span class="tm-mark" aria-hidden="true"></span>{e(n)}<span class="tm-go">LinkedIn</span></a></li>' for n, u in x["members"])
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p><ul class="team">{ppl}</ul><p class="team-note">{e(x.get("outro", ""))}</p></div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)
@@ -312,6 +315,7 @@ def case(i):
       <div class="fact"><span class="label">Year</span><span>{e(p['year'])}</span></div>
       <div class="fact"><span class="label">Role</span><span>{e(p['role'])}</span></div>
       <div class="fact"><span class="label">Deliverables</span><span>{e(p.get('deliverables', '[What you shipped]'))}</span></div>
+      {f'<div class="fact"><span class="label">Team</span><span>{e(p["team"])}</span></div>' if p.get("team") else ""}
     </div>
   </section>
   <div class="cs-body">

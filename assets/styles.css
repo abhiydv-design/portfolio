@@ -526,3 +526,13 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .decisions h3 { margin: 0 0 6px; font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.1; }
 .decisions p { margin: 0 !important; }
 @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } .scale li { grid-template-columns: 52px 1fr; } .sc-d { grid-column: 2; } }
+.team { list-style: none; margin: 8px 0 12px; padding: 0; display: flex; flex-direction: column; }
+.team a { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 1px solid var(--line); font-family: var(--serif); font-size: 28px; line-height: 1.1; text-decoration: none; }
+.team li:last-child a { border-bottom: 1px solid var(--line); }
+.tm-mark { width: 12px; height: 12px; background: var(--accent); flex-shrink: 0; }
+.tm-go { margin-left: auto; font: 500 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--meta); }
+.team a:hover .tm-go { color: var(--accent); }
+.team a:hover { color: var(--deep); }
+.team-note { font-size: 15px !important; color: var(--meta); }
+.cs-meta:has(.fact:nth-child(5)) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .cs-meta:has(.fact:nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -56,7 +56,7 @@
         {
           "type": "text",
           "label": "Overview",
-          "big": "FarMart Dashak was FarMart's tenth anniversary, a two-day, company-wide celebration. Day one was Sports Day; day two was the main anniversary function. I worked on the event's branding and visual design, taking one identity from ten-year walls and stage backdrops all the way down to certificates, trophies and mementos."
+          "big": "FarMart Dashak was FarMart's tenth anniversary, a two-day, company-wide celebration. Day one was Sports Day; day two was the main anniversary function. Together with Akshay Sharma and Anjali Choudhary, I worked on the event's branding and visual design, taking one identity from ten-year walls and stage backdrops all the way down to certificates, trophies and mementos."
         },
         {
           "type": "compare",
@@ -213,11 +213,28 @@
           ]
         },
         {
+          "type": "team",
+          "label": "Team",
+          "intro": "Designed with:",
+          "members": [
+            [
+              "Akshay Sharma",
+              "https://www.linkedin.com/in/akshaysharma007/"
+            ],
+            [
+              "Anjali Choudhary",
+              "https://www.linkedin.com/in/anjali-choudhary-4b964827a/"
+            ]
+          ],
+          "outro": "Working with FarMart's marketing and event teams."
+        },
+        {
           "type": "text",
           "label": "What I learned",
           "big": "Designing beyond the screen. Physical production meant thinking about viewing distance, scale and the object in someone's hand, not just a frame in Figma."
         }
-      ]
+      ],
+      "team": "With Akshay Sharma and Anjali Choudhary"
     },
     {
       "slug": "ai-brand-creatives",
