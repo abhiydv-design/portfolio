@@ -538,3 +538,41 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 @media (max-width: 1000px) { .cs-meta:has(.fact:nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 
+
+/* ---------- project reels ---------- */
+.reel { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: calc(max(20px, env(safe-area-inset-bottom)) + 64px); z-index: 57; }
+.reel-mini { display: block; position: relative; width: 150px; aspect-ratio: 9 / 16; padding: 0; border: 1px solid var(--ink); background: var(--field); cursor: pointer; overflow: hidden; box-shadow: 6px 6px 0 var(--accent); transition: transform .2s steps(3), box-shadow .2s steps(3); }
+.reel-mini:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--accent); }
+.reel-mini video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.reel-tag { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; align-items: center; gap: 6px; justify-content: center; padding: 6px 4px; background: var(--page); color: var(--ink); font: 500 10px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.rt-sound { width: 10px; height: 10px; background: currentColor; clip-path: polygon(0 30%, 30% 30%, 70% 0, 70% 100%, 30% 70%, 0 70%); }
+.reel-hide { position: absolute; top: -12px; left: -12px; width: 28px; height: 28px; border: 1px solid var(--ink); background: var(--page); color: var(--ink); font-size: 16px; line-height: 1; cursor: pointer; }
+.reel.still .reel-mini::after { content: ""; position: absolute; inset: 0; margin: auto; width: 0; height: 0; border-left: 22px solid var(--page); border-top: 14px solid transparent; border-bottom: 14px solid transparent; }
+.reel-watch { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; min-height: 52px; padding: 10px 22px 10px 14px; text-align: left; border: 1px solid var(--ink); background: none; color: var(--ink); font: 500 15px var(--sans); cursor: pointer; }
+.reel-watch:hover { background: var(--ink); color: var(--page); }
+.rw-icon { width: 26px; height: 26px; background: var(--accent); clip-path: polygon(30% 20%, 80% 50%, 30% 80%); }
+.rw-sub { font: 500 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--meta); }
+.reel-watch:hover .rw-sub { color: inherit; }
+.reel-dialog { padding: 0; border: 1px solid var(--ink); background: #000; width: min(430px, calc(100vw - 24px)); max-width: none; max-height: calc(100vh - 24px); }
+.reel-dialog::backdrop { background: rgba(10, 8, 12, 0.82); }
+.rp { display: flex; flex-direction: column; }
+.rp video { width: 100%; aspect-ratio: 9 / 16; max-height: calc(100vh - 90px); object-fit: contain; background: #000; display: block; cursor: pointer; }
+.rp video::cue { font: 500 15px/1.4 var(--sans); background: rgba(0,0,0,.72); color: #fff; }
+.rp-bar { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--page); color: var(--ink); }
+.rp-btn { height: 36px; min-width: 36px; display: grid; place-items: center; border: 1px solid var(--ink); background: none; color: inherit; cursor: pointer; padding: 0 8px; }
+.rp-btn:hover { background: var(--ink); color: var(--page); }
+.rp-txt { font: 500 10px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.rp-txt[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+.rp-ico { width: 12px; height: 12px; background: currentColor; clip-path: polygon(15% 0, 100% 50%, 15% 100%); }
+[data-rp-play][data-state="playing"] .rp-ico { clip-path: polygon(0 0, 38% 0, 38% 100%, 0 100%, 0 0, 62% 0, 100% 0, 100% 100%, 62% 100%, 62% 0); }
+.rp-track { flex: 1; height: 12px; border: 1px solid var(--ink); cursor: pointer; background-image: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 6px); touch-action: none; }
+.rp-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rp-fill { height: 100%; width: 0; background: var(--accent); }
+.rp-time { font: 500 11px var(--mono); font-variant-numeric: tabular-nums; min-width: 78px; text-align: center; }
+@media (max-width: 640px) {
+  .reel { right: 12px; bottom: calc(max(12px, env(safe-area-inset-bottom)) + 58px); }
+  .reel-mini { width: 96px; box-shadow: 4px 4px 0 var(--accent); }
+  .reel-tag { font-size: 8px; padding: 4px 2px; }
+  .rp-time { display: none; }
+}
+@media print { .reel, .reel-dialog { display: none !important; } }

@@ -56,8 +56,6 @@
   });
   addEventListener('pointerup', function () { ring.classList.remove('down'); });
   // the snake dialog sits in the browser's top layer, above everything, so use the normal cursor there
-  var dlg = document.getElementById('snake-dialog');
-  if (dlg) {
-    new MutationObserver(function () { html.classList.toggle('cursor-native', dlg.open); }).observe(dlg, { attributes: true, attributeFilter: ['open'] });
-  }
+  new MutationObserver(function () { html.classList.toggle('cursor-native', !!document.querySelector('dialog[open]')); })
+    .observe(document.body, { attributes: true, attributeFilter: ['open'], subtree: true });
 })();

@@ -290,6 +290,38 @@ def render_sections(secs):
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)
 
+def reel_button(p):
+    r = p.get("reel")
+    if not r: return ""
+    return f'<button class="reel-watch" type="button" data-reel-open-inline><span class="rw-icon" aria-hidden="true"></span>Watch the {e(r.get("length", "60-second"))} version<span class="rw-sub">with sound</span></button>'
+
+def reel_player(p):
+    r = p.get("reel")
+    if not r: return ""
+    poster = f' poster="{e(r["poster"])}"' if r.get("poster") else ""
+    return f"""<div class="reel" data-reel data-slug="{e(p['slug'])}" data-src="{e(r['src'])}" data-captions="{e(r.get('captions', ''))}">
+  <button class="reel-mini" type="button" data-reel-open aria-label="Play Abhishek's walkthrough of {e(p['title'])} with sound">
+    <video src="{e(r['src'])}"{poster} muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <span class="reel-tag"><span class="rt-sound" aria-hidden="true"></span>Tap for sound</span>
+  </button>
+  <button class="reel-hide" type="button" data-reel-hide aria-label="Hide the video">×</button>
+</div>
+<dialog class="reel-dialog" id="reel-dialog" aria-label="Walkthrough of {e(p['title'])}">
+  <div class="rp">
+    <video playsinline{poster}></video>
+    <div class="rp-bar">
+      <button type="button" class="rp-btn" data-rp-play aria-label="Play"><span class="rp-ico"></span></button>
+      <div class="rp-track" data-rp-bar role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="rp-fill" data-rp-fill></div></div>
+      <span class="rp-time" data-rp-time>0:00 / 0:00</span>
+      <button type="button" class="rp-btn rp-txt" data-rp-cc aria-pressed="true" aria-label="Captions" hidden>CC</button>
+      <button type="button" class="rp-btn rp-txt" data-rp-mute aria-pressed="false" aria-label="Mute">Sound</button>
+      <button type="button" class="rp-btn rp-txt" data-rp-close aria-label="Close video">Close</button>
+    </div>
+  </div>
+</dialog>
+<script src="/assets/reel.js" defer></script>
+"""
+
 def case(i):
     P = C["projects"]; p = P[i]; nxt = P[(i + 1) % len(P)]
     if p.get("sections"):
@@ -310,6 +342,7 @@ def case(i):
     <a class="back label" href="/#work">Back to work</a>
     <h1>{e(p['title'])}</h1>
     <p class="summary">{e(p['summary'])}</p>
+    {reel_button(p)}
     <div class="cs-meta">
       <div class="fact"><span class="label">Client</span><span>{e(p['client'])}</span></div>
       <div class="fact"><span class="label">Year</span><span>{e(p['year'])}</span></div>
@@ -323,7 +356,7 @@ def case(i):
   </div>
   <a class="next" href="/work/{nxt['slug']}"><span class="label">Next project</span><span class="serif">{e(nxt['title'])}</span></a>
 </main>
-"""
+{reel_player(p)}"""
     return head(f"{p['title']}, {C['name']}", p["summary"], "/") + nav(False) + body + footer("/")
 
 def play():

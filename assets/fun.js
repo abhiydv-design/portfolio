@@ -224,7 +224,7 @@
     if (typing(e) || e.metaKey || e.ctrlKey || e.altKey || gaming() || e.repeat) return;
     var k = e.key;
     if (k === '?') { e.preventDefault(); if (help.open) help.close(); else { help.showModal ? help.showModal() : help.setAttribute('open', ''); } return; }
-    if (help.open || sheet.open) return;
+    if (document.querySelector('dialog[open]')) return;
     var lk = k.toLowerCase();
     if (lk === 't') { var tb = document.querySelector('[data-theme-toggle]'); if (tb) tb.click(); }
     else if (lk === 'w') { var sp = document.querySelector('[data-sprout]'); if (sp) sp.click(); }
