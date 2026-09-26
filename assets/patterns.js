@@ -406,6 +406,7 @@
   Hero.prototype.kick = function () { var self = this; if (this.raf) return; this.raf = requestAnimationFrame(function (t) { self.raf = 0; if (self.mode === 'game') self.gameStep(t); else self.step(); }); };
   Hero.prototype.dot = function (ctx, o, X, Y, hollow) {
     var rad = (0.16 + 0.84 * o.t) * this.cell * 0.48;
+    if (window.__stitch) { ctx.strokeStyle = o.t > 0.45 ? PAL.mark : PAL.soft; ctx.lineWidth = Math.max(1, rad * 0.45); ctx.lineCap = 'round'; cross(ctx, X, Y, rad * 0.8); return; }
     if (hollow) {
       ctx.strokeStyle = PAL.mark; ctx.lineWidth = 1;
       if (o.t > 0.6) cross(ctx, X, Y, rad * 0.7);
@@ -474,10 +475,12 @@
   };
   Hero.prototype.smash = function (idx) {
     var i0 = idx % this.cols, j0 = (idx / this.cols) | 0, g = this.g;
+    if (window.pixelSound) pixelSound('hit', this.cells[idx].t);
     for (var dj = -1; dj <= 1; dj++) for (var di = -1; di <= 1; di++) {
       var i = i0 + di, j = j0 + dj; if (i < 0 || j < 0 || i >= this.cols || j >= this.rows) continue;
       var o = this.cells[j * this.cols + i]; if (!o.alive) continue;
       o.alive = false; g.left--; g.score += 1 + Math.round(o.t * 4);
+      if (g.score >= 150 && !g.badge) { g.badge = true; dispatchEvent(new CustomEvent('achieve', { detail: 'breakout' })); }
       if (g.parts.length < 400) g.parts.push({ x: o.x, y: o.y, vx: (hash(i, j, 51) - 0.5) * 80, vy: -40 - hash(i, j, 52) * 60, life: 1, t: o.t });
     }
     if (g.left <= 0) { g.msg = 'Bloom cleared. Score ' + g.score + '. Click to play again'; dispatchEvent(new CustomEvent('sprout:cheer', { detail: 'You cleared the whole bloom!' })); }
@@ -502,7 +505,7 @@
           var off = (B.x - P.x) / (P.w / 2), ang = off * 1.05, sp = Math.hypot(B.vx, B.vy) * 1.01;
           sp = Math.min(sp, g.speed * 1.6); B.vx = Math.sin(ang) * sp; B.vy = -Math.cos(ang) * sp; B.y = P.y - r;
         }
-        if (B.y > this.H + 10) { g.lives--; if (g.lives <= 0) g.msg = 'Game over. Score ' + g.score + '. Click to play again'; this.serve(); break; }
+        if (B.y > this.H + 10) { if (window.pixelSound) pixelSound('lose'); g.lives--; if (g.lives <= 0) g.msg = 'Game over. Score ' + g.score + '. Click to play again'; this.serve(); break; }
         var hx = this.cellAt(B.x + Math.sign(B.vx) * r, B.y);
         if (hx !== null) { this.smash(hx); B.vx = -B.vx; continue; }
         var hy = this.cellAt(B.x, B.y + Math.sign(B.vy) * r);
@@ -576,6 +579,7 @@
     if (fine && !reduced) field = new Field();
     var h1 = document.querySelector('.hero h1');
     if (h1 && !reduced) dis = new Dissolve(h1);
+    window.addEventListener('stitchmode', function () { if (hero) hero.kick(); });
     window.addEventListener('themechange', function () {
       refreshPal();
       statics.forEach(function (s) { s.draw(); });

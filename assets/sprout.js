@@ -7,6 +7,7 @@
   var GW = 16, GH = 25, P = 3, ctx, C = window.themeColors();
   var grow = 0, lastActive = performance.now(), tickN = 0, blinkAt = 30, hover = false;
   var happyUntil = 0, drops = [], look = [1, 1], swayFast = false, lost = !!document.querySelector('[data-snake-inline]');
+  var hour = new Date().getHours(), night = hour >= 22 || hour < 6, morning = hour >= 6 && hour < 10, wokeUntil = 0;
   var seen = {}; try { seen = JSON.parse(sessionStorage.getItem('sprout-said') || '{}'); } catch (e) {}
 
   function setup() {
@@ -35,12 +36,12 @@
       if (before < 0.1 && grow >= 0.1) say('sprout', 'Ooh, a sprout. Keep going.');
       if (before < 0.45 && grow >= 0.45) say('play', 'Psst: type "play" anywhere.');
       if (before < 0.75 && grow >= 0.75) say('bud', 'Almost blooming...');
-      if (before < 0.95 && grow >= 0.95) { say('bloom', 'Fully grown. Thanks for reading!'); happyUntil = performance.now() + 2500; }
+      if (before < 0.95 && grow >= 0.95) { say('bloom', 'Fully grown. Thanks for reading!'); happyUntil = performance.now() + 2500; dispatchEvent(new Event('sprout:bloom')); }
     }
   }
 
   function draw() {
-    var now = performance.now(), idle = now - lastActive, droopy = idle > 22000 && now > happyUntil && !reduced;
+    var now = performance.now(), asleep = night && now > wokeUntil && now > happyUntil, idle = now - lastActive, droopy = !asleep && idle > 22000 && now > happyUntil && !reduced;
     var happy = now < happyUntil, pot = C.ink, face = C.page, leaf = C.accent, hi = C.soft, bud = C.deep;
     ctx.clearRect(0, 0, GW * P, GH * P);
 
@@ -82,6 +83,7 @@
     var blink = !reduced && tickN % 42 === blinkAt;
     [5, 9].forEach(function (ex) {
       if (happy) { px(ex, 21, face); px(ex + 1, 20, face); }
+      else if (asleep) { px(ex, 21, face); px(ex + 1, 21, face); }
       else if (blink) { px(ex, 21, face); px(ex + 1, 21, face); }
       else {
         if (!droopy) { px(ex, 20, face); px(ex + 1, 20, face); }
@@ -90,7 +92,11 @@
         px(ex + lx, 20 + ly, pot);
       }
     });
-    if (droopy) { px(7, 23, face); px(8, 23, face); }
+    if (asleep) {
+      px(7, 23, face);
+      if (!reduced) { var zy = 8 - (tickN % 24) / 3 | 0, zc = C.meta; [[0, 0], [1, 0], [2, 0], [1, 1], [0, 2], [1, 2], [2, 2]].forEach(function (q) { if (zy + q[1] >= 0) px(12 + q[0], zy + q[1], zc); }); }
+    }
+    else if (droopy) { px(7, 23, face); px(8, 23, face); }
     else if (lost) { px(7, 23, face); }
     else { px(6, 22, face); px(7, 23, face); px(8, 23, face); px(9, 22, face); }
 
@@ -103,7 +109,8 @@
     draw();
   }
   function water() {
-    lastActive = performance.now(); happyUntil = performance.now() + 2200;
+    lastActive = performance.now(); happyUntil = performance.now() + 2200; wokeUntil = performance.now() + 20000;
+    dispatchEvent(new Event('sprout:watered')); if (window.pixelSound) pixelSound('water');
     if (!reduced) for (var i = 0; i < 7; i++) drops.push({ x: 4 + Math.floor(Math.random() * 8), y: -Math.floor(Math.random() * 6) - 1 });
     root.classList.remove('hop'); void root.offsetWidth; root.classList.add('hop');
     say('water' + Math.floor(Math.random() * 3), ['Ahh. Much better.', 'Thank you!', 'Glug glug.'][Math.floor(Math.random() * 3)], true);
@@ -111,7 +118,7 @@
   function cheer(msg) { happyUntil = performance.now() + 3000; root.classList.remove('hop'); void root.offsetWidth; root.classList.add('hop', 'hop3'); if (msg) say('cheer' + Date.now(), msg, true); setTimeout(function () { root.classList.remove('hop3'); }, 1500); }
 
   root.addEventListener('click', water);
-  root.addEventListener('pointerenter', function () { hover = true; say('hello', "Hi, I'm Sprout. I grow as you scroll."); });
+  root.addEventListener('pointerenter', function () { hover = true; if (night && performance.now() > wokeUntil) say('sleepy', "Zzz... it's late here. Water me to wake me up."); else say('hello', "Hi, I'm Sprout. I grow as you scroll."); });
   root.addEventListener('pointerleave', function () { hover = false; });
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('keydown', function () { lastActive = performance.now(); });
@@ -127,7 +134,7 @@
 
   setup(); onScroll(); draw();
   if (lost) setTimeout(function () { say('lost', "Hmm. I think we're lost.", true); }, 900);
-  else setTimeout(function () { if (grow < 0.1) say('intro', "Hi, I'm Sprout. Scroll and I'll grow."); }, 5000);
+  else if (!night) setTimeout(function () { if (grow < 0.1) say('intro', morning ? "Good morning! Scroll and I'll grow." : "Hi, I'm Sprout. Scroll and I'll grow."); }, 5000);
   var iv = setInterval(tick, 120);
   document.addEventListener('visibilitychange', function () { clearInterval(iv); if (!document.hidden) iv = setInterval(tick, 120); });
 })();

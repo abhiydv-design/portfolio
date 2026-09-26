@@ -36,7 +36,7 @@ def head(title, desc, root):
 <meta name="theme-color" content="#F7F7F2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1B1621" media="(prefers-color-scheme: dark)">
 <script>
-  try {{ var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}}
+  try {{ var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light' || (t === 'ember' && localStorage.getItem('ember') === 'true')) document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}}
   window.themeColors = function () {{
     var s = getComputedStyle(document.documentElement), g = function (n) {{ return s.getPropertyValue('--' + n).trim(); }};
     return {{ page: g('page'), ink: g('ink'), meta: g('meta'), field: g('field'), mark: g('mark'), soft: g('soft'), deep: g('deep'),
@@ -66,11 +66,14 @@ def nav(home):
     <a href="{pre}#work">Work</a>
     <a href="{pre}#about">About</a>
     <a href="/resume">Resume</a>
+    <button class="theme-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Turn sound on">
+      <svg class="spk" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6h3l4-4h2v14H9l-4-4H2z" fill="currentColor"/><g class="waves"><rect x="13" y="7" width="2" height="4" fill="currentColor"/><rect x="15" y="4" width="2" height="10" fill="currentColor"/></g><g class="mute"><rect x="12" y="6" width="2" height="2" fill="currentColor"/><rect x="14" y="8" width="2" height="2" fill="currentColor"/><rect x="16" y="10" width="2" height="2" fill="currentColor"/><rect x="16" y="6" width="2" height="2" fill="currentColor"/><rect x="12" y="10" width="2" height="2" fill="currentColor"/></g></svg>
+    </button>
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">
       <svg class="sun" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="6" y="6" width="6" height="6" fill="currentColor"/><rect x="8" y="0" width="2" height="3" fill="currentColor"/><rect x="8" y="15" width="2" height="3" fill="currentColor"/><rect x="0" y="8" width="3" height="2" fill="currentColor"/><rect x="15" y="8" width="3" height="2" fill="currentColor"/><rect x="2" y="2" width="2" height="2" fill="currentColor"/><rect x="14" y="2" width="2" height="2" fill="currentColor"/><rect x="2" y="14" width="2" height="2" fill="currentColor"/><rect x="14" y="14" width="2" height="2" fill="currentColor"/></svg>
       <svg class="moon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M7 1h5v2H9v2H7v8h2v2h3v2H7v-2H5v-2H3V5h2V3h2z" fill="currentColor"/><rect x="12" y="11" width="4" height="2" fill="currentColor"/><rect x="14" y="9" width="2" height="2" fill="currentColor"/></svg>
     </button>
-    <a class="btn-line" href="{pre}#contact">Get in touch</a>
+    <a class="btn-line" href="{pre}#contact"><span class="cta-full">Get in touch</span><span class="cta-short">Contact</span></a>
   </nav>
 </header>
 """
@@ -79,6 +82,7 @@ def footer(root):
     socials = "\n".join(f'        <a href="{e(u)}" rel="me">{e(n)}</a>' for n, u in C["socials"])
     return f"""<div class="band"><canvas data-pattern="band" data-instant aria-hidden="true"></canvas></div>
 <footer class="footer" id="contact">
+  <div class="garden" data-garden hidden><canvas aria-hidden="true"></canvas><p class="garden-text" data-garden-text></p></div>
   <div>
     <h2>Have a project in mind?</h2>
     <a class="email" href="mailto:{e(C['email'])}">{e(C['email_label'])}</a>
@@ -92,7 +96,8 @@ def footer(root):
       <a href="/resume">Resume</a>
       <a href="/play">Play</a>
       <button class="linkbtn" type="button" data-open-snake>Snake</button>
-      <span class="hint">or type <kbd>play</kbd> anywhere</span>
+      <button class="linkbtn" type="button" data-open-stickers>Stickers <span data-sticker-count>0/10</span></button>
+      <span class="hint">press <kbd>?</kbd> for secrets</span>
     </div>
     <span>© 2026 {e(C['full_name'])}</span>
   </div>
@@ -126,11 +131,12 @@ def footer(root):
   (function () {{
     var root = document.documentElement, mq = window.matchMedia('(prefers-color-scheme: dark)');
     function current() {{ return root.getAttribute('data-theme') || (mq.matches ? 'dark' : 'light'); }}
-    function label() {{ var b = document.querySelector('[data-theme-toggle]'); if (b) b.setAttribute('aria-label', current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); }}
+    function order() {{ var o = ['light', 'dark']; try {{ if (localStorage.getItem('ember') === 'true') o.push('ember'); }} catch (e) {{}} return o; }}
+    function label() {{ var b = document.querySelector('[data-theme-toggle]'); if (b) {{ var o = order(), n = o[(o.indexOf(current()) + 1) % o.length]; b.setAttribute('aria-label', 'Switch to ' + n + ' theme'); }} }}
     function changed() {{ label(); window.dispatchEvent(new Event('themechange')); }}
     var btn = document.querySelector('[data-theme-toggle]');
     if (btn) btn.addEventListener('click', function () {{
-      var next = current() === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', next);
+      var o = order(), next = o[(o.indexOf(current()) + 1) % o.length]; root.setAttribute('data-theme', next);
       try {{ localStorage.setItem('theme', next); }} catch (e) {{}}
       changed();
     }});
@@ -146,6 +152,7 @@ def footer(root):
 <script src="{root}assets/portrait.js" defer></script>
 <script src="{root}assets/sprout.js" defer></script>
 <script src="{root}assets/cursor.js" defer></script>
+<script src="{root}assets/fun.js" defer></script>
 </body>
 </html>
 """

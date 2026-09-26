@@ -50,6 +50,7 @@
   };
   Snake.prototype.go = function () {
     if (this.running || this.dead) return; this.running = true; var self = this;
+    dispatchEvent(new CustomEvent('achieve', { detail: 'snake' }));
     (function loop() {
       if (!self.running) return;
       self.tick(); self.draw();
@@ -63,12 +64,12 @@
     var hit = n[0] < 0 || n[1] < 0 || n[0] >= this.cols || n[1] >= this.rows ||
       this.body.some(function (b, i) { return i < this.body.length - 1 && b[0] === n[0] && b[1] === n[1]; }, this);
     if (hit) {
-      this.dead = true; this.stop();
+      this.dead = true; this.stop(); if (window.pixelSound) pixelSound('lose');
       if (this.score > this.best) { this.best = this.score; store('snake-best', String(this.best)); if (this.score > 2) dispatchEvent(new CustomEvent('sprout:cheer', { detail: 'New snake record: ' + this.score + '!' })); }
       return;
     }
     this.body.unshift(n);
-    if (n[0] === this.food[0] && n[1] === this.food[1]) { this.score++; this.eaten.push(this.food.slice()); this.place(); }
+    if (n[0] === this.food[0] && n[1] === this.food[1]) { if (window.pixelSound) pixelSound('eat'); this.score++; this.eaten.push(this.food.slice()); this.place(); }
     else this.body.pop();
   };
   Snake.prototype.draw = function () {
@@ -157,7 +158,7 @@
     if (this.complete()) return;
     if (!this.t0) { this.t0 = performance.now(); var self = this; this.timer = setInterval(function () { self.stats(); }, 100); }
     if (this.thread !== PATTERN[j][i]) this.mistakes++;
-    this.done[k] = this.thread; this.draw(); this.stats();
+    this.done[k] = this.thread; if (window.pixelSound) pixelSound('stitch'); this.draw(); this.stats();
     if (this.complete()) this.finish();
   };
   Stitch.prototype.correct = function () {
@@ -168,6 +169,7 @@
   Stitch.prototype.finish = function () {
     clearInterval(this.timer); this.endT = performance.now(); var t = this.elapsed();
     var rec = !this.best || t < this.best; if (rec) { this.best = t; store('stitch-best', t.toFixed(1)); }
+    dispatchEvent(new CustomEvent('achieve', { detail: 'stitcher' }));
     dispatchEvent(new CustomEvent('sprout:cheer', { detail: rec ? 'New best stitch time!' : 'Beautiful stitching.' }));
     this.root.querySelector('[data-msg]').textContent = 'Finished in ' + t.toFixed(1) + ' s' + (rec ? '. New best.' : '.') + ' Clear the hoop to go again.';
     this.stats();

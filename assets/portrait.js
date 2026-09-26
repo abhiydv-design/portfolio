@@ -33,7 +33,7 @@
       if (Math.abs(nx - o.ox) > 0.03 || Math.abs(ny - o.oy) > 0.03) moving = true;
       o.ox = nx; o.oy = ny;
       var X = o.x + o.ox, Y = o.y + o.oy;
-      if (stitch) {
+      if (stitch || window.__stitch) {
         var s = cell * (0.14 + 0.3 * o.v); ctx.strokeStyle = o.v > 0.45 ? C.mark : C.soft; ctx.lineWidth = Math.max(1, cell * 0.16); ctx.lineCap = 'round';
         ctx.beginPath(); ctx.moveTo(X - s, Y - s); ctx.lineTo(X + s, Y + s); ctx.moveTo(X + s, Y - s); ctx.lineTo(X - s, Y + s); ctx.stroke();
       } else {
@@ -47,11 +47,12 @@
   el.addEventListener('pointerleave', function () { inside = false; kick(); });
   var btn = document.querySelector('[data-portrait-toggle]');
   if (btn) btn.addEventListener('click', function () {
-    stitch = !stitch; btn.setAttribute('aria-pressed', String(stitch)); btn.textContent = stitch ? 'Back to dots' : 'Stitch it';
+    stitch = !stitch; if (stitch) dispatchEvent(new CustomEvent('achieve', { detail: 'portrait' })); btn.setAttribute('aria-pressed', String(stitch)); btn.textContent = stitch ? 'Back to dots' : 'Stitch it';
     if (reduced) { draw(); return; }
     prog = 0; var t0 = performance.now();
     (function tk(now) { prog = Math.min(1, (now - t0) / 700); draw(); if (prog < 1) requestAnimationFrame(tk); })(t0);
   });
+  addEventListener('stitchmode', kick);
   build();
   if (!reduced && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (en) {

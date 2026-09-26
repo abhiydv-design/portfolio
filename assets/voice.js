@@ -122,7 +122,7 @@
     try {
       convo = await SDKmod.Conversation.startSession({
         agentId: AGENT,
-        onConnect: function () { setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
+        onConnect: function () { dispatchEvent(new CustomEvent('achieve', { detail: 'voice' })); setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
         onModeChange: function (m) { mode = m.mode; dispatchEvent(new CustomEvent('sprout:voice', { detail: m.mode })); if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
         onMessage: function (m) { if (m && (m.role === 'agent' || m.source === 'ai') && m.message) capEl.textContent = m.message; },
         onError: function (m) { console.warn('Voice agent:', m); if (state === 'connecting') fail(friendly(m)); },

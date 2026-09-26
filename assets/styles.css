@@ -381,3 +381,66 @@ html.cursor-footer .cursor-dot { background: var(--foot-accent); }
 .cursor-bit { position: fixed; z-index: 9999; width: 4px; height: 4px; margin: -2px 0 0 -2px; background: var(--accent); pointer-events: none; animation: cursor-bit .42s steps(5) forwards; }
 @keyframes cursor-bit { to { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
 @media print { .cursor-dot, .cursor-ring, .cursor-bit { display: none !important; } }
+
+/* ---------- secret Ember palette (unlocked by collecting every sticker) ---------- */
+:root[data-theme="ember"] {
+  --scheme: dark;
+  --page: #2B0B02; --ink: #FBEBDD; --meta: #D9A98C; --field: #3A1306;
+  --mark: #FF6A1A; --soft: #8A3A14; --deep: #FF8A45; --dark: #1E0701;
+  --accent: #FF6A1A; --night: #1E0701; --line: rgba(251, 235, 221, 0.16);
+  --footer-bg: #FF6A1A; --on-footer: #2B0B02; --foot-accent: #6B1E00;
+  --solid-bg: #FF6A1A; --solid-fg: #2B0B02; --solid-hover: #FF8A45;
+  --t-a: #FF6A1A; --t-b: #8A3A14; --t-c: #FBEBDD; --t-d: #F04A0B;
+  color-scheme: dark;
+}
+:root[data-theme="ember"] body::after { mix-blend-mode: screen; opacity: 0.035; }
+:root[data-theme="ember"] .theme-toggle .sun { display: none; }
+:root[data-theme="ember"] .theme-toggle .moon { display: block; }
+
+/* sound toggle */
+[data-sound-toggle] .mute { display: block; } [data-sound-toggle] .waves { display: none; }
+[data-sound-toggle][aria-pressed="true"] .mute { display: none; } [data-sound-toggle][aria-pressed="true"] .waves { display: block; }
+.nav-links { gap: clamp(14px, 2.4vw, 40px); }
+
+/* toast */
+.toast { position: fixed; top: 84px; left: 50%; transform: translateX(-50%); z-index: 70; background: var(--page); color: var(--ink); border: 1px solid var(--ink); padding: 12px 16px; font: 500 12px/1.5 var(--mono); letter-spacing: 0.02em; transition: opacity .3s; max-width: calc(100vw - 32px); }
+.toast.out { opacity: 0; }
+.toast-body { display: flex; align-items: center; gap: 14px; }
+.toast-body svg { color: var(--accent); flex-shrink: 0; }
+.toast b { font-weight: 500; color: var(--accent); }
+
+/* sticker sheet and help */
+.sheet { border: 1px solid var(--ink); padding: 0; background: var(--page); color: var(--ink); width: min(640px, calc(100vw - 32px)); max-width: none; }
+.sheet::backdrop { background: rgba(17, 17, 17, 0.55); }
+.stickers { list-style: none; margin: 0; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.sticker { display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px dashed var(--line); color: var(--meta); }
+.sticker svg { opacity: 0.25; }
+.sticker.have { border: 1px solid var(--ink); color: var(--ink); }
+.sticker.have svg { opacity: 1; color: var(--accent); }
+.st-name { font: 500 12px/1.2 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.st-hint { font-size: 13px; line-height: 1.4; }
+.sheet-foot { margin: 0; padding: 0 20px 20px; font: 12px/1.5 var(--mono); color: var(--meta); }
+.keys { margin: 0; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.keys div { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; border-top: 1px solid var(--line); padding-top: 12px; }
+.keys dt { margin: 0; font: 13px var(--mono); } .keys dd { margin: 0; }
+.keys kbd, .hint kbd { font: 500 12px var(--mono); border: 1px solid currentColor; padding: 2px 7px; }
+
+/* konami curtain, stitch mode, screensaver */
+.curtain { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9000; pointer-events: none; }
+html.stitch-mode .hero h1, html.stitch-mode .section-head h2, html.stitch-mode .footer h2 { text-decoration: underline wavy var(--accent); text-underline-offset: 12px; text-decoration-thickness: 2px; }
+.saver { position: fixed; inset: 0; z-index: 8000; transition: opacity .3s; }
+.saver canvas { width: 100%; height: 100%; }
+.saver.out { opacity: 0; }
+
+/* shared garden */
+.garden { display: flex; flex-direction: column; gap: 10px; margin-top: -24px; }
+.garden canvas { width: 100%; height: 30px; }
+.garden-text { margin: 0; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; color: var(--foot-accent); }
+@media print { .toast, .sheet, .saver, .curtain { display: none !important; } }
+.btn-line { white-space: nowrap; }
+.cta-short { display: none; }
+@media (max-width: 640px) {
+  .nav-links { gap: 8px; }
+  .btn-line { padding: 0 14px; height: 40px; }
+  .cta-full { display: none; } .cta-short { display: inline; }
+}
