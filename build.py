@@ -345,6 +345,7 @@ def case(i):
     <h1>{e(p['title'])}</h1>
     <p class="summary">{e(p['summary'])}</p>
     {reel_button(p)}
+    {f'<a class="btn btn-solid play-link" href="{e(p["link"]["href"])}" target="_blank" rel="noopener">{e(p["link"]["label"])}<span aria-hidden="true">↗</span></a>' if p.get("link") else ""}
     <div class="cs-meta">
       <div class="fact"><span class="label">Client</span><span>{e(p['client'])}</span></div>
       <div class="fact"><span class="label">Year</span><span>{e(p['year'])}</span></div>

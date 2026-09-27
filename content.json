@@ -239,13 +239,119 @@
     {
       "slug": "waffle",
       "title": "Waffle",
-      "client": "[Client]",
+      "client": "Personal project",
       "year": "[Year]",
-      "role": "[Your role]",
+      "role": "Solo: concept, design and build",
       "pattern": "waffle",
       "mark": "grid",
-      "summary": "[One line on what Waffle is, your role, and the result.]",
-      "deliverables": "[What you shipped]"
+      "summary": "A browser cooking game you play with your hands and voice instead of a mouse. Designed and built solo, from idea to live game, in about a week.",
+      "deliverables": "Game concept, visual direction, illustrations, UI, live web game",
+      "link": {
+        "href": "https://waffle-game-iota.vercel.app/",
+        "label": "Play Waffle"
+      },
+      "sections": [
+        {
+          "type": "text",
+          "label": "Overview",
+          "big": "Waffle is a browser game about making a waffle, played with your hands and your voice. Hand tracking with MediaPipe and voice recognition replace the mouse and keyboard, so an everyday cooking routine becomes something you perform. It's a personal project: I designed and built it on my own, from idea to a live, playable game, in about a week."
+        },
+        {
+          "type": "text",
+          "label": "How a round works",
+          "body": [
+            "The player works through each stage of making a waffle, interacting directly with the batter, the waffle maker, the toppings and the plate, until the waffle is done. The goal is simple: finish the cooking sequence and serve the completed waffle.",
+            "Instead of clicking through a menu, you interact with each element of the kitchen itself, using gestures tracked by your camera and spoken commands."
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Anyone should be able to start playing without instructions."
+        },
+        {
+          "type": "text",
+          "label": "The challenge",
+          "body": [
+            "Gesture and voice controls are unfamiliar for most people. The hard part was making the cooking process understandable through visual interaction alone, while keeping it simple enough for a casual player with no gaming experience."
+          ]
+        },
+        {
+          "type": "decisions",
+          "label": "Key decisions",
+          "items": [
+            [
+              "Keep the gameplay simple",
+              "So players understand what to do in seconds, even with unfamiliar controls."
+            ],
+            [
+              "Show progress through cooking states",
+              "The batter, the cooking waffle and the finished waffle each look different, so you always know how far along you are."
+            ],
+            [
+              "One illustrated environment",
+              "Every object was designed to belong to the same kitchen, so the game feels like one experience rather than a collection of separate assets."
+            ]
+          ]
+        },
+        {
+          "type": "chips",
+          "label": "One visual system",
+          "intro": "A warm, playful cooking-game style, with illustrated objects and clear visual states that work together:",
+          "items": [
+            "Waffle maker",
+            "Batter",
+            "Waffle states",
+            "Steam",
+            "Honey",
+            "Utensils",
+            "Plate"
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Start screen",
+              "half"
+            ],
+            [
+              "Gameplay",
+              "half"
+            ],
+            [
+              "Cooking stage",
+              "third"
+            ],
+            [
+              "Cooking stage",
+              "third"
+            ],
+            [
+              "Completed waffle",
+              "third"
+            ],
+            [
+              "Gameplay recording",
+              "full"
+            ]
+          ],
+          "caption": "From the first screen to a finished waffle."
+        },
+        {
+          "type": "stat",
+          "label": "Built with AI",
+          "value": "1 week",
+          "unit": "from idea to a live game",
+          "note": "I built Waffle with Claude and ChatGPT, which let me move from concept to visual design to working computer vision and voice controls, and ship a playable game in about a week."
+        },
+        {
+          "type": "text",
+          "label": "What's next",
+          "body": [
+            "More toppings are next. I also haven't playtested it formally yet, so watching people play for the first time is the other step I want to take."
+          ]
+        }
+      ]
     },
     {
       "slug": "kirana-club",

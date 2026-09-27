@@ -576,3 +576,4 @@ section[id], footer[id] { scroll-margin-top: 88px; }
   .rp-time { display: none; }
 }
 @media print { .reel, .reel-dialog { display: none !important; } }
+.play-link { grid-column: 1 / -1; justify-self: start; gap: 10px; }
