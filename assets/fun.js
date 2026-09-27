@@ -139,15 +139,28 @@
   addEventListener('keydown', function (e) {
     var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     kp = k === KON[kp] ? kp + 1 : (k === KON[0] ? 1 : 0);
-    if (kp === KON.length) { kp = 0; unlock('konami'); stitchMode(); }
+    if (kp === KON.length) { kp = 0; unlock('konami'); stitchMode(konamiTheme); }
   });
+  /* the Konami code flips the site to the orange Ember palette, and back again */
+  function konamiTheme() {
+    var cur = html.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'), next, msg;
+    store.set('ember', true);
+    if (cur === 'ember') { next = store.get('pre-ember', 'light'); msg = 'Back to ' + (next === 'dark' ? 'plum' : 'blue') + '. Enter the code again for Ember.'; }
+    else { store.set('pre-ember', cur); next = 'ember'; msg = 'Ember palette on. Enter the code again to switch back.'; }
+    html.setAttribute('data-theme', next); try { localStorage.setItem('theme', next); } catch (e) {}
+    emit('themechange');
+    var n = document.createElement('div'); n.className = 'toast-body';
+    n.innerHTML = iconSVG('konami') + '<span><b>↑↑↓↓←→←→BA</b><br>' + msg + '</span>';
+    setTimeout(function () { toast(n); }, 400);
+  }
   var stitching = false;
-  function stitchMode() {
-    if (stitching) return; stitching = true;
+  function stitchMode(atPeak) {
+    if (stitching) { if (atPeak) atPeak(); return; } stitching = true;
+    var peaked = false;
     var cv = document.createElement('canvas'); cv.className = 'curtain'; cv.setAttribute('aria-hidden', 'true'); document.body.appendChild(cv);
     var d = Math.min(2, devicePixelRatio || 1), W = innerWidth, H = innerHeight; cv.width = W * d; cv.height = H * d;
     var c = cv.getContext('2d'); c.setTransform(d, 0, 0, d, 0, 0);
-    var T = window.themeColors(), cell = 16, cols = Math.ceil(W / cell), rows = Math.ceil(H / cell), t0 = performance.now();
+    var T = window.themeColors(); var cell = 16, cols = Math.ceil(W / cell), rows = Math.ceil(H / cell), t0 = performance.now();
     var sew = reduced ? 1 : 900, hold = 500, unsew = reduced ? 1 : 900;
     function rnd(i, j) { var n = Math.sin(i * 12.9898 + j * 78.233) * 43758.5453; return n - Math.floor(n); }
     function frame(now) {
@@ -160,6 +173,7 @@
         c.strokeStyle = (i + j) % 7 === 0 ? T.soft : T.accent;
         c.beginPath(); c.moveTo(x - s, y - s); c.lineTo(x + s, y + s); c.moveTo(x + s, y - s); c.lineTo(x - s, y + s); c.stroke();
       }
+      if (t > sew && !peaked) { peaked = true; if (atPeak) { atPeak(); T = window.themeColors(); } }
       if (t > sew && !window.__stitch) { window.__stitch = true; html.classList.add('stitch-mode'); emit('stitchmode'); }
       if (t < sew + hold + unsew) requestAnimationFrame(frame);
       else {
