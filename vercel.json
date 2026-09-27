@@ -2,6 +2,15 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/work/roarink", "destination": "/#work", "permanent": false }
+    {
+      "source": "/work/roarink",
+      "destination": "/#work",
+      "permanent": false
+    },
+    {
+      "source": "/work/ai-brand-creatives",
+      "destination": "/#work",
+      "permanent": false
+    }
   ]
 }

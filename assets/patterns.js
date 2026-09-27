@@ -151,6 +151,35 @@
     }
   };
 
+  /* Waffle: a 5x5 board with four gaps, tiles built from pixels, a few lit up */
+  DRAW.waffle = function (ctx, W, H, p, show) {
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var n = 5, cell = 6, tile = Math.floor(Math.min(W * 0.66, H * 0.8) / n / cell) * cell, gap = cell * 2;
+    var bw = n * tile + (n - 1) * gap, ox = Math.round((W - bw) / 2 + W * 0.04), oy = Math.round((H - bw) / 2);
+    var lit = { '0,0': 1, '0,4': 2, '2,2': 1, '4,1': 2, '1,0': 3, '3,4': 3 };
+    for (var r = 0; r < n; r++) for (var q = 0; q < n; q++) {
+      if (r % 2 === 1 && q % 2 === 1) continue;
+      var x0 = ox + q * (tile + gap), y0 = oy + r * (tile + gap), k = lit[r + ',' + q] || 0;
+      var col = k === 1 ? p.accent : k === 2 ? p.soft : k === 3 ? p.deep : p.ink;
+      for (var j = 0; j < tile / cell; j++) for (var i = 0; i < tile / cell; i++) {
+        if (!show(q * 9 + i, r * 9 + j)) continue;
+        var edge = i === 0 || j === 0 || i === tile / cell - 1 || j === tile / cell - 1;
+        var x = x0 + i * cell, y = y0 + j * cell;
+        if (k) { ctx.fillStyle = col; ctx.fillRect(x + 0.5, y + 0.5, cell - 1, cell - 1); }
+        else if (edge) { ctx.fillStyle = col; ctx.globalAlpha = 0.85; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2); ctx.globalAlpha = 1; }
+        else if (hash(x, y, 71) < 0.18) { ctx.fillStyle = col; ctx.globalAlpha = 0.25; ctx.fillRect(x + 2, y + 2, cell - 4, cell - 4); ctx.globalAlpha = 1; }
+      }
+    }
+    // loose tiles drifting off to the side, like a game mid-move
+    for (var m = 0; m < 14; m++) {
+      var hx = hash(m, 3, 72), hy = hash(m, 4, 73);
+      if (!show(m, 90)) continue;
+      ctx.fillStyle = m % 3 ? p.soft : p.accent; ctx.globalAlpha = 0.35 + 0.5 * hash(m, 5, 74);
+      var s = cell * (1 + Math.floor(hash(m, 6, 75) * 2));
+      ctx.fillRect(Math.round(hx * W / cell) * cell, Math.round(hy * H / cell) * cell, s, s); ctx.globalAlpha = 1;
+    }
+  };
+
   DRAW.band = function (ctx, W, H, p) {
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var cell = 8, cols = Math.ceil(W / cell), rows = Math.round(H / cell);

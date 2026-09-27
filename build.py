@@ -11,12 +11,14 @@ ALT = {
     "stitch": "A leafy branch in cross-stitch on a visible grid.",
     "land": "Two mountain ridges and a moon drawn in short horizontal lines.",
     "ten": "A large number 10 drawn in pixels, with scattered confetti squares.",
+    "waffle": "A five by five waffle grid of pixel tiles with four gaps, some tiles lit up.",
 }
 MARK = {
     "square": '<rect width="10" height="10" style="fill:var(--accent)"/>',
     "circle": '<circle cx="5" cy="5" r="4" style="fill:none;stroke:var(--accent)" stroke-width="1.4"/>',
     "cross": '<path d="M1 1L9 9M9 1L1 9" style="stroke:var(--accent)" stroke-width="1.6"/>',
     "dash": '<rect y="4" width="10" height="2" style="fill:var(--accent)"/>',
+    "grid": '<g style="fill:var(--accent)"><rect width="2" height="2"/><rect x="4" width="2" height="2"/><rect x="8" width="2" height="2"/><rect y="4" width="2" height="2"/><rect x="8" y="4" width="2" height="2"/><rect y="8" width="2" height="2"/><rect x="4" y="8" width="2" height="2"/><rect x="8" y="8" width="2" height="2"/><rect x="4" y="4" width="2" height="2"/></g>',
 }
 LAYOUT = [("span-7", ""), ("span-5", " drop"), ("span-5", ""), ("span-7", "")]
 
