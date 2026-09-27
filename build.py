@@ -288,6 +288,9 @@ def render_sections(secs):
         elif t == "team":
             ppl = "".join(f'<li><a href="{e(u)}" rel="noopener" target="_blank"><span class="tm-mark" aria-hidden="true"></span>{e(n)}<span class="tm-go">LinkedIn</span></a></li>' for n, u in x["members"])
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p><ul class="team">{ppl}</ul><p class="team-note">{e(x.get("outro", ""))}</p></div></section>')
+        elif t == "numbers":
+            cells = "".join(f'<div class="num"><span class="num-v">{e(v)}</span><span class="num-l">{e(l)}</span></div>' for v, l in x["items"])
+            out.append(f'<section class="cs-block"><div class="numbers">{cells}</div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)

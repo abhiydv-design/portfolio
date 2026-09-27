@@ -577,3 +577,13 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 }
 @media print { .reel, .reel-dialog { display: none !important; } }
 .play-link { grid-column: 1 / -1; justify-self: start; gap: 10px; }
+.numbers { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
+.num { display: flex; flex-direction: column; gap: 8px; padding: 26px 20px 26px 0; }
+.num + .num { border-left: 1px solid var(--line); padding-left: 20px; }
+.num-v { font-family: var(--serif); font-size: clamp(52px, 6vw, 88px); line-height: 0.95; letter-spacing: -0.02em; color: var(--accent); }
+.num-l { font: 500 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--meta); max-width: 22ch; }
+@media (max-width: 800px) {
+  .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .num:nth-child(3) { border-left: 0; padding-left: 0; }
+  .num:nth-child(n+3) { border-top: 1px solid var(--line); }
+}

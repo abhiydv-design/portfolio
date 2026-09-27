@@ -59,6 +59,27 @@
           "big": "FarMart Dashak was FarMart's tenth anniversary, a two-day, company-wide celebration. Day one was Sports Day; day two was the main anniversary function. Together with Akshay Sharma and Anjali Choudhary, I worked on the event's branding and visual design, taking one identity from ten-year walls and stage backdrops all the way down to certificates, trophies and mementos."
         },
         {
+          "type": "numbers",
+          "items": [
+            [
+              "10",
+              "years celebrated"
+            ],
+            [
+              "2",
+              "days, two moods"
+            ],
+            [
+              "7",
+              "kinds of touchpoints"
+            ],
+            [
+              "3",
+              "designers"
+            ]
+          ]
+        },
+        {
           "type": "compare",
           "label": "Two days, two moods",
           "items": [
@@ -257,6 +278,27 @@
           "big": "Waffle is a browser game about making a waffle, played with your hands and your voice. Hand tracking with MediaPipe and voice recognition replace the mouse and keyboard, so an everyday cooking routine becomes something you perform. It's a personal project: I designed and built it on my own, from idea to a live, playable game, in about a week."
         },
         {
+          "type": "numbers",
+          "items": [
+            [
+              "1",
+              "week, idea to live game"
+            ],
+            [
+              "1",
+              "person: concept, design, build"
+            ],
+            [
+              "2",
+              "ways to play: hands and voice"
+            ],
+            [
+              "7",
+              "illustrated game elements"
+            ]
+          ]
+        },
+        {
           "type": "text",
           "label": "How a round works",
           "body": [
@@ -370,6 +412,27 @@
           "type": "text",
           "label": "Overview",
           "big": "Kirana Club is a community app for kirana and small retail shop owners, mostly in Tier 2 and Tier 3 cities. They use it to discover products, check mandi rates, manage orders and find offers and schemes. I joined the content and marketing team as a visual designer, making the app's videos, banners and brand campaigns easier to notice and faster to understand."
+        },
+        {
+          "type": "numbers",
+          "items": [
+            [
+              "7",
+              "months on the content team"
+            ],
+            [
+              "1",
+              "content piece a day, roughly"
+            ],
+            [
+              "10",
+              "partner brands"
+            ],
+            [
+              "~6,500",
+              "daily views at peak"
+            ]
+          ]
         },
         {
           "type": "text",
