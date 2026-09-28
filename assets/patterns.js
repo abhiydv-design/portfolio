@@ -756,7 +756,7 @@
       statics.push(s); s.draw();
       if (s.animated && !reduced && 'IntersectionObserver' in window) {
         var on = false, raf2 = 0;
-        var last = 0, loop = function (ts) { if (!on) { raf2 = 0; return; } if (ts - last > 32) { last = ts; s.t = ts / 1000; s.draw(); } raf2 = requestAnimationFrame(loop); };
+        var last = 0, loop = function (ts) { if (!on) { raf2 = 0; return; } if (ts - last > 32 && !document.documentElement.classList.contains('in-call')) { last = ts; s.t = ts / 1000; s.draw(); } raf2 = requestAnimationFrame(loop); };
         new IntersectionObserver(function (en) { on = en[0].isIntersecting; if (on && !raf2) raf2 = requestAnimationFrame(loop); }).observe(el);
       }
       var card = el.closest('.card');

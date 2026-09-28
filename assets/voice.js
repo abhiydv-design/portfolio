@@ -133,7 +133,15 @@
   function off(p) { try { return sessionStorage.getItem('voice-off-' + p) === '1'; } catch (e) { return false; } }
   function markOff(p, why) { console.info('Voice: ' + p + ' unavailable (' + (why && why.message || why || '') + ')'); try { sessionStorage.setItem('voice-off-' + p, '1'); } catch (e) {} }
 
+  function releaseMic() { if (window.__voiceMic) { window.__voiceMic.getTracks().forEach(function (t) { t.stop(); }); window.__voiceMic = null; } }
+  // wake the Gemini function and preload its library a few seconds after the page settles, and on hover or focus
+  if (ORDER.indexOf('gemini') > -1) {
+    var warmUp = function () { if (window.GeminiVoice && !off('gemini')) window.GeminiVoice.warm(); };
+    setTimeout(function () { (window.requestIdleCallback || setTimeout)(warmUp); }, 3500);
+    ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { startBtn.addEventListener(ev, warmUp, { passive: true }); });
+  }
   function startLocal() {
+    releaseMic();
     if (!window.LocalVoice) return fail("Couldn't start the voice assistant.");
     root.classList.remove('gemini'); root.classList.add('local'); statusEl.textContent = 'Connecting';
     var h = handlers(function () {}); h.root = root;
@@ -167,8 +175,9 @@
     root.classList.remove('local', 'gemini');
     raf = requestAnimationFrame(live);
     try {
-      var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(function (t) { t.stop(); });
+      var stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+      if (ORDER[0] === 'gemini' && !off('gemini')) window.__voiceMic = stream;      // Gemini reuses it: no second permission round-trip
+      else stream.getTracks().forEach(function (t) { t.stop(); });
     } catch (e) {
       return fail('Your microphone is blocked. Allow it in your browser settings to talk, or');
     }
@@ -177,7 +186,7 @@
       if (p === 'local') return startLocal();
       if (off(p)) continue;
       try { if (p === 'gemini') await tryGemini(); else if (p === 'elevenlabs') await tryEleven(); return; }
-      catch (e) { markOff(p, e); convo = null; }
+      catch (e) { markOff(p, e); convo = null; if (p === 'gemini') releaseMic(); }
     }
     startLocal();
   }

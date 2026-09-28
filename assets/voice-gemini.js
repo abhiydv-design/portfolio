@@ -14,18 +14,32 @@
   function b64FromInt16(i16) { var u8 = new Uint8Array(i16.buffer), s = '', CH = 0x8000; for (var i = 0; i < u8.length; i += CH) s += String.fromCharCode.apply(null, u8.subarray(i, i + CH)); return btoa(s); }
   function int16FromB64(b64) { var bin = atob(b64), n = bin.length, u8 = new Uint8Array(n); for (var i = 0; i < n; i++) u8[i] = bin.charCodeAt(i); return new Int16Array(u8.buffer, 0, n >> 1); }
 
-  window.GeminiVoice = { start: async function (o) {
+  var warmed = false;
+  function warm() {
+    if (warmed) return; warmed = true;
+    try { fetch('/api/voice-token', { method: 'GET', cache: 'no-store' }).catch(function () {}); } catch (e) {}
+    loadSDK().catch(function () {});
+  }
+  // mic capture on the audio thread: downsample to 16 kHz and send ~40 ms blocks of 16-bit PCM
+  var WORKLET = "class P extends AudioWorkletProcessor{constructor(){super();this.r=sampleRate/16000;this.b=new Int16Array(640);this.n=0;this.p=0}" +
+    "process(i){var c=i[0]&&i[0][0];if(!c)return true;for(;this.p<c.length;this.p+=this.r){var v=Math.max(-1,Math.min(1,c[Math.floor(this.p)]));this.b[this.n++]=v<0?v*32768:v*32767;" +
+    "if(this.n===this.b.length){this.port.postMessage(this.b.slice(0));this.n=0}}this.p-=c.length;return true}}registerProcessor('pcm16k',P);";
+
+  window.GeminiVoice = { warm: warm, start: async function (o) {
     var kb = {}; try { kb = JSON.parse(document.getElementById('voice-kb').textContent); } catch (e) {}
     var r = await fetch('/api/voice-token', { method: 'POST' });
     if (!r.ok) { var why = ''; try { why = (await r.json()).error; } catch (e) {} throw new Error('gemini token: ' + r.status + ' ' + why); }
-    var tk = await r.json();
+    var tk = await r.json(); console.info('Voice: gemini model ' + tk.model);
     var Lib = await loadSDK();
     var ai = new Lib.GoogleGenAI({ apiKey: tk.token, httpOptions: { apiVersion: 'v1alpha' } });
 
     var active = true, opened = false, mode = 'listening', caption = '', CAP = (kb.cap_seconds || 150) * 1000, t0 = 0, capT = 0;
     var shared = window.__voiceOutCtx, outCtx = shared || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
     try { outCtx.resume(); } catch (e) {}
-    var outAn = outCtx.createAnalyser(); outAn.fftSize = 256; outAn.connect(outCtx.destination);
+    var outAn = outCtx.createAnalyser(); outAn.fftSize = 256;
+    var outEl = null;
+    try { var dest = outCtx.createMediaStreamDestination(); outAn.connect(dest); outEl = new Audio(); outEl.autoplay = true; outEl.srcObject = dest.stream; outEl.play().catch(function () {}); }
+    catch (e) { outAn.connect(outCtx.destination); }
     var outBuf = new Uint8Array(outAn.frequencyBinCount), playHead = 0, sources = [];
     var mic = null, inCtx = null, inAn = null, inBuf = null, proc = null, session = null;
 
@@ -36,7 +50,8 @@
       for (var i = 0; i < i16.length; i++) f32[i] = i16[i] / 32768;
       var buf = outCtx.createBuffer(1, f32.length, 24000); buf.copyToChannel(f32, 0);
       var src = outCtx.createBufferSource(); src.buffer = buf; src.connect(outAn);
-      var at = Math.max(outCtx.currentTime + 0.02, playHead); src.start(at); playHead = at + buf.duration;
+      var lead = sources.length ? 0.02 : 0.15;                 // a small buffer at the start of each reply smooths network jitter
+      var at = Math.max(outCtx.currentTime + lead, playHead); src.start(at); playHead = at + buf.duration;
       sources.push(src); setMode('speaking');
       src.onended = function () { sources = sources.filter(function (x) { return x !== src; }); if (!sources.length && active) setMode('listening'); };
     }
@@ -47,6 +62,8 @@
       if (mic) mic.getTracks().forEach(function (t) { t.stop(); });
       stopPlayback();
       try { inCtx && inCtx.close(); } catch (e) {} if (!shared) try { outCtx.close(); } catch (e) {}
+      if (outEl) try { outEl.pause(); outEl.srcObject = null; } catch (e) {}
+      document.documentElement.classList.remove('in-call');
       if (o.onDisconnect) o.onDisconnect({ reason: reason || 'user' });
     }
 
@@ -56,7 +73,11 @@
         config: {
           responseModalities: [Lib.Modality.AUDIO],
           systemInstruction: kb.system_prompt || '',
-          outputAudioTranscription: {}
+          outputAudioTranscription: {},
+          realtimeInputConfig: { automaticActivityDetection: {
+            startOfSpeechSensitivity: 'START_SENSITIVITY_LOW',   // background noise and echo shouldn't count as the visitor talking
+            endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH',      // but reply promptly once they stop
+            prefixPaddingMs: 120, silenceDurationMs: 450 } }
         },
         callbacks: {
           onopen: function () {},
@@ -80,17 +101,37 @@
     for (var w = 0; !session && w < 40; w++) await new Promise(function (r2) { setTimeout(r2, 50); });
 
     // microphone -> 16 kHz 16-bit PCM -> Gemini
-    mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, channelCount: 1 } });
+    mic = window.__voiceMic && window.__voiceMic.active ? window.__voiceMic : await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+    window.__voiceMic = null;
     inCtx = new (window.AudioContext || window.webkitAudioContext)();
     var srcNode = inCtx.createMediaStreamSource(mic); inAn = inCtx.createAnalyser(); inAn.fftSize = 256; inBuf = new Uint8Array(inAn.frequencyBinCount); srcNode.connect(inAn);
-    proc = inCtx.createScriptProcessor(4096, 1, 1); var ratio = inCtx.sampleRate / 16000;
-    proc.onaudioprocess = function (ev) {
+    function sendPcm(i16) {
       if (!active || !session) return;
-      var input = ev.inputBuffer.getChannelData(0), n = Math.floor(input.length / ratio), out = new Int16Array(n);
-      for (var i = 0; i < n; i++) { var v = input[Math.floor(i * ratio)]; v = Math.max(-1, Math.min(1, v)); out[i] = v < 0 ? v * 0x8000 : v * 0x7fff; }
-      try { session.sendRealtimeInput({ audio: { data: b64FromInt16(out), mimeType: 'audio/pcm;rate=16000' } }); } catch (e) {}
-    };
-    srcNode.connect(proc); var mute = inCtx.createGain(); mute.gain.value = 0; proc.connect(mute); mute.connect(inCtx.destination);
+      if (mode === 'speaking') {                // while Gemini talks, only pass clear speech (lets the visitor interrupt, blocks echo)
+        var sum = 0; for (var i = 0; i < i16.length; i += 4) sum += i16[i] * i16[i];
+        if (Math.sqrt(sum / (i16.length / 4)) / 32768 < 0.06) return;
+      }
+      try { session.sendRealtimeInput({ audio: { data: b64FromInt16(i16), mimeType: 'audio/pcm;rate=16000' } }); } catch (e) {}
+    }
+    var usedWorklet = false;
+    if (inCtx.audioWorklet && window.AudioWorkletNode) {
+      try {
+        var url = URL.createObjectURL(new Blob([WORKLET], { type: 'application/javascript' }));
+        await inCtx.audioWorklet.addModule(url); URL.revokeObjectURL(url);
+        proc = new AudioWorkletNode(inCtx, 'pcm16k'); proc.port.onmessage = function (ev) { sendPcm(ev.data); };
+        srcNode.connect(proc); usedWorklet = true;
+      } catch (e) { usedWorklet = false; }
+    }
+    if (!usedWorklet) {                          // older browsers
+      proc = inCtx.createScriptProcessor(4096, 1, 1); var ratio = inCtx.sampleRate / 16000;
+      proc.onaudioprocess = function (ev) {
+        var input = ev.inputBuffer.getChannelData(0), n = Math.floor(input.length / ratio), out = new Int16Array(n);
+        for (var i = 0; i < n; i++) { var v = Math.max(-1, Math.min(1, input[Math.floor(i * ratio)])); out[i] = v < 0 ? v * 0x8000 : v * 0x7fff; }
+        sendPcm(out);
+      };
+      srcNode.connect(proc); var mute = inCtx.createGain(); mute.gain.value = 0; proc.connect(mute); mute.connect(inCtx.destination);
+    }
+    document.documentElement.classList.add('in-call');
 
     t0 = performance.now();
     if (o.onConnect) o.onConnect();

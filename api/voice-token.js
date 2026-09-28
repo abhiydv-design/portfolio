@@ -18,6 +18,7 @@ async function redis(cmd) {
 async function pickModel() {
   if (process.env.GEMINI_LIVE_MODEL) return process.env.GEMINI_LIVE_MODEL;
   if (cachedModel) return cachedModel;
+  if (KV_URL && KV_TOKEN) { try { const m = await redis(['GET', 'voice:model']); if (m) return (cachedModel = m); } catch (e) {} }
   let names = [], page = '';
   for (let i = 0; i < 5; i++) {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=200${page ? '&pageToken=' + page : ''}`, { headers: { 'x-goog-api-key': KEY } });
@@ -29,12 +30,17 @@ async function pickModel() {
   const score = n => (/native-audio/.test(n) ? 100 : 0) + (/live/.test(n) ? 40 : 0) + (/flash/.test(n) ? 10 : 0) - (/preview/.test(n) ? 1 : 0) - (/thinking|exp/.test(n) ? 5 : 0);
   names.sort((a, b) => score(b) - score(a) || b.localeCompare(a));
   cachedModel = names[0] || null;
+  if (cachedModel && KV_URL && KV_TOKEN) { try { await redis(['SET', 'voice:model', cachedModel, 'EX', '86400']); } catch (e) {} }
   return cachedModel;
 }
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'method not allowed' }); }
+  if (req.method === 'GET') {            // warm-up ping: wakes the function and caches the model, issues nothing
+    if (KEY) { try { await pickModel(); } catch (e) {} }
+    return res.status(204).end();
+  }
+  if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return res.status(405).json({ error: 'method not allowed' }); }
   if (!KEY) return res.status(503).json({ error: 'gemini not set up' });
 
   // only pages on this site may ask for tokens
