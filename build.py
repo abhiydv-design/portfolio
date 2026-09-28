@@ -280,7 +280,14 @@ def render_sections(secs):
           <ol class="tiers">{tiers}</ol>
         </div><p>{e(x['note'])}</p></div></section>""")
         elif t == "figures":
-            figs = "".join(f'<div class="figure {sz}"><span>[{e(lbl)}]</span></div>' for lbl, sz in x["items"])
+            def fig(it):
+                lbl, sz = it[0], it[1]
+                if len(it) > 2:
+                    src, alt, cap = it[2], it[3], it[4] if len(it) > 4 else ""
+                    capt = f'<figcaption>{e(cap)}</figcaption>' if cap else ""
+                    return f'<figure class="figure has-img {sz}"><img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="1200" height="800">{capt}</figure>'
+                return f'<div class="figure {sz}"><span>[{e(lbl)}]</span></div>'
+            figs = "".join(fig(it) for it in x["items"])
             cap = f'<p class="fig-cap">{e(x["caption"])}</p>' if x.get("caption") else ""
             out.append(f'<section class="cs-block figs">{figs}{cap}</section>')
         elif t == "chips":

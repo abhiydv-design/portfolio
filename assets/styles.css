@@ -587,3 +587,6 @@ section[id], footer[id] { scroll-margin-top: 88px; }
   .num:nth-child(3) { border-left: 0; padding-left: 0; }
   .num:nth-child(n+3) { border-top: 1px solid var(--line); }
 }
+.figure.has-img { display: block; aspect-ratio: auto !important; border: 0; background: none; margin: 0; }
+.figure.has-img img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border: 1px solid var(--line); background: var(--field); }
+.figure.has-img figcaption { margin-top: 10px; font: 12px/1.5 var(--mono); color: var(--meta); }

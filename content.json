@@ -179,43 +179,35 @@
           "type": "figures",
           "items": [
             [
-              "10-year wall",
-              "full"
+              "The 10-year wall",
+              "full",
+              "/img/dashak/wall.jpg",
+              "A long white wall titled 'Every chapter led us here. The story continues.' A timeline runs from 2016 to 2026 with milestones and a band of photos from FarMart's decade.",
+              "The 10-year wall: FarMart's decade as a timeline, from 2016 to 2026."
             ],
             [
-              "Sports Day environment",
-              "half"
+              "Entrance arch and flags",
+              "half",
+              "/img/dashak/arch.jpg",
+              "A white entrance arch with the 10 FarMart dashak lockup, leading down a green carpet lined with feather flags.",
+              "The entrance arch and flags leading into the venue."
             ],
             [
-              "Main function stage",
-              "half"
+              "Entrance standee",
+              "half",
+              "/img/dashak/standee.jpg",
+              "A large standee reading '10 years of innovation and impact', with 3D letters for the illustrated 10 and the dashak wordmark.",
+              "Signage at the venue: the illustrated 10 as a 3D object."
             ],
             [
-              "Flags",
-              "third"
-            ],
-            [
-              "Certificate",
-              "third"
-            ],
-            [
-              "Trophy",
-              "third"
-            ],
-            [
-              "Memento",
-              "half"
-            ],
-            [
-              "Figma explorations",
-              "half"
-            ],
-            [
-              "One identity across every touchpoint",
-              "full"
+              "Event backdrop",
+              "full",
+              "/img/dashak/backdrop.jpg",
+              "A dark backdrop with the illustrated green 10, the FarMart logo and the dashak wordmark in white.",
+              "The dark version of the lockup on the event backdrop."
             ]
           ],
-          "caption": "The identity across both days, from environment to objects."
+          "caption": ""
         },
         {
           "type": "chips",
