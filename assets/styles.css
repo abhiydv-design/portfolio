@@ -610,3 +610,9 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .tall-notes { grid-column: 9 / span 4; display: flex; flex-direction: column; gap: 16px; }
 .tall-notes .ticks li { font-size: 16px; }
 @media (max-width: 1000px) { .tall-imgs, .tall-notes { grid-column: 1 / -1; } }
+.phones { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px); margin-top: 16px; }
+.phone { margin: 0; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.phone-frame { width: 100%; max-width: 320px; padding: 10px; border: 1px solid #0E0C10; border-radius: 30px; background: #0E0C10; box-shadow: 8px 8px 0 var(--accent); }
+.phone-frame img { display: block; width: 100%; height: auto; border-radius: 21px; aspect-ratio: 716 / 1340; object-fit: cover; object-position: top; }
+.phone figcaption { font: 12px/1.5 var(--mono); color: var(--meta); text-align: center; max-width: 30ch; }
+@media (max-width: 800px) { .phones { grid-template-columns: 1fr; } .phone-frame { max-width: 300px; } }

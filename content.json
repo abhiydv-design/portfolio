@@ -710,6 +710,28 @@
           "caption": "April schemes for GoDesi and Zoff, designed for the phone screen."
         },
         {
+          "type": "phones",
+          "label": "In the app",
+          "intro": "This is where the work lived: inside a busy feed, next to mandi rates, schemes and retailer posts. On a screen this crowded, a creative only works if its message lands before the thumb scrolls on.",
+          "items": [
+            [
+              "/img/kirana/app-johnsons.jpg",
+              "The Johnson's Baby brand page in the Kirana Club app, with a post announcing new small packs at ₹25 and ₹30.",
+              "Johnson's Baby's brand page, with the new small-pack offer."
+            ],
+            [
+              "/img/kirana/app-kwality.jpg",
+              "A Kwality Wall's post in the feed: 'Guaranteed extra profit with Kwality Wall's. Take a freezer, get 20%+ extra profit.' It shows 437 likes, 348 comments and 19 WhatsApp shares. The retailer's name in the comment is blurred.",
+              "A Kwality Wall's post: 437 likes, 348 comments, 19 shares."
+            ],
+            [
+              "/img/kirana/app-mandi.jpg",
+              "A Mandi Report video post titled Kirana Samachar: a presenter, a photo of groundnut oil, a price table for edible oils and a headline ticker. It shows 816 likes and 1,000 comments. Faces and names are blurred.",
+              "The Mandi Report video format: 816 likes, 1,000 comments."
+            ]
+          ]
+        },
+        {
           "type": "chips",
           "label": "Brand partnerships",
           "intro": "I made campaign, product and promotional creatives for FMCG and consumer brands, including:",
@@ -763,7 +785,7 @@
           "label": "Outcome",
           "value": "6,000 to 6,500",
           "unit": "views a day, approximately",
-          "note": "Daily viewership grew clearly over my time on the content, reaching roughly 6,000 to 6,500 views a day."
+          "note": "Daily viewership grew clearly over my time on the content, reaching roughly 6,000 to 6,500 views a day. Individual posts drew real conversation too: 437 likes and 348 comments on one Kwality Wall's post, and 816 likes and 1,000 comments on a Mandi Report video. The offer and the brand matter as much as the design, but the creatives had to earn the stop first."
         },
         {
           "type": "text",
