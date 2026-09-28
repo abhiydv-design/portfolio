@@ -330,6 +330,17 @@ def render_sections(secs):
             pins = "".join(f'<span class="pin" style="left:{m[1]}%;top:{m[2]}%" aria-hidden="true">{e(m[0])}</span>' for m in x["marks"])
             legend = "".join(f'<li><span class="pin-n">{e(m[0])}</span>{e(m[3])}</li>' for m in x["marks"] if m[3])
             out.append(f'<section class="cs-block">{lab}<div class="copy"><figure class="annot"><div class="annot-img"><img src="{e(x["src"])}" alt="{e(x["alt"])}" loading="lazy" decoding="async" width="{iw}" height="{ih}">{pins}</div><ol class="annot-legend">{legend}</ol><figcaption>{e(x.get("caption", ""))}</figcaption></figure></div></section>')
+        elif t == "tall":
+            imgs = ""
+            for src, alt in x["items"]:
+                try:
+                    from PIL import Image as _I
+                    iw, ih = _I.open(src.lstrip("/")).size
+                except Exception:
+                    iw, ih = 560, 1000
+                imgs += f'<img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="{iw}" height="{ih}">'
+            notes = "".join(f"<li>{e(n)}</li>" for n in x["notes"])
+            out.append(f'<section class="cs-block">{lab}<div class="tall-imgs">{imgs}</div><div class="tall-notes"><ul class="ticks">{notes}</ul><p class="fig-cap">{e(x.get("caption", ""))}</p></div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)

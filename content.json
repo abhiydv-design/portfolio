@@ -511,7 +511,7 @@
               "content piece a day, roughly"
             ],
             [
-              "14",
+              "16",
               "brands designed for"
             ],
             [
@@ -630,7 +630,7 @@
           "type": "text",
           "label": "In-app banners",
           "body": [
-            "Banners carried offers and schemes, new products, campaigns and brand messages. For the अप्रैल धमाका स्कीम (April Dhamaka scheme), the offer had to be clear to a shop owner almost instantly. I also designed formats for the Punji reward scheme and for product and category communication.",
+            "Banners carried offers and schemes, new products, campaigns and brand messages. For April's scheme offers, like GoDesi's bumper scheme and the Zoff Haldi Loot offer, three order tiers had to be comparable in a single glance. I also designed formats for the Punji reward scheme and for product and category communication.",
             "Where past performance data was available, it shaped what to emphasise: the offer or the price, product photos or generic graphics, Hindi or English, and how visible the call to action should be."
           ]
         },
@@ -689,6 +689,27 @@
           "caption": "One template, two brands: Sugandh Chai and Cravitos share the same card layout for product, MRP, price and margin, and the same order bar."
         },
         {
+          "type": "tall",
+          "label": "Tiered schemes",
+          "items": [
+            [
+              "/img/kirana/godesi.jpg",
+              "A tall GoDesi banner: 'Offer valid till 18 April', 'Bumper scheme on GoDesi', then three rows: orders of ₹800+, ₹1500+ and ₹2500+ earn 10, 30 and 60 imli pops free. The ₹1500 row has a green border. A green 'Order now' button at the bottom."
+            ],
+            [
+              "/img/kirana/haldi-loot.jpg",
+              "A tall orange 'Haldi Loot Offer' banner shaped like tickets: orders of ₹1500+, ₹2800+ and ₹4000+ earn 10, 20 and 30 packets of turmeric free, then 'Free turmeric, 7.5% more profit' with Zoff turmeric packs, and a yellow 'Order now' button."
+            ]
+          ],
+          "notes": [
+            "Thresholds on the left, rewards on the right, in matching rows, so tiers compare in one glance.",
+            "GoDesi's middle tier gets a green border, nudging shop owners toward the ₹1500 order.",
+            "The deadline sits at the top as a small chip, the single order button at the bottom.",
+            "Haldi Loot closes on the profit: 7.5% more, next to the product."
+          ],
+          "caption": "April schemes for GoDesi and Zoff, designed for the phone screen."
+        },
+        {
           "type": "chips",
           "label": "Brand partnerships",
           "intro": "I made campaign, product and promotional creatives for FMCG and consumer brands, including:",
@@ -703,6 +724,8 @@
             "Cravitos",
             "Kwality Wall's",
             "Chukde",
+            "Zoff",
+            "GoDesi",
             "Pansari",
             "Vasmol",
             "Somnath",
