@@ -257,7 +257,7 @@
       "role": "Solo: concept, design and build",
       "pattern": "waffle",
       "mark": "grid",
-      "summary": "A browser cooking game you play with your hands and voice instead of a mouse. Designed and built solo, from idea to live game, in about a week.",
+      "summary": "A browser cooking game you play with your hands and voice. Take an order, make the batter, mix, cook and top your waffle, then get scored out of three stars. Designed and built solo in about a week.",
       "deliverables": "Game concept, visual direction, illustrations, UI, live web game",
       "link": {
         "href": "https://waffle-game-iota.vercel.app/",
@@ -277,25 +277,109 @@
               "week, idea to live game"
             ],
             [
-              "1",
-              "person: concept, design, build"
-            ],
-            [
-              "2",
-              "ways to play: hands and voice"
+              "7",
+              "batter ingredients"
             ],
             [
               "7",
-              "illustrated game elements"
+              "toppings to choose from"
+            ],
+            [
+              "3",
+              "stars for a perfect waffle"
             ]
           ]
         },
         {
-          "type": "text",
-          "label": "How a round works",
-          "body": [
-            "The player works through each stage of making a waffle, interacting directly with the batter, the waffle maker, the toppings and the plate, until the waffle is done. The goal is simple: finish the cooking sequence and serve the completed waffle.",
-            "Instead of clicking through a menu, you interact with each element of the kitchen itself, using gestures tracked by your camera and spoken commands."
+          "type": "figures",
+          "items": [
+            [
+              "Making the batter",
+              "full",
+              "/img/waffle/batter.jpg",
+              "The Waffle kitchen: an illustrated counter with sugar, eggs, baking powder, vanilla, butter, flour and milk around a mixing bowl. A checklist on the left tracks Waffle Batter 0 of 7; panels on the right show camera tracking, a pinch gesture guide and voice control.",
+              "Stage one: pick seven ingredients for the batter, by pinching or by voice."
+            ]
+          ]
+        },
+        {
+          "type": "decisions",
+          "label": "A round, step by step",
+          "items": [
+            [
+              "Take the order",
+              "A customer orders a waffle, like a Strawberry Supreme for Ishaan, with the toppings it needs."
+            ],
+            [
+              "Make the batter",
+              "Point at each of the seven ingredients and pinch to pick it up, then open your palm to drop it in the bowl. Or just say “add milk”."
+            ],
+            [
+              "Mix",
+              "Circle your index finger in the air to stir, drag circles inside the bowl, or say “mix”. A progress bar fills as you go."
+            ],
+            [
+              "Cook",
+              "Cook the waffle to golden brown."
+            ],
+            [
+              "Top and serve",
+              "Pinch the right toppings from a tray of seven, or say a topping, then “serve”."
+            ],
+            [
+              "Get scored",
+              "Up to three stars, with your time, your best score, and a button to share your waffle."
+            ]
+          ]
+        },
+        {
+          "type": "controls",
+          "label": "Three ways to play",
+          "head": [
+            "Stage",
+            "Hands",
+            "Voice",
+            "Mouse"
+          ],
+          "rows": [
+            [
+              "Batter",
+              "Point and pinch to pick, open palm to add",
+              "“Add milk”",
+              "—"
+            ],
+            [
+              "Mix",
+              "Circle your index finger",
+              "“Mix”",
+              "Drag circles in the bowl"
+            ],
+            [
+              "Toppings",
+              "Point at a topping and pinch",
+              "Say a topping, then “serve”",
+              "—"
+            ]
+          ],
+          "note": "Each stage names its gesture and its voice command on screen, so players never have to guess."
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Mixing",
+              "half",
+              "/img/waffle/mix.jpg",
+              "A top-down bowl of flour, egg, butter, sugar and vanilla with a whisk. A banner reads Mix the Batter, 0 percent: circle your index finger, or drag circles inside the bowl.",
+              "Stage two: stir by circling a finger in the air."
+            ],
+            [
+              "Toppings",
+              "half",
+              "/img/waffle/toppings.jpg",
+              "A plain waffle on a plate. An order card for Ishaan lists Strawberry Supreme: strawberry, whipped cream and chocolate. A tray below offers seven toppings. The camera panel warns: hand not visible, move your hand into view.",
+              "Toppings, with live camera feedback when your hand leaves the frame."
+            ]
           ]
         },
         {
@@ -306,7 +390,8 @@
           "type": "text",
           "label": "The challenge",
           "body": [
-            "Gesture and voice controls are unfamiliar for most people. The hard part was making the cooking process understandable through visual interaction alone, while keeping it simple enough for a casual player with no gaming experience."
+            "Gesture and voice controls are unfamiliar for most people. The hard part was making the cooking process understandable through visual interaction alone, while keeping it simple enough for a casual player with no gaming experience.",
+            "So the game coaches you the whole time. A gesture guide shows the move for the current stage, the camera panel reports what it sees (“Hand not visible”, “Move your hand into view”), a checklist tracks every ingredient and topping, and a warning appears the moment tracking is lost."
           ]
         },
         {
@@ -319,11 +404,34 @@
             ],
             [
               "Show progress through cooking states",
-              "The batter, the cooking waffle and the finished waffle each look different, so you always know how far along you are."
+              "The batter, the cooking waffle and the finished waffle each look different, and checklists and progress bars show how far along you are."
+            ],
+            [
+              "Never leave the player guessing",
+              "A persistent gesture guide, live camera status and a voice prompt for every stage, with a mouse fallback where it helps."
             ],
             [
               "One illustrated environment",
-              "Every object was designed to belong to the same kitchen, so the game feels like one experience rather than a collection of separate assets."
+              "Every object was designed to belong to the same warm kitchen, so the game feels like one experience rather than a collection of separate assets."
+            ]
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Result",
+              "half",
+              "/img/waffle/result.jpg",
+              "A result card reading Practice round, Chef's kiss, with three gold stars and a photo of a strawberry, cream and chocolate waffle. Cooked to a perfect golden brown; every topping was right. Time 3:05. Buttons: Share my waffle and Next order.",
+              "The payoff: three stars, a time to beat, and a waffle to share."
+            ],
+            [
+              "On a laptop",
+              "half",
+              "/img/waffle/office.jpg",
+              "Waffle open on a MacBook at a desk, mid-way through picking butter for the batter.",
+              "Waffle in the wild, picking butter for the batter."
             ]
           ]
         },
@@ -338,38 +446,11 @@
             "Steam",
             "Honey",
             "Utensils",
-            "Plate"
+            "Plate",
+            "Toppings tray",
+            "Order cards",
+            "Gesture guide"
           ]
-        },
-        {
-          "type": "figures",
-          "items": [
-            [
-              "Start screen",
-              "half"
-            ],
-            [
-              "Gameplay",
-              "half"
-            ],
-            [
-              "Cooking stage",
-              "third"
-            ],
-            [
-              "Cooking stage",
-              "third"
-            ],
-            [
-              "Completed waffle",
-              "third"
-            ],
-            [
-              "Gameplay recording",
-              "full"
-            ]
-          ],
-          "caption": "From the first screen to a finished waffle."
         },
         {
           "type": "stat",

@@ -588,5 +588,11 @@ section[id], footer[id] { scroll-margin-top: 88px; }
   .num:nth-child(n+3) { border-top: 1px solid var(--line); }
 }
 .figure.has-img { display: block; aspect-ratio: auto !important; border: 0; background: none; margin: 0; }
-.figure.has-img img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border: 1px solid var(--line); background: var(--field); }
+.figure.has-img img { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--field); }
 .figure.has-img figcaption { margin-top: 10px; font: 12px/1.5 var(--mono); color: var(--meta); }
+.tbl-wrap { overflow-x: auto; margin-bottom: 16px; }
+.ctrl { width: 100%; min-width: 540px; border-collapse: collapse; font-size: 15px; }
+.ctrl th, .ctrl td { text-align: left; vertical-align: top; padding: 14px 16px 14px 0; border-top: 1px solid var(--line); }
+.ctrl thead th { font: 500 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--meta); border-top: 1px solid var(--ink); }
+.ctrl tbody th { font-family: var(--serif); font-weight: 400; font-size: 22px; }
+.ctrl td:first-of-type { color: var(--ink); }

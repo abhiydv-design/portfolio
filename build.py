@@ -285,7 +285,12 @@ def render_sections(secs):
                 if len(it) > 2:
                     src, alt, cap = it[2], it[3], it[4] if len(it) > 4 else ""
                     capt = f'<figcaption>{e(cap)}</figcaption>' if cap else ""
-                    return f'<figure class="figure has-img {sz}"><img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="1200" height="800">{capt}</figure>'
+                    try:
+                        from PIL import Image as _I
+                        iw, ih = _I.open(src.lstrip("/")).size
+                    except Exception:
+                        iw, ih = 1200, 800
+                    return f'<figure class="figure has-img {sz}"><img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="{iw}" height="{ih}">{capt}</figure>'
                 return f'<div class="figure {sz}"><span>[{e(lbl)}]</span></div>'
             figs = "".join(fig(it) for it in x["items"])
             cap = f'<p class="fig-cap">{e(x["caption"])}</p>' if x.get("caption") else ""
@@ -312,6 +317,10 @@ def render_sections(secs):
         elif t == "numbers":
             cells = "".join(f'<div class="num"><span class="num-v">{e(v)}</span><span class="num-l">{e(l)}</span></div>' for v, l in x["items"])
             out.append(f'<section class="cs-block"><div class="numbers">{cells}</div></section>')
+        elif t == "controls":
+            hd = "".join(f'<th scope="col">{e(h)}</th>' for h in x["head"])
+            rows = "".join("<tr>" + f'<th scope="row">{e(r[0])}</th>' + "".join(f"<td>{e(v)}</td>" for v in r[1:]) + "</tr>" for r in x["rows"])
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><div class="tbl-wrap"><table class="ctrl"><thead><tr>{hd}</tr></thead><tbody>{rows}</tbody></table></div><p>{e(x.get("note", ""))}</p></div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)
