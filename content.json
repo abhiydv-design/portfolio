@@ -277,13 +277,67 @@
               "/img/dashak/standee.jpg",
               "A large standee reading '10 years of innovation and impact', with 3D letters for the illustrated 10 and the dashak wordmark.",
               "Signage at the venue: the illustrated 10 as a 3D object."
+            ]
+          ],
+          "caption": ""
+        },
+        {
+          "type": "tall",
+          "label": "Day 1: Sports Day",
+          "items": [
+            [
+              "/img/dashak/sports-rollup.jpg",
+              "A roll-up banner reading 'Welcome to FarMart Sports Day, celebrating 10 years of FarMart', under the 10 FarMart dashak lockup, with cricket, football, badminton and pickleball players on a green brushstroke background."
             ],
             [
-              "Event backdrop",
+              "/img/dashak/trophies.jpg",
+              "An armful of gold cricket trophies and a medal, each plaque carrying the 10 FarMart dashak lockup: Star of the Match, Winner, Player of the Tournament, Best Bowler."
+            ]
+          ],
+          "notes": [
+            "Outdoors, the identity turned energetic: deep green, brushstroke textures and athletes in motion.",
+            "The same lockup sat on every trophy plaque and medal, from Star of the Match to Best Bowler.",
+            "Winners took the identity home, which is exactly what the physical pieces were for."
+          ],
+          "caption": "Sports Day: the roll-up at the ground, and the trophies it led to."
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Sports Day backdrop",
               "full",
-              "/img/dashak/backdrop.jpg",
-              "A dark backdrop with the illustrated green 10, the FarMart logo and the dashak wordmark in white.",
-              "The dark version of the lockup on the event backdrop."
+              "/img/dashak/sports-backdrop.jpg",
+              "A green and white checkered step-and-repeat backdrop alternating the FarMart and dashak logos, with the large lockup in the centre, flanked by two Sports Day roll-ups on a cricket ground.",
+              "A step-and-repeat for photos at the ground, alternating the FarMart and Dashak marks, with the roll-ups on either side."
+            ]
+          ],
+          "caption": ""
+        },
+        {
+          "type": "figures",
+          "label": "",
+          "items": [
+            [
+              "The main stage",
+              "full",
+              "/img/dashak/stage.jpg",
+              "The main function stage: an LED screen showing the 10 FarMart lockup above a stage front with the full 10 FarMart dashak lockup.",
+              "Day 2, the main function: the lockup on the LED screen and across the stage front."
+            ],
+            [
+              "Values and impact boards",
+              "half",
+              "/img/dashak/values-boards.jpg",
+              "Two lit boards: FarMart's values with illustrated arches under the dashak lockup, and a board titled 5 Impact Pillars with a photo collage.",
+              "FarMart's values and 5 Impact Pillars, set in the same visual system."
+            ],
+            [
+              "Timeline boards and T-shirts",
+              "half",
+              "/img/dashak/timeline-boards.jpg",
+              "Two people in white Dashak T-shirts, seen from behind, reading timeline boards for 2021, 2022 and 2023.",
+              "Colleagues in Dashak T-shirts at the year-by-year timeline boards."
             ]
           ],
           "caption": ""
@@ -301,7 +355,13 @@
             "Mementos",
             "Event printables",
             "On-ground branding",
-            "Event creatives"
+            "Event creatives",
+            "Roll-up banners",
+            "Step-and-repeat backdrop",
+            "Stage screens",
+            "Values and impact boards",
+            "Timeline boards",
+            "T-shirts"
           ]
         },
         {
