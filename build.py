@@ -28,10 +28,28 @@ LOGO = ('<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rec
 
 def mark(m): return f'<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">{MARK[m]}</svg>'
 
-def head(title, desc, root, path="/", image="/og.png"):
+def jsonld(obj):
+    return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+
+def person():
+    return {"@type": "Person", "@id": C["site_url"] + "/#person", "name": C["full_name"],
+            "jobTitle": ["Product Designer", "UI/UX Designer", "Creative Designer"],
+            "description": C["lede"], "url": C["site_url"] + "/", "image": C["site_url"] + "/og.png",
+            "email": "mailto:" + C["email"],
+            "worksFor": {"@type": "Organization", "name": "FarMart"},
+            "address": {"@type": "PostalAddress", "addressLocality": "Gurugram", "addressRegion": "Haryana", "addressCountry": "IN"},
+            "knowsAbout": ["Product design", "UI/UX design", "Interaction design", "Design systems", "Prototyping", "Visual design", "Motion design", "Brand identity", "AI-assisted design and prototyping"],
+            "sameAs": [u for n, u in C["socials"]]}
+
+def head(title, desc, root, path="/", image="/og.png", ld=None):
     url = C["site_url"] + path
     img = C["site_url"] + image
+    ld_html = jsonld({"@context": "https://schema.org", "@graph": ld}) if ld else ""
     return head_inner(title, desc, root).replace("__OG__", f"""<link rel="canonical" href="{url}">
+<meta name="author" content="{e(C['full_name'])}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:locale" content="en_IN">
+{ld_html}
 <meta property="og:url" content="{url}">
 <meta property="og:site_name" content="Abhishek Yadav">
 <meta property="og:image" content="{img}">
@@ -195,7 +213,7 @@ def index():
         <div class="xp-role"><h3>{e(j['role'])}</h3><span class="xp-co">{e(j['company'])}</span></div>
         <p class="xp-text">{e(j['short'])}</p>
       </li>""")
-    for deg, school, yrs in R["education"]:
+    for deg, school, yrs in []:
         rows.append(f"""      <li class="xp-row xp-edu">
         <span class="xp-dates">{e(yrs)}</span>
         <div class="xp-role"><h3>{e(deg)}</h3><span class="xp-co">{e(school)}</span></div>
@@ -206,7 +224,7 @@ def index():
     body = f"""<main id="main">
   <section class="hero">
     <div class="hero-copy">
-      <div class="label">Portfolio, 2026</div>
+      <p class="label hero-role">Product, UI/UX and creative designer</p>
       <div class="hero-main">
         <h1>{e(C['name'])}</h1>
         <p class="lede">{e(C['lede'])}</p>
@@ -256,7 +274,8 @@ def index():
   </section>
 </main>
 """
-    return head(f"{C['full_name']}, product designer", C["lede"], "/", "/", "/og.png") + nav(True) + body + footer("/")
+    ld = [person(), {"@type": "WebSite", "@id": C["site_url"] + "/#site", "url": C["site_url"] + "/", "name": C["full_name"] + ", Product Designer", "inLanguage": "en-IN", "author": {"@id": C["site_url"] + "/#person"}}]
+    return head(f"{C['full_name']} | Product Designer, UI/UX & Creative Designer", "Abhishek Yadav is a product designer, UI/UX designer and creative designer in Gurugram, India. Case studies in B2B, B2C, branding and AI-built products.", "/", "/", "/og.png", ld) + nav(True) + body + footer("/")
 
 def render_sections(secs):
     out = []
@@ -425,7 +444,16 @@ def case(i):
   <a class="next" href="/work/{nxt['slug']}"><span class="label">Next project</span><span class="serif">{e(nxt['title'])}</span></a>
 </main>
 {reel_player(p)}"""
-    return head(f"{p['title']}, a case study by {C['full_name']}", p["summary"], "/", f"/work/{p['slug']}", f"/og/{p['slug']}.jpg") + nav(False) + body + footer("/")
+    kind = p.get("seo_kind", "Case study")
+    ttl = f"{p['title']}: {kind} | {C['full_name']}"
+    work = {"@type": "CreativeWork", "name": p["title"], "headline": f"{p['title']}: {kind}", "description": p["summary"],
+            "url": C["site_url"] + f"/work/{p['slug']}", "image": C["site_url"] + f"/og/{p['slug']}.jpg",
+            "author": {"@id": C["site_url"] + "/#person"}, "keywords": p.get("seo_keywords", "")}
+    if p["year"].isdigit(): work["dateCreated"] = p["year"]
+    ld = [person(), work, {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Work", "item": C["site_url"] + "/#work"},
+            {"@type": "ListItem", "position": 2, "name": p["title"], "item": C["site_url"] + f"/work/{p['slug']}"}]}]
+    return head(ttl, p.get("seo_desc", p["summary"]), "/", f"/work/{p['slug']}", f"/og/{p['slug']}.jpg", ld) + nav(False) + body + footer("/")
 
 def play():
     threads = [("A", "var(--t-a)", "Petals", '<circle class="sym" cx="11" cy="11" r="3" fill="#fff"/>'),
@@ -472,7 +500,7 @@ def notfound():
   <section class="play-head">
     <span class="label">Error 404</span>
     <h1>This page wandered off the grid.</h1>
-    <p>While you're here, have a round of snake. Arrow keys or swipe to move. Or head back to the <a href="/">home page</a>.</p>
+    <p>While you're here, have a round of Snake. Arrow keys or swipe to move. Or head back to the <a href="/">home page</a>.</p>
   </section>
   <section class="inline-snake" data-snake-inline aria-label="Grid Snake">
     <canvas class="snake-canvas"></canvas>
@@ -516,7 +544,7 @@ def resume():
   </div>
 </main>
 """
-    return head(f"Resume, {C['full_name']}", f"Resume of {C['full_name']}, product designer in Gurugram.", "/", "/resume", "/og.png") + nav(False) + body + footer("/")
+    return head(f"Resume | {C['full_name']}, Product Designer & UI/UX Designer", f"Resume of {C['full_name']}, a product designer, UI/UX designer and creative designer in Gurugram, India. Experience at FarMart, Kirana Club and Roarink.", "/", "/resume", "/og.png", [person()]) + nav(False) + body + footer("/")
 
 Path("resume.html").write_text(resume())
 Path("index.html").write_text(index())

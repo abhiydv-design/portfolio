@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Truck tracking, a case study by Abhishek Yadav</title>
+<title>Truck tracking: UI/UX case study | Abhishek Yadav</title>
 <meta name="description" content="A redesign of shipment tracking inside FarMart OS: live status, route and a one-tap call to the driver, so every delivery can be followed with confidence.">
 <meta name="theme-color" content="#F7F7F2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1B1621" media="(prefers-color-scheme: dark)">
@@ -15,18 +15,22 @@
       accent: g('accent'), night: g('night'), footer: g('footer-bg'), ta: g('t-a'), tb: g('t-b'), tc: g('t-c'), td: g('t-d'), dark: g('scheme') === 'dark' };
   };
 </script>
-<meta property="og:title" content="Truck tracking, a case study by Abhishek Yadav">
+<meta property="og:title" content="Truck tracking: UI/UX case study | Abhishek Yadav">
 <meta property="og:description" content="A redesign of shipment tracking inside FarMart OS: live status, route and a one-tap call to the driver, so every delivery can be followed with confidence.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/work/truck-tracking">
+<meta name="author" content="Abhishek Yadav">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:locale" content="en_IN">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Person", "@id": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/#person", "name": "Abhishek Yadav", "jobTitle": ["Product Designer", "UI/UX Designer", "Creative Designer"], "description": "Product and UI/UX designer in Gurugram. I design B2B and B2C products end to end, from research and flows to visual and motion design, and I build with AI along the way.", "url": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/", "image": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/og.png", "email": "mailto:abhiydv1002@gmail.com", "worksFor": {"@type": "Organization", "name": "FarMart"}, "address": {"@type": "PostalAddress", "addressLocality": "Gurugram", "addressRegion": "Haryana", "addressCountry": "IN"}, "knowsAbout": ["Product design", "UI/UX design", "Interaction design", "Design systems", "Prototyping", "Visual design", "Motion design", "Brand identity", "AI-assisted design and prototyping"], "sameAs": ["https://www.linkedin.com/in/ydvabhishek/", "https://substack.com/@centumdebitis489127"]}, {"@type": "CreativeWork", "name": "Truck tracking", "headline": "Truck tracking: UI/UX case study", "description": "A redesign of shipment tracking inside FarMart OS: live status, route and a one-tap call to the driver, so every delivery can be followed with confidence.", "url": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/work/truck-tracking", "image": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/og/truck-tracking.jpg", "author": {"@id": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/#person"}, "keywords": "truck tracking, logistics, UI/UX design, product design, internal tools, B2B", "dateCreated": "2026"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Work", "item": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/#work"}, {"@type": "ListItem", "position": 2, "name": "Truck tracking", "item": "https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/work/truck-tracking"}]}]}</script>
 <meta property="og:url" content="https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/work/truck-tracking">
 <meta property="og:site_name" content="Abhishek Yadav">
 <meta property="og:image" content="https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/og/truck-tracking.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Truck tracking, a case study by Abhishek Yadav">
+<meta property="og:image:alt" content="Truck tracking: UI/UX case study | Abhishek Yadav">
 <meta name="twitter:image" content="https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/og/truck-tracking.jpg">
-<meta name="twitter:title" content="Truck tracking, a case study by Abhishek Yadav">
+<meta name="twitter:title" content="Truck tracking: UI/UX case study | Abhishek Yadav">
 <meta name="twitter:description" content="A redesign of shipment tracking inside FarMart OS: live status, route and a one-tap call to the driver, so every delivery can be followed with confidence.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -75,7 +79,7 @@
     <section class="cs-block"><div class="label"></div><blockquote class="pull">A ₹15,00,000 truck can disappear for three days.</blockquote></section>
     <section class="cs-block"><div class="label">The problem</div><div class="copy"><p>You can track a ₹150 online order live on your phone. But every day, crores worth of grain moves across India on trucks that, once they leave the warehouse, are hard to see. For an operations team, a truck that goes quiet means phone calls, guesswork and delays.</p></div></section>
     <section class="cs-block figs"><figure class="figure has-img full"><img src="/img/truck/truck.jpg" alt="A decorated Ashok Leyland goods carrier truck parked under a shed. Its registration numbers are blurred." loading="lazy" decoding="async" width="1734" height="1300"><figcaption>The kind of truck the tracker follows. Registration numbers blurred.</figcaption></figure></section>
-    <section class="cs-block"><div class="label">What the redesign shows</div><div class="copy"><p>Everything a user needs to answer “where is the truck?” sits on one screen:</p><ul class="ticks"><li>Truck status at a glance, like On Track</li><li>Trip started and location live, so you know tracking is working</li><li>Location history, one tap away</li><li>Route details: where it was dispatched from, the destination and the expected delivery date</li><li>A one-tap button to call the truck driver</li><li>Tracking Live shown right inside the order, next to the truck</li></ul></div></section>
+    <section class="cs-block"><div class="label">What the redesign shows</div><div class="copy"><p>Everything a user needs to answer “where is the truck?” sits on one screen:</p><ul class="ticks"><li>Truck status at a glance, such as On Track</li><li>Trip started and location live, so you know tracking is working</li><li>Location history, one tap away</li><li>Route details: where it was dispatched from, the destination and the expected delivery date</li><li>A one-tap button to call the truck driver</li><li>Tracking Live shown inside the order, right next to the truck</li></ul></div></section>
     <section class="cs-block figs"><figure class="figure has-img full"><img src="/img/truck/desktop.jpg" alt="A goods truck at a toll plaza, next to the Truck tracking details screen: a map of the route across India, truck status On Track, trip started with location live, route details from dispatch to destination, and a Call Truck driver button." loading="lazy" decoding="async" width="1600" height="900"><figcaption>Truck tracking details: map, status, route and a direct line to the driver.</figcaption></figure><figure class="figure has-img half"><img src="/img/truck/phone.jpg" alt="A hand holding a phone showing Truck tracking details with a route map, status On Track and route details, with a loaded truck in the background." loading="lazy" decoding="async" width="1600" height="900"><figcaption>The same view on a phone, where most checks happen.</figcaption></figure><figure class="figure has-img half"><img src="/img/truck/order.jpg" alt="A phone showing an order with Sauda booked successfully, order details, and truck details marked Truck Dispatched and Tracking Live." loading="lazy" decoding="async" width="1600" height="900"><figcaption>Tracking status surfaces inside the order itself.</figcaption></figure></section>
   </div>
   <a class="next" href="/work/farmart-dashak"><span class="label">Next project</span><span class="serif">FarMart Dashak</span></a>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://portfolio-ruby-kappa-tt8k4o39g1.vercel.app/sitemap.xml

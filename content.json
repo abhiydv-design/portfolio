@@ -3,8 +3,8 @@
   "full_name": "Abhishek Yadav",
   "email": "abhiydv1002@gmail.com",
   "email_label": "abhiydv1002@gmail.com",
-  "lede": "Product designer in Gurugram. I design B2B and B2C products end to end, from research and flows to motion, and I build with AI along the way.",
-  "about": "I turn complex requirements into interfaces people understand at a glance. Over the last 1.5 years I've designed internal tools, consumer apps and campaigns, and I prototype fast with Claude, Cursor and Framer so ideas get tested, not just talked about.",
+  "lede": "Product and UI/UX designer in Gurugram. I design B2B and B2C products end to end, from research and flows to visual and motion design, and I build with AI along the way.",
+  "about": "I turn complex requirements into interfaces people understand at a glance. Over the last 1.5 years, I've designed internal tools, consumer apps and campaigns, and I prototype fast with Claude, Cursor and Framer, so ideas get tested, not just talked about.",
   "facts": [
     [
       "Based in",
@@ -82,12 +82,12 @@
           "label": "What the redesign shows",
           "intro": "Everything a user needs to answer “where is the truck?” sits on one screen:",
           "items": [
-            "Truck status at a glance, like On Track",
+            "Truck status at a glance, such as On Track",
             "Trip started and location live, so you know tracking is working",
             "Location history, one tap away",
             "Route details: where it was dispatched from, the destination and the expected delivery date",
             "A one-tap button to call the truck driver",
-            "Tracking Live shown right inside the order, next to the truck"
+            "Tracking Live shown inside the order, right next to the truck"
           ]
         },
         {
@@ -117,7 +117,9 @@
           ],
           "caption": ""
         }
-      ]
+      ],
+      "seo_kind": "UI/UX case study",
+      "seo_keywords": "truck tracking, logistics, UI/UX design, product design, internal tools, B2B"
     },
     {
       "slug": "farmart-dashak",
@@ -324,7 +326,9 @@
           "big": "Designing beyond the screen. Physical production meant thinking about viewing distance, scale and the object in someone's hand, not just a frame in Figma."
         }
       ],
-      "team": "With Akshay Sharma and Anjali Choudhary"
+      "team": "With Akshay Sharma and Anjali Choudhary",
+      "seo_kind": "Event branding case study",
+      "seo_keywords": "event branding, brand identity, creative design, environmental graphics, print design"
     },
     {
       "slug": "waffle",
@@ -344,7 +348,7 @@
         {
           "type": "text",
           "label": "Overview",
-          "big": "Waffle is a browser game about making a waffle, played with your hands and your voice. Hand tracking with MediaPipe and voice recognition replace the mouse and keyboard, so an everyday cooking routine becomes something you perform. It's a personal project: I designed and built it on my own, from idea to a live, playable game, in about a week."
+          "big": "Waffle is a browser game about making a waffle, played with your hands and your voice. Hand tracking with MediaPipe and voice recognition take the place of the mouse and keyboard, so an everyday cooking routine becomes something you perform. It's a personal project: I designed and built it on my own, from idea to a live, playable game, in about a week."
         },
         {
           "type": "numbers",
@@ -520,7 +524,7 @@
               "On a laptop",
               "half",
               "/img/waffle/office.jpg",
-              "Waffle open on a MacBook at a desk, mid-way through picking butter for the batter.",
+              "Waffle open on a MacBook at a desk, midway through picking butter for the batter.",
               "Waffle in the wild, picking butter for the batter."
             ]
           ]
@@ -556,7 +560,10 @@
             "More toppings are next. I also haven't playtested it formally yet, so watching people play for the first time is the other step I want to take."
           ]
         }
-      ]
+      ],
+      "seo_kind": "Gesture and voice game",
+      "seo_keywords": "game design, UI/UX design, interaction design, MediaPipe, voice UI, AI prototyping",
+      "seo_desc": "A browser cooking game played with hand gestures and voice, using MediaPipe. UI/UX and interaction design by Abhishek Yadav, built solo in a week."
     },
     {
       "slug": "kirana-club",
@@ -568,8 +575,6 @@
       "mark": "dash",
       "summary": "Content and campaign creatives for India's kirana store owners: busy people who give a banner or video only a glance.",
       "deliverables": "Short-form video, thumbnails, in-app banners, brand creatives",
-      "overview": "At Kirana Club I produced and edited daily video content for the app and social platforms, designed in-app banners and promotional creatives, and worked with consumer brands on bespoke campaign creatives.",
-      "outcome": "Average daily viewership grew to around 6,000 to 6,500 views, and the data-informed banners significantly improved click-through rates on key campaigns.",
       "sections": [
         {
           "type": "text",
@@ -585,7 +590,7 @@
             ],
             [
               "1",
-              "content piece a day, roughly"
+              "piece of content a day, roughly"
             ],
             [
               "16",
@@ -707,7 +712,7 @@
           "type": "text",
           "label": "In-app banners",
           "body": [
-            "Banners carried offers and schemes, new products, campaigns and brand messages. For April's scheme offers, like GoDesi's bumper scheme and the Zoff Haldi Loot offer, three order tiers had to be comparable in a single glance. I also designed formats for the Punji reward scheme and for product and category communication.",
+            "Banners carried offers and schemes, new products, campaigns and brand messages. For April scheme offers, like GoDesi's bumper scheme and the Zoff Haldi Loot offer, three order tiers had to be comparable at a glance. I also designed formats for the Punji reward scheme and for product and category communication.",
             "Where past performance data was available, it shaped what to emphasise: the offer or the price, product photos or generic graphics, Hindi or English, and how visible the call to action should be."
           ]
         },
@@ -869,13 +874,15 @@
           "label": "What I learned",
           "big": "Designing for one specific audience changes everything. Kirana owners have little time and different needs from a typical consumer app's users, so clarity, relevance, language and hierarchy mattered far more than style. I carry that into every product I design now."
         }
-      ]
+      ],
+      "seo_kind": "Creative design case study",
+      "seo_keywords": "creative design, visual design, in-app banners, campaign creatives, FMCG, Hindi design"
     }
   ],
   "agent_id": "agent_1501m3a7mmgzeqp87dq6kp0vzvaj",
   "linkedin": "https://www.linkedin.com/in/ydvabhishek/",
   "resume": {
-    "title": "Product Designer",
+    "title": "Product Designer, UI/UX and Creative Designer",
     "summary": "Product designer with 1.5+ years of experience designing scalable, engaging digital experiences for B2B and B2C platforms. I translate complex requirements into intuitive interfaces and work end to end, from user research to high-fidelity prototypes, with strong skills in motion graphics and AI-driven workflows.",
     "jobs": [
       {
@@ -895,7 +902,7 @@
         "dates": "Apr 2025 to Oct 2025",
         "points": [
           "Produced and edited daily video content for in-app and social platforms, growing average daily viewership to 6,000 to 6,500 views.",
-          "Designed data-informed in-app banners and promotional creatives that significantly improved click-through rates on key campaigns.",
+          "Designed data-informed in-app banners and promotional creatives for key campaigns, working from past performance to decide what to emphasise.",
           "Worked with consumer brands to conceptualise and deliver bespoke promotional creatives."
         ],
         "short": "Daily video content and data-informed in-app banners for a platform built for neighbourhood stores. Grew daily views to around 6,000 to 6,500."

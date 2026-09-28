@@ -620,3 +620,4 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); }
 .film figcaption { margin-top: 10px; font: 12px/1.5 var(--mono); color: var(--meta); }
 @media (max-width: 1000px) { .film { grid-column: 1 / -1; } }
+.hero-role { margin: 0; }
