@@ -351,6 +351,8 @@ def render_sections(secs):
                     iw, ih = 716, 1600
                 ph += f'<figure class="phone"><div class="phone-frame"><img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="{iw}" height="{ih}"></div><figcaption>{e(cap)}</figcaption></figure>'
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p></div><div class="phones">{ph}</div></section>')
+        elif t == "film":
+            out.append(f'<section class="cs-block">{lab}<figure class="film"><video src="{e(x["src"])}" poster="{e(x["poster"])}" controls playsinline preload="none" width="1280" height="720"></video><figcaption>{e(x.get("caption", ""))}</figcaption></figure></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)

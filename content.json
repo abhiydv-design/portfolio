@@ -38,9 +38,86 @@
       "role": "Creative & Product Designer",
       "pattern": "map",
       "mark": "square",
-      "summary": "A redesign of shipment tracking inside FarMart OS, so business users can follow every delivery with clarity and confidence.",
-      "deliverables": "Internal product UX, UI",
-      "overview": "FarMart OS is the internal platform FarMart's operations teams use every day. Working with two product designers and the engineering team, I redesigned the truck tracking experience to make shipment visibility simpler and easier to trust."
+      "summary": "A redesign of shipment tracking inside FarMart OS: live status, route and a one-tap call to the driver, so every delivery can be followed with confidence.",
+      "deliverables": "Internal product UX, UI, tracking screens",
+      "overview": "FarMart OS is the internal platform FarMart's operations teams use every day. Working with two product designers and the engineering team, I redesigned the truck tracking experience to make shipment visibility simpler and easier to trust.",
+      "sections": [
+        {
+          "type": "text",
+          "label": "Overview",
+          "big": "FarMart OS is the internal platform FarMart's operations teams use every day. Working with two product designers and the engineering team, I redesigned the truck tracking experience to make shipment visibility simpler and easier to trust."
+        },
+        {
+          "type": "film",
+          "src": "/media/truck-tracking-film.mp4",
+          "poster": "/img/truck/film-poster.jpg",
+          "label": "The film",
+          "caption": "FarMart's truck tracking film: from the problem to live tracking on a phone."
+        },
+        {
+          "type": "quote",
+          "text": "A ₹15,00,000 truck can disappear for three days."
+        },
+        {
+          "type": "text",
+          "label": "The problem",
+          "body": [
+            "You can track a ₹150 online order live on your phone. But every day, crores worth of grain moves across India on trucks that, once they leave the warehouse, are hard to see. For an operations team, a truck that goes quiet means phone calls, guesswork and delays."
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "The trucks behind the tracker",
+              "full",
+              "/img/truck/truck.jpg",
+              "A decorated Ashok Leyland goods carrier truck parked under a shed. Its registration numbers are blurred.",
+              "The kind of truck the tracker follows. Registration numbers blurred."
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "label": "What the redesign shows",
+          "intro": "Everything a user needs to answer “where is the truck?” sits on one screen:",
+          "items": [
+            "Truck status at a glance, like On Track",
+            "Trip started and location live, so you know tracking is working",
+            "Location history, one tap away",
+            "Route details: where it was dispatched from, the destination and the expected delivery date",
+            "A one-tap button to call the truck driver",
+            "Tracking Live shown right inside the order, next to the truck"
+          ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Tracking details",
+              "full",
+              "/img/truck/desktop.jpg",
+              "A goods truck at a toll plaza, next to the Truck tracking details screen: a map of the route across India, truck status On Track, trip started with location live, route details from dispatch to destination, and a Call Truck driver button.",
+              "Truck tracking details: map, status, route and a direct line to the driver."
+            ],
+            [
+              "On the phone",
+              "half",
+              "/img/truck/phone.jpg",
+              "A hand holding a phone showing Truck tracking details with a route map, status On Track and route details, with a loaded truck in the background.",
+              "The same view on a phone, where most checks happen."
+            ],
+            [
+              "Inside the order",
+              "half",
+              "/img/truck/order.jpg",
+              "A phone showing an order with Sauda booked successfully, order details, and truck details marked Truck Dispatched and Tracking Live.",
+              "Tracking status surfaces inside the order itself."
+            ]
+          ],
+          "caption": ""
+        }
+      ]
     },
     {
       "slug": "farmart-dashak",
