@@ -253,7 +253,7 @@
       "slug": "waffle",
       "title": "Waffle",
       "client": "Personal project",
-      "year": "[Year]",
+      "year": "2026",
       "role": "Solo: concept, design and build",
       "pattern": "waffle",
       "mark": "grid",
@@ -291,6 +291,13 @@
           ]
         },
         {
+          "type": "text",
+          "label": "The idea",
+          "body": [
+            "It started with reels of MediaPipe and TouchDesigner experiments: people controlling visuals just by moving their hands. I wanted to see how that kind of interaction would feel inside a simple, familiar game, so I picked something everyone already knows how to do: making a waffle."
+          ]
+        },
+        {
           "type": "figures",
           "items": [
             [
@@ -320,7 +327,7 @@
             ],
             [
               "Cook",
-              "Cook the waffle to golden brown."
+              "A timer runs while the waffle cooks. When it turns golden brown, a ding tells you it's ready."
             ],
             [
               "Top and serve",
@@ -355,13 +362,19 @@
               "Drag circles in the bowl"
             ],
             [
+              "Cook",
+              "No input: wait for the ding",
+              "—",
+              "—"
+            ],
+            [
               "Toppings",
               "Point at a topping and pinch",
               "Say a topping, then “serve”",
               "—"
             ]
           ],
-          "note": "Each stage names its gesture and its voice command on screen, so players never have to guess."
+          "note": "Each stage names its gesture and its voice command on screen, and the cooking stage uses sound instead: a ding at golden brown, so you don't have to stare at the timer."
         },
         {
           "type": "figures",
@@ -391,7 +404,7 @@
           "label": "The challenge",
           "body": [
             "Gesture and voice controls are unfamiliar for most people. The hard part was making the cooking process understandable through visual interaction alone, while keeping it simple enough for a casual player with no gaming experience.",
-            "So the game coaches you the whole time. A gesture guide shows the move for the current stage, the camera panel reports what it sees (“Hand not visible”, “Move your hand into view”), a checklist tracks every ingredient and topping, and a warning appears the moment tracking is lost."
+            "So the game coaches you the whole time. A gesture guide shows the move for the current stage, the camera panel reports what it sees (“Hand not visible”, “Move your hand into view”), a checklist tracks every ingredient and topping, a warning appears the moment tracking is lost, and a ding tells you when the waffle is done."
           ]
         },
         {
