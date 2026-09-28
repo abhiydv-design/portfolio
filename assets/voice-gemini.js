@@ -38,6 +38,7 @@
     var heard = '';
     function remember(role, text) {
       text = String(text || '').trim(); if (!text) return;
+      if (role === 'visitor' && o.onMessage) o.onMessage({ role: 'user', message: text });
       memory.push({ r: role, x: text.slice(0, 300) }); memory = memory.slice(-14);
       try { localStorage.setItem(MEM_KEY, JSON.stringify({ t: Date.now(), turns: memory })); } catch (e) {}
     }

@@ -645,3 +645,6 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .voice-chips button:hover { background: var(--ink); color: var(--page); }
 .voice.local .voice-status::after { content: "  /  quick assistant"; opacity: .7; }
 @media (max-width: 640px) { .voice-chips { max-width: calc(100vw - 24px); } }
+.voice-privacy { display: none; margin: 0; max-width: 420px; text-align: right; font: 11px/1.4 var(--mono); color: var(--meta); }
+.voice[data-state="live"] .voice-privacy, .voice[data-state="connecting"] .voice-privacy { display: block; }
+.voice.over-footer .voice-privacy { color: var(--on-footer); }

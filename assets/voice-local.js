@@ -78,7 +78,7 @@
     if (o.root && kb.suggestions) {
       chips = document.createElement('div'); chips.className = 'voice-chips'; chips.setAttribute('role', 'group'); chips.setAttribute('aria-label', 'Suggested questions');
       kb.suggestions.forEach(function (q) { var b = document.createElement('button'); b.type = 'button'; b.textContent = q;
-        b.addEventListener('click', function () { if (!active) return; try { synth && synth.cancel(); } catch (e) {} reply(q); }); chips.appendChild(b); });
+        b.addEventListener('click', function () { if (!active) return; try { synth && synth.cancel(); } catch (e) {} if (o.onMessage) o.onMessage({ role: 'user', message: q }); reply(q); }); chips.appendChild(b); });
       o.root.insertBefore(chips, o.root.querySelector('.voice-bar'));
     }
 

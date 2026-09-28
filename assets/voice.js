@@ -107,18 +107,37 @@
     statusEl.textContent = ''; startBtn.focus({ preventScroll: true }); requestAnimationFrame(idleLoop);
   }
 
-  var localTried = false;
+  var localTried = false, log = [], logMode = '';
+  function logTurn(role, text) {
+    text = String(text || '').trim(); if (!text) return;
+    var last = log[log.length - 1];
+    if (last && last.r === role && (text.indexOf(last.x) === 0 || last.x.indexOf(text) === 0)) { if (text.length > last.x.length) last.x = text; return; }  // growing caption
+    log.push({ r: role, x: text.slice(0, 600) });
+  }
+  function sendLog(seconds) {
+    var turns = log.slice(0, 40); log = [];
+    if (!turns.some(function (t) { return t.r === 'visitor'; })) return;
+    var body = JSON.stringify({ turns: turns, seconds: seconds, mode: logMode, page: location.pathname });
+    try { if (!(navigator.sendBeacon && navigator.sendBeacon('/api/voice-log', new Blob([body], { type: 'application/json' }))))
+      fetch('/api/voice-log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {}); } catch (e) {}
+  }
   function handlers(fallback) {
     return {
       onConnect: function () { dispatchEvent(new CustomEvent('achieve', { detail: 'voice' })); setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
       onModeChange: function (m) { mode = m.mode; dispatchEvent(new CustomEvent('sprout:voice', { detail: m.mode })); if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
-      onMessage: function (m) { if (m && (m.role === 'agent' || m.source === 'ai') && m.message) capEl.textContent = m.message; },
+      onMessage: function (m) {
+        if (!m || !m.message) return;
+        var mine = m.role === 'user' || m.source === 'user';
+        logTurn(mine ? 'visitor' : 'assistant', m.message);
+        if (!mine) capEl.textContent = m.message;
+      },
       onError: function (m) { console.warn('Voice agent:', m); if (state === 'connecting') fallback(m); },
       onDisconnect: function (d) {
         dispatchEvent(new CustomEvent('sprout:voice', { detail: 'idle' }));
         if (state === 'error') return;
         if (state === 'connecting' && d && d.reason === 'error') return fallback(d.message);
         var dur = t0 ? fmt((performance.now() - t0) / 1000) : null;
+        sendLog(t0 ? Math.round((performance.now() - t0) / 1000) : 0);
         cancelAnimationFrame(raf); convo = null; root.classList.remove('local');
         if (d && d.reason === 'error') return fail(friendly(d.message));
         setState('ended'); statusEl.textContent = dur ? 'Call ended, ' + dur : 'Call ended';
@@ -145,14 +164,14 @@
     if (!window.LocalVoice) return fail("Couldn't start the voice assistant.");
     root.classList.remove('gemini'); root.classList.add('local'); statusEl.textContent = 'Connecting';
     var h = handlers(function () {}); h.root = root;
-    convo = window.LocalVoice.start(h);
+    logMode = 'quick assistant'; convo = window.LocalVoice.start(h);
   }
   async function tryGemini() {
     if (!window.GeminiVoice) throw new Error('no client');
     var h = handlers(function () {});
     var c = await window.GeminiVoice.start(h);
     if (state !== 'connecting' && state !== 'live') { try { c.endSession(); } catch (e) {} return; }
-    convo = c; root.classList.add('gemini');
+    convo = c; logMode = 'gemini'; root.classList.add('gemini');
   }
   function tryEleven() {
     return new Promise(async function (resolve, reject) {
@@ -161,7 +180,7 @@
       var settled = false, done = function (err) { if (settled) return; settled = true; err ? reject(err) : resolve(); };
       var opts = handlers(function (m) { try { if (convo && !convo.local) convo.endSession(); } catch (e) {} convo = null; done(new Error(String(m && m.message || m))); });
       var baseConnect = opts.onConnect; opts.onConnect = function () { baseConnect(); done(); };
-      opts.agentId = AGENT;
+      opts.agentId = AGENT; logMode = 'elevenlabs';
       try { var c = await SDKmod.Conversation.startSession(opts); if (settled && state !== 'live') { try { c.endSession(); } catch (e) {} } else convo = c; }
       catch (e) { done(e); }
     });
@@ -172,7 +191,7 @@
     try { if (window.speechSynthesis) window.speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); } catch (e) {}   // unlock speech on iPhone during the tap
     try { var AC = window.AudioContext || window.webkitAudioContext; if (AC && !window.__voiceOutCtx) window.__voiceOutCtx = new AC({ sampleRate: 24000 }); if (window.__voiceOutCtx) window.__voiceOutCtx.resume(); } catch (e) {}
     note(null); capEl.textContent = ''; setState('connecting'); statusEl.textContent = 'Connecting'; timeEl.textContent = '00:00';
-    root.classList.remove('local', 'gemini');
+    root.classList.remove('local', 'gemini'); log = [];
     raf = requestAnimationFrame(live);
     try {
       var stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });

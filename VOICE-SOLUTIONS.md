@@ -48,6 +48,12 @@ To update what the quick assistant says, edit `voice_kb` in `content.json` and r
 - Force a specific model: add `GEMINI_LIVE_MODEL` in Vercel (otherwise the best available one is picked).
 - The prompt Gemini uses is `voice_kb.system_prompt` in `content.json`. Keep it in sync with the ElevenLabs prompt.
 
+## Reading what visitors ask
+- Every call's text (no audio, no IP addresses) is saved to the Upstash database: the last 1,000 conversations.
+- Read them at `/api/voice-log?key=YOUR_KEY`, where `YOUR_KEY` is the `VOICE_ADMIN_KEY` you set in Vercel.
+  The page shows the most-asked questions and each conversation, newest first, in IST.
+- Visitors see a notice in the call bar that conversations are saved as text.
+
 ## To do
 - [ ] Paste the updated prompt into the ElevenLabs agent (same text as `voice_kb.system_prompt`).
 - [ ] Make a real test call and check it's using Gemini (the status line shows no "quick assistant" label).
