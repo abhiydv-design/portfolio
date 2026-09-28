@@ -116,6 +116,10 @@ def nav(home):
 </header>
 """
 
+def phone_attr():
+    import base64
+    return base64.b64encode((C["phone"] + "|" + C["phone_label"]).encode()).decode()[::-1]
+
 def footer(root):
     socials = "\n".join(f'        <a href="{e(u)}" rel="me">{e(n)}</a>' for n, u in C["socials"])
     return f"""<div class="band"><canvas data-pattern="band" data-instant aria-hidden="true"></canvas></div>
@@ -124,6 +128,7 @@ def footer(root):
   <div>
     <h2>Have a project in mind?</h2>
     <a class="email" href="mailto:{e(C['email'])}">{e(C['email_label'])}</a>
+    <a class="phone" data-phone="{phone_attr()}" href="/resume">Phone number on the resume</a>
   </div>
   <div class="foot-row">
     <div class="socials">
@@ -182,12 +187,19 @@ def footer(root):
     mq.addEventListener('change', function () {{ if (!root.getAttribute('data-theme')) changed(); }});
     label();
   }})();
+  document.querySelectorAll('[data-phone-text]').forEach(function (n) {{
+    try {{ n.textContent = atob(n.getAttribute('data-phone-text').split('').reverse().join('')).split('|')[1]; }} catch (e) {{}}
+  }});
+  document.querySelectorAll('[data-phone]').forEach(function (a) {{
+    try {{ var v = atob(a.getAttribute('data-phone').split('').reverse().join('')).split('|');
+      a.href = 'tel:' + v[0]; a.textContent = v[1]; a.setAttribute('aria-label', 'Call ' + v[1]); }} catch (e) {{}}
+  }});
   (function () {{ var n = document.getElementById('nav'); function f() {{ n.classList.toggle('scrolled', window.scrollY > 8); }} f(); window.addEventListener('scroll', f, {{ passive: true }}); }})();
 </script>
 <script src="{root}assets/patterns.js" defer></script>
 <script src="{root}assets/games.js" defer></script>
 <script src="{root}assets/portrait-data.js" defer></script>
-<script type="application/json" id="voice-kb">{json.dumps(C.get("voice_kb", {}), ensure_ascii=False).replace("</", "<\\/")}</script>
+<script type="application/json" id="voice-kb">{json.dumps({k: v for k, v in C.get("voice_kb", {}).items() if k != "system_prompt"}, ensure_ascii=False).replace("</", "<\\/")}</script>
 <script src="{root}assets/voice-local.js" defer></script>
 <script src="{root}assets/voice-gemini.js" defer></script>
 <script src="{root}assets/voice.js" defer></script>
@@ -530,10 +542,11 @@ def resume():
     <a class="back label" href="/">Back home</a>
     <h1>{e(C['full_name'])}</h1>
     <p class="summary">{e(R['title'])}, Gurugram, Haryana</p>
-    <p class="print-only contact-line">{e(C['email'])}   ·   linkedin.com/in/ydvabhishek   ·   portfolio-ruby-kappa-tt8k4o39g1.vercel.app</p>
+    <p class="print-only contact-line">{e(C['email'])}   ·   <span data-phone-text="{phone_attr()}"></span>   ·   linkedin.com/in/ydvabhishek   ·   portfolio-ruby-kappa-tt8k4o39g1.vercel.app</p>
     <div class="resume-links">
       <a class="btn btn-solid" href="/abhishek-yadav-resume.pdf" download>Download PDF</a>
       <a class="btn btn-ghost" href="mailto:{e(C['email'])}">{e(C['email'])}</a>
+      <a class="btn btn-ghost" data-phone="{phone_attr()}" href="#">Phone</a>
       <a class="btn btn-ghost" href="{e(C['linkedin'])}" rel="me">LinkedIn</a>
     </div>
   </section>

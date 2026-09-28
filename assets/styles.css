@@ -648,3 +648,6 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .voice-privacy { display: none; margin: 0; max-width: 420px; text-align: right; font: 11px/1.4 var(--mono); color: var(--meta); }
 .voice[data-state="live"] .voice-privacy, .voice[data-state="connecting"] .voice-privacy { display: block; }
 .voice.over-footer .voice-privacy { color: var(--on-footer); }
+.phone { display: inline-block; margin-top: 14px; font-family: var(--serif); font-size: clamp(22px, 2.2vw, 32px); color: var(--foot-accent); text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.phone:hover { color: var(--on-footer); }
+.footer .email + .phone { display: block; width: fit-content; }
