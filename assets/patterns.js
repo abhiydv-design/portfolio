@@ -272,7 +272,8 @@
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var c = Math.max(4, Math.floor(Math.min(W / 84, H / 52))), gw = Math.floor(W / c), gh = Math.floor(H / c);
     function px(i, j, col, a) { if (i < 0 || j < 0 || i >= gw || j >= gh || !show(i, j)) return; ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
-    var G = { hi: '#F7D27A', ridge: '#E7A945', pocket: '#B8721F', rim: '#8E5314', syrup: '#6E3310', butter: '#F8DE78', butterHi: '#FFF3C2', berry: '#E0445A', seed: '#FFD6DC', leaf: '#4E9B47' };
+    // a pink waffle in every theme; only the strawberries are red
+    var G = { hi: '#F8D2EF', ridge: '#EAA5DD', pocket: '#B96FA9', rim: '#8E4F81', syrup: '#7A3F6C', butter: '#FFE6F6', butterHi: '#FFFFFF', berry: '#E0364E', seed: '#FFD6DC', leaf: '#4E9B47' };
     var cx = gw / 2, cy = gh * 0.56, R = Math.min(gw * 0.26, gh * 0.4), sq = 0.66;
     // plate
     for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
@@ -293,8 +294,8 @@
     }
     // syrup pooled in the pockets around the butter
     for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
-      var u = (i + 0.5 - cx) / (R * 0.55), v = (j + 0.5 - cy + 1) / (R * 0.55 * sq), d = u * u + v * v;
-      if (d < 1 && hash(i, j, 92) < 0.7 - d * 0.4) px(i, j, G.syrup, 0.85);
+      var u = (i + 0.5 - cx) / (R * 0.42), v = (j + 0.5 - cy + 1) / (R * 0.42 * sq), d = u * u + v * v;
+      if (d < 1 && hash(i, j, 92) < 0.5 - d * 0.35) px(i, j, G.syrup, 0.6);
     }
     // syrup drips over the front edge, growing and falling
     [-0.55, -0.15, 0.3, 0.62].forEach(function (f, n) {

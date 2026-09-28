@@ -13,7 +13,7 @@ ALT = {
     "ten": "A pixel counter that climbs from 1 to 10, then shows YEARS as confetti falls.",
     "shop": "A kirana store drawn in pixels: a KIRANA CLUB sign ringed with bulbs, a striped awning, stocked shelves, a counter with jars, grain sacks and a shopper walking past.",
     "truck": "A goods truck loaded with sacks driving along a road, drawn in pixels, with a dotted route leading to a location pin.",
-    "waffle": "A golden pixel waffle on a plate, with butter, strawberry slices, syrup dripping over the edge and steam rising.",
+    "waffle": "A pink pixel waffle on a plate, with butter, red strawberry slices, syrup dripping over the edge and steam rising.",
 }
 MARK = {
     "square": '<rect width="10" height="10" style="fill:var(--accent)"/>',
