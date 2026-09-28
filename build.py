@@ -28,7 +28,21 @@ LOGO = ('<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rec
 
 def mark(m): return f'<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">{MARK[m]}</svg>'
 
-def head(title, desc, root):
+def head(title, desc, root, path="/", image="/og.png"):
+    url = C["site_url"] + path
+    img = C["site_url"] + image
+    return head_inner(title, desc, root).replace("__OG__", f"""<link rel="canonical" href="{url}">
+<meta property="og:url" content="{url}">
+<meta property="og:site_name" content="Abhishek Yadav">
+<meta property="og:image" content="{img}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{e(title)}">
+<meta name="twitter:image" content="{img}">
+<meta name="twitter:title" content="{e(title)}">
+<meta name="twitter:description" content="{e(desc)}">""")
+
+def head_inner(title, desc, root):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -49,7 +63,7 @@ def head(title, desc, root):
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/og.png">
+__OG__
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -242,7 +256,7 @@ def index():
   </section>
 </main>
 """
-    return head(f"{C['full_name']}, product designer", "Selected work by " + C["full_name"] + ", product designer in Gurugram.", "/") + nav(True) + body + footer("/")
+    return head(f"{C['full_name']}, product designer", C["lede"], "/", "/", "/og.png") + nav(True) + body + footer("/")
 
 def render_sections(secs):
     out = []
@@ -363,7 +377,7 @@ def case(i):
   <a class="next" href="/work/{nxt['slug']}"><span class="label">Next project</span><span class="serif">{e(nxt['title'])}</span></a>
 </main>
 {reel_player(p)}"""
-    return head(f"{p['title']}, {C['name']}", p["summary"], "/") + nav(False) + body + footer("/")
+    return head(f"{p['title']}, a case study by {C['full_name']}", p["summary"], "/", f"/work/{p['slug']}", f"/og/{p['slug']}.jpg") + nav(False) + body + footer("/")
 
 def play():
     threads = [("A", "var(--t-a)", "Petals", '<circle class="sym" cx="11" cy="11" r="3" fill="#fff"/>'),
@@ -403,7 +417,7 @@ def play():
   </section>
 </main>
 """
-    return head(f"Play, {C['name']}", "Stitch the flower, a small cross-stitch game.", "/") + nav(False) + body + footer("/")
+    return head(f"Play, {C['name']}", "Stitch the flower, a small cross-stitch game.", "/", "/play", "/og.png") + nav(False) + body + footer("/")
 
 def notfound():
     body = """<main id="main">
@@ -454,7 +468,7 @@ def resume():
   </div>
 </main>
 """
-    return head(f"Resume, {C['full_name']}", f"Resume of {C['full_name']}, product designer in Gurugram.", "/") + nav(False) + body + footer("/")
+    return head(f"Resume, {C['full_name']}", f"Resume of {C['full_name']}, product designer in Gurugram.", "/", "/resume", "/og.png") + nav(False) + body + footer("/")
 
 Path("resume.html").write_text(resume())
 Path("index.html").write_text(index())
