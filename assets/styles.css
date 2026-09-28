@@ -637,3 +637,11 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .snake-pad .sp-right { grid-column: 3; grid-row: 2; } .snake-pad .sp-right span { transform: rotate(90deg); }
 @media (pointer: coarse) { .snake-pad { display: grid; } .snake-dialog { max-height: calc(100vh - 24px); overflow: auto; } }
 @media (pointer: coarse) { .inline-snake { margin-bottom: 190px; } }
+
+/* offline voice assistant */
+.voice-chips { display: none; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 420px; }
+.voice.local[data-state="live"] .voice-chips { display: flex; }
+.voice-chips button { padding: 8px 12px; border: 1px solid var(--ink); background: var(--page); color: var(--ink); font: 500 12px var(--sans); cursor: pointer; }
+.voice-chips button:hover { background: var(--ink); color: var(--page); }
+.voice.local .voice-status::after { content: "  /  quick assistant"; opacity: .7; }
+@media (max-width: 640px) { .voice-chips { max-width: calc(100vw - 24px); } }

@@ -186,6 +186,8 @@ def footer(root):
 <script src="{root}assets/patterns.js" defer></script>
 <script src="{root}assets/games.js" defer></script>
 <script src="{root}assets/portrait-data.js" defer></script>
+<script type="application/json" id="voice-kb">{json.dumps(C.get("voice_kb", {}), ensure_ascii=False).replace("</", "<\\/")}</script>
+<script src="{root}assets/voice-local.js" defer></script>
 <script src="{root}assets/voice.js" defer></script>
 <script src="{root}assets/portrait.js" defer></script>
 <script src="{root}assets/sprout.js" defer></script>

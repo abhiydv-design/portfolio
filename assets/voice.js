@@ -107,8 +107,38 @@
     statusEl.textContent = ''; startBtn.focus({ preventScroll: true }); requestAnimationFrame(idleLoop);
   }
 
+  var localTried = false;
+  function handlers(fallback) {
+    return {
+      onConnect: function () { dispatchEvent(new CustomEvent('achieve', { detail: 'voice' })); setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
+      onModeChange: function (m) { mode = m.mode; dispatchEvent(new CustomEvent('sprout:voice', { detail: m.mode })); if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
+      onMessage: function (m) { if (m && (m.role === 'agent' || m.source === 'ai') && m.message) capEl.textContent = m.message; },
+      onError: function (m) { console.warn('Voice agent:', m); if (state === 'connecting') fallback(m); },
+      onDisconnect: function (d) {
+        dispatchEvent(new CustomEvent('sprout:voice', { detail: 'idle' }));
+        if (state === 'error') return;
+        if (state === 'connecting' && d && d.reason === 'error') return fallback(d.message);
+        var dur = t0 ? fmt((performance.now() - t0) / 1000) : null;
+        cancelAnimationFrame(raf); convo = null; root.classList.remove('local');
+        if (d && d.reason === 'error') return fail(friendly(d.message));
+        setState('ended'); statusEl.textContent = dur ? 'Call ended, ' + dur : 'Call ended';
+        setTimeout(function () { if (state === 'ended') { setState('idle'); capEl.textContent = ''; requestAnimationFrame(idleLoop); startBtn.focus({ preventScroll: true }); } }, 2600);
+      }
+    };
+  }
+  /* the free, offline assistant takes over whenever the ElevenLabs agent can't connect */
+  function startLocal(why) {
+    if (why) console.info('Voice: using the offline assistant (' + (why.message || why) + ')');
+    try { sessionStorage.setItem('voice-local', '1'); } catch (e) {}
+    if (!window.LocalVoice) return fail("Couldn't start the voice assistant.");
+    root.classList.add('local'); statusEl.textContent = 'Connecting';
+    var h = handlers(function () {}); h.root = root;
+    convo = window.LocalVoice.start(h);
+  }
+
   async function start() {
     if (state === 'connecting' || state === 'live') return;
+    try { if (window.speechSynthesis) window.speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); } catch (e) {}   // unlocks speech on iPhone while we still have the tap
     note(null); capEl.textContent = ''; setState('connecting'); statusEl.textContent = 'Connecting'; timeEl.textContent = '00:00';
     raf = requestAnimationFrame(live);
     try {
@@ -117,28 +147,17 @@
     } catch (e) {
       return fail('Your microphone is blocked. Allow it in your browser settings to talk, or');
     }
+    var skip = false; try { skip = sessionStorage.getItem('voice-local') === '1'; } catch (e) {}
+    if (!AGENT || skip) return startLocal(skip ? null : 'no agent');
     var SDKmod;
-    try { SDKmod = await loadSDK(); } catch (e) { return fail("Couldn't load the voice agent."); }
+    try { SDKmod = await loadSDK(); } catch (e) { return startLocal(e); }
+    var fellBack = false, fb = function (m) { if (fellBack) return; fellBack = true; try { if (convo && !convo.local) convo.endSession(); } catch (e) {} convo = null; startLocal(m); };
     try {
-      convo = await SDKmod.Conversation.startSession({
-        agentId: AGENT,
-        onConnect: function () { dispatchEvent(new CustomEvent('achieve', { detail: 'voice' })); setState('live'); t0 = performance.now(); statusEl.textContent = 'Listening'; endBtn.focus({ preventScroll: true }); },
-        onModeChange: function (m) { mode = m.mode; dispatchEvent(new CustomEvent('sprout:voice', { detail: m.mode })); if (state === 'live') statusEl.textContent = m.mode === 'speaking' ? 'Speaking' : 'Listening'; },
-        onMessage: function (m) { if (m && (m.role === 'agent' || m.source === 'ai') && m.message) capEl.textContent = m.message; },
-        onError: function (m) { console.warn('Voice agent:', m); if (state === 'connecting') fail(friendly(m)); },
-        onDisconnect: function (d) {
-          dispatchEvent(new CustomEvent('sprout:voice', { detail: 'idle' }));
-          if (state === 'error') return;
-          var dur = t0 ? fmt((performance.now() - t0) / 1000) : null;
-          cancelAnimationFrame(raf); convo = null;
-          if (d && d.reason === 'error') return fail(friendly(d.message));
-          setState('ended'); statusEl.textContent = dur ? 'Call ended, ' + dur : 'Call ended';
-          setTimeout(function () { if (state === 'ended') { setState('idle'); capEl.textContent = ''; requestAnimationFrame(idleLoop); startBtn.focus({ preventScroll: true }); } }, 2600);
-        }
-      });
+      var opts = handlers(fb); opts.agentId = AGENT;
+      var c = await SDKmod.Conversation.startSession(opts);
+      if (fellBack) { try { c.endSession(); } catch (e) {} } else convo = c;
     } catch (e) {
-      console.warn('Voice agent:', e);
-      fail(friendly(e && e.message));
+      fb(e);
     }
   }
   function end() { if (convo) { try { convo.endSession(); } catch (e) {} } else if (state === 'connecting') fail(null); }
