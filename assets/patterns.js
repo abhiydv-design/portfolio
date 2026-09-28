@@ -180,6 +180,89 @@
     }
   };
 
+  /* ---------- a kirana store, in pixels ---------- */
+  var FONT = { K: ['10001','10010','10100','11000','10100','10010','10001'], I: ['111','010','010','010','010','010','111'],
+    R: ['11110','10001','10001','11110','10100','10010','10001'], A: ['01110','10001','10001','11111','10001','10001','10001'],
+    N: ['10001','11001','10101','10011','10001','10001','10001'] };
+  DRAW.shop = function (ctx, W, H, p, show) {
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var c = Math.max(4, Math.floor(Math.min(W / 64, H / 44))), gw = Math.floor(W / c), gh = Math.floor(H / c);
+    function px(i, j, col, a) { if (i < 0 || j < 0 || i >= gw || j >= gh || !show(i, j)) return; ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
+    function rect(x0, y0, w, h, col, a) { for (var j = y0; j < y0 + h; j++) for (var i = x0; i < x0 + w; i++) px(i, j, col, a); }
+    // faint dotted ground and sky
+    for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) if (hash(i, j, 81) < 0.05) px(i, j, p.soft, 0.35);
+    var sw = 46, sh = 32, x0 = Math.round((gw - sw) / 2) + 2, base = gh - 5, y0 = base - sh;
+    rect(0, base, gw, 1, p.ink, 0.5);                                           // pavement line
+    // sign board with KIRANA in a pixel font
+    rect(x0 + 3, y0, sw - 6, 9, p.accent);
+    var word = 'KIRANA', cx = x0 + 3 + Math.floor((sw - 6 - (word.length * 6 - 3)) / 2);
+    for (var k = 0; k < word.length; k++) { var g = FONT[word[k]], off = cx + k * 6 + (word[k] === 'I' ? 1 : 0);
+      for (var r = 0; r < 7; r++) for (var q = 0; q < g[r].length; q++) if (g[r][q] === '1') px(off + q, y0 + 1 + r, p.page); }
+    // walls and a striped, scalloped awning
+    rect(x0, y0 + 9, sw, sh - 9, p.ink, 0.9);
+    for (var i = x0 - 2; i < x0 + sw + 2; i++) { var stripe = Math.floor((i - x0) / 3) % 2 ? p.page : p.accent;
+      for (var r = 0; r < 4; r++) px(i, y0 + 9 + r, stripe); if (((i - x0) % 3) !== 1) px(i, y0 + 13, stripe); }
+    // the opening, three stocked shelves
+    var ox = x0 + 3, oy = y0 + 15, ow = sw - 6, oh = sh - 21;
+    rect(ox, oy, ow, oh, p.night);
+    var cols = [p.accent, p.soft, p.deep, p.mark];
+    for (var sh2 = 0; sh2 < 3; sh2++) { var sy = oy + 3 + sh2 * 4;
+      rect(ox + 1, sy + 1, ow - 2, 1, p.soft, 0.7);
+      for (var i = ox + 2; i < ox + ow - 2; ) { var bw = 1 + Math.floor(hash(i, sy, 82) * 2), bh = 2 + Math.floor(hash(i, sy, 83) * 2), col = cols[Math.floor(hash(i, sy, 84) * 4)];
+        if (hash(i, sy, 85) > 0.15) rect(i, sy + 1 - bh, bw, bh, col); i += bw + 1; } }
+    // counter with jars
+    rect(ox - 1, base - 6, ow + 2, 6, p.accent);
+    rect(ox - 1, base - 6, ow + 2, 1, p.page, 0.6);
+    for (var jx = ox + 3; jx < ox + ow - 3; jx += 5) { rect(jx, base - 9, 3, 3, p.soft, 0.9); rect(jx, base - 10, 3, 1, p.deep); }
+    // grain sacks out front
+    [[x0 - 9, 0], [x0 - 5, 1], [x0 + sw + 2, 2], [x0 + sw + 6, 3]].forEach(function (sk) {
+      var sx = sk[0]; rect(sx, base - 5, 4, 5, p.soft); rect(sx + 1, base - 6, 2, 1, p.soft); px(sx + 1, base - 3, p.page, 0.6); px(sx + 2, base - 2, p.page, 0.6); });
+  };
+
+  /* ---------- a goods truck on the move (animated) ---------- */
+  var truckBg = { key: '', cv: null };
+  DRAW.truck = function (ctx, W, H, p, show, t) {
+    var c = Math.max(4, Math.floor(Math.min(W / 90, H / 46))), gw = Math.ceil(W / c), gh = Math.ceil(H / c), roadY = Math.round(gh * 0.72);
+    var key = W + 'x' + H + p.page + p.soft + p.accent;
+    if (truckBg.key !== key) {           // map dots and route drawn once, then reused every frame
+      var bc = document.createElement('canvas'), d = Math.min(2, window.devicePixelRatio || 1); bc.width = W * d; bc.height = H * d;
+      var b = bc.getContext('2d'); b.setTransform(d, 0, 0, d, 0, 0); b.fillStyle = p.page; b.fillRect(0, 0, W, H);
+      for (var j = 0; j < roadY - 2; j++) for (var i = 0; i < gw; i++) {
+        var n = fbm(i * 0.08, j * 0.12, 9); if (n > 0.55) { b.globalAlpha = 0.18 + (n - 0.55) * 1.2; b.fillStyle = p.soft; b.fillRect(i * c + 1, j * c + 1, c - 2, c - 2); }
+      }
+      b.globalAlpha = 1;
+      for (var i = 2; i < gw - 6; i += 2) { var y = Math.round(roadY * 0.42 + Math.sin(i * 0.09) * roadY * 0.14 - i * 0.05); b.fillStyle = p.accent; b.fillRect(i * c + 1, y * c + 1, c - 2, c - 2); }
+      var pinX = gw - 6, pinY = Math.round(roadY * 0.42 + Math.sin(pinX * 0.09) * roadY * 0.14 - pinX * 0.05) - 5;
+      [[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[3,1],[4,1],[0,2],[1,2],[3,2],[4,2],[0,3],[1,3],[2,3],[3,3],[4,3],[1,4],[2,4],[3,4],[2,5]].forEach(function (q) { b.fillStyle = p.accent; b.fillRect((pinX + q[0] - 2) * c, (pinY + q[1]) * c, c, c); });
+      b.fillStyle = p.ink; b.globalAlpha = 0.12; b.fillRect(0, roadY * c, W, 6 * c); b.globalAlpha = 1;
+      truckBg = { key: key, cv: bc };
+    }
+    ctx.drawImage(truckBg.cv, 0, 0, W, H);
+    function px(i, j, col, a) { ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
+    function rect(x0, y0, w, h, col, a) { for (var j = y0; j < y0 + h; j++) for (var i = x0; i < x0 + w; i++) px(i, j, col, a); }
+    // lane markings scroll the other way, so the road feels like it's moving
+    var L = 40, SPEED = 16;
+    if (t == null) t = (gw * 0.52 + 5) / SPEED;             // still frame: truck in the middle
+    var laneY = roadY + 3, shift = Math.floor(t * 22) % 8;
+    for (var i = -8; i < gw + 8; i += 8) rect(i - shift, laneY, 4, 1, p.mark, 0.8);
+    // the truck
+    var x = Math.floor(((t * SPEED) % (gw + L + 10)) - L - 5), y = roadY - 13;
+    rect(x, y + 3, 28, 9, p.accent);                                   // cargo body
+    for (var i = x + 1; i < x + 27; i += 3) px(i, y + 5, p.page, 0.9);  // painted trim, like a decorated goods carrier
+    rect(x, y + 8, 28, 1, p.page, 0.7);
+    for (var k = 0; k < 7; k++) { var sx = x + 1 + k * 4; rect(sx, y, 3, 3, p.soft); px(sx + 1, y - 1, p.soft); }   // sacks on top
+    rect(x + 29, y + 4, 10, 8, p.deep);                                // cab
+    rect(x + 31, y + 5, 6, 3, p.page, 0.85);                          // windscreen
+    px(x + 39, y + 10, p.mark); px(x + 38, y + 10, p.mark);            // headlight
+    rect(x - 1, y + 12, 41, 1, p.ink, 0.8);                            // chassis
+    var spin = Math.floor(t * 12) % 4;
+    [x + 5, x + 10, x + 33].forEach(function (wx) {
+      rect(wx - 1, y + 13, 3, 3, p.ink); px(wx - 2, y + 14, p.ink); px(wx + 2, y + 14, p.ink); px(wx, y + 12, p.ink);
+      var hub = [[0, 0], [1, 1], [0, 2], [-1, 1]][spin]; px(wx + hub[0] * 0 , y + 14, p.mark); px(wx + hub[0], y + 13 + hub[1], p.soft);
+    });
+    for (var k = 1; k < 5; k++) if (hash(k, Math.floor(t * 8), 86) > 0.4) px(x - 2 - k * 2, y + 13 + (k % 2), p.soft, 0.6 - k * 0.1);  // dust
+  };
+
   DRAW.band = function (ctx, W, H, p) {
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var cell = 8, cols = Math.ceil(W / cell), rows = Math.round(H / cell);
@@ -202,8 +285,8 @@
     var c = setup(this.el), pr = this.progress;
     this.ctx = c.ctx; this.W = c.W; this.H = c.H;
     var show = pr >= 1 ? function () { return true; } : function (i, j) { return hash(i, j, 99) < pr; };
-    DRAW[this.name](c.ctx, c.W, c.H, PAL, show);
-    this.base = pr >= 1 ? c.ctx.getImageData(0, 0, this.el.width, this.el.height) : null;
+    DRAW[this.name](c.ctx, c.W, c.H, PAL, show, this.t);
+    this.base = pr >= 1 && !this.animated ? c.ctx.getImageData(0, 0, this.el.width, this.el.height) : null;
   };
   Static.prototype.reveal = function () {
     if (this.started) return; this.started = true;
@@ -610,7 +693,13 @@
       if (el.getAttribute('data-pattern') === 'band') { band = new Band(el); band.draw(); return; }
       var s = new Static(el);
       if (el.hasAttribute('data-instant')) { s.progress = 1; s.started = true; }
+      if (s.name === 'truck') s.animated = true;
       statics.push(s); s.draw();
+      if (s.animated && !reduced && 'IntersectionObserver' in window) {
+        var on = false, raf2 = 0;
+        var loop = function (ts) { if (!on) { raf2 = 0; return; } s.t = ts / 1000; s.draw(); raf2 = requestAnimationFrame(loop); };
+        new IntersectionObserver(function (en) { on = en[0].isIntersecting; if (on && !raf2) raf2 = requestAnimationFrame(loop); }).observe(el);
+      }
       var card = el.closest('.card');
       if (card) card.addEventListener('pointerenter', function (e) {
         if (e.pointerType !== 'mouse') return;

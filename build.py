@@ -11,6 +11,8 @@ ALT = {
     "stitch": "A leafy branch in cross-stitch on a visible grid.",
     "land": "Two mountain ridges and a moon drawn in short horizontal lines.",
     "ten": "A large number 10 drawn in pixels, with scattered confetti squares.",
+    "shop": "A kirana store drawn in pixels: a striped awning under a KIRANA sign, stocked shelves, a counter with jars and grain sacks outside.",
+    "truck": "A goods truck loaded with sacks driving along a road, drawn in pixels, with a dotted route leading to a location pin.",
     "waffle": "A five by five waffle grid of pixel tiles with four gaps, some tiles lit up.",
 }
 MARK = {
