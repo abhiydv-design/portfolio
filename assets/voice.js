@@ -126,20 +126,45 @@
       }
     };
   }
-  /* the free, offline assistant takes over whenever the ElevenLabs agent can't connect */
-  function startLocal(why) {
-    if (why) console.info('Voice: using the offline assistant (' + (why.message || why) + ')');
-    try { sessionStorage.setItem('voice-local', '1'); } catch (e) {}
+  /* Providers are tried in order until one connects: Gemini Live, then ElevenLabs, then the quick assistant.
+     A provider that fails is skipped for the rest of the visit. */
+  var KB = {}; try { KB = JSON.parse(document.getElementById('voice-kb').textContent); } catch (e) {}
+  var ORDER = KB.voice_order || ['gemini', 'elevenlabs', 'local'];
+  function off(p) { try { return sessionStorage.getItem('voice-off-' + p) === '1'; } catch (e) { return false; } }
+  function markOff(p, why) { console.info('Voice: ' + p + ' unavailable (' + (why && why.message || why || '') + ')'); try { sessionStorage.setItem('voice-off-' + p, '1'); } catch (e) {} }
+
+  function startLocal() {
     if (!window.LocalVoice) return fail("Couldn't start the voice assistant.");
-    root.classList.add('local'); statusEl.textContent = 'Connecting';
+    root.classList.remove('gemini'); root.classList.add('local'); statusEl.textContent = 'Connecting';
     var h = handlers(function () {}); h.root = root;
     convo = window.LocalVoice.start(h);
+  }
+  async function tryGemini() {
+    if (!window.GeminiVoice) throw new Error('no client');
+    var h = handlers(function () {});
+    var c = await window.GeminiVoice.start(h);
+    if (state !== 'connecting' && state !== 'live') { try { c.endSession(); } catch (e) {} return; }
+    convo = c; root.classList.add('gemini');
+  }
+  function tryEleven() {
+    return new Promise(async function (resolve, reject) {
+      if (!AGENT) return reject(new Error('no agent'));
+      var SDKmod; try { SDKmod = await loadSDK(); } catch (e) { return reject(e); }
+      var settled = false, done = function (err) { if (settled) return; settled = true; err ? reject(err) : resolve(); };
+      var opts = handlers(function (m) { try { if (convo && !convo.local) convo.endSession(); } catch (e) {} convo = null; done(new Error(String(m && m.message || m))); });
+      var baseConnect = opts.onConnect; opts.onConnect = function () { baseConnect(); done(); };
+      opts.agentId = AGENT;
+      try { var c = await SDKmod.Conversation.startSession(opts); if (settled && state !== 'live') { try { c.endSession(); } catch (e) {} } else convo = c; }
+      catch (e) { done(e); }
+    });
   }
 
   async function start() {
     if (state === 'connecting' || state === 'live') return;
-    try { if (window.speechSynthesis) window.speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); } catch (e) {}   // unlocks speech on iPhone while we still have the tap
+    try { if (window.speechSynthesis) window.speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); } catch (e) {}   // unlock speech on iPhone during the tap
+    try { var AC = window.AudioContext || window.webkitAudioContext; if (AC && !window.__voiceOutCtx) window.__voiceOutCtx = new AC({ sampleRate: 24000 }); if (window.__voiceOutCtx) window.__voiceOutCtx.resume(); } catch (e) {}
     note(null); capEl.textContent = ''; setState('connecting'); statusEl.textContent = 'Connecting'; timeEl.textContent = '00:00';
+    root.classList.remove('local', 'gemini');
     raf = requestAnimationFrame(live);
     try {
       var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -147,18 +172,14 @@
     } catch (e) {
       return fail('Your microphone is blocked. Allow it in your browser settings to talk, or');
     }
-    var skip = false; try { skip = sessionStorage.getItem('voice-local') === '1'; } catch (e) {}
-    if (!AGENT || skip) return startLocal(skip ? null : 'no agent');
-    var SDKmod;
-    try { SDKmod = await loadSDK(); } catch (e) { return startLocal(e); }
-    var fellBack = false, fb = function (m) { if (fellBack) return; fellBack = true; try { if (convo && !convo.local) convo.endSession(); } catch (e) {} convo = null; startLocal(m); };
-    try {
-      var opts = handlers(fb); opts.agentId = AGENT;
-      var c = await SDKmod.Conversation.startSession(opts);
-      if (fellBack) { try { c.endSession(); } catch (e) {} } else convo = c;
-    } catch (e) {
-      fb(e);
+    for (var i = 0; i < ORDER.length; i++) {
+      var p = ORDER[i]; if (state !== 'connecting') return;
+      if (p === 'local') return startLocal();
+      if (off(p)) continue;
+      try { if (p === 'gemini') await tryGemini(); else if (p === 'elevenlabs') await tryEleven(); return; }
+      catch (e) { markOff(p, e); convo = null; }
     }
+    startLocal();
   }
   function end() { if (convo) { try { convo.endSession(); } catch (e) {} } else if (state === 'connecting') fail(null); }
 

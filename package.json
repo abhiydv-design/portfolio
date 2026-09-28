@@ -1,0 +1,8 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "description": "Static site; the dependency below is only used by the voice token function in /api.",
+  "dependencies": {
+    "@google/genai": "2.24.0"
+  }
+}

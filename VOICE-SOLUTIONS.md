@@ -3,9 +3,14 @@
 ## How it works now (automatic)
 
 1. A visitor presses **Talk to my portfolio**.
-2. The site tries the **ElevenLabs agent** first (best quality, natural voice, can answer anything).
-3. If ElevenLabs can't connect, for example because the credits have run out, the site switches to the
-   **quick assistant** automatically. No error is shown.
+2. The site tries each voice in order until one connects (set in `content.json`, `voice_kb.voice_order`):
+   1. **Gemini Live** (free tier): natural voice, answers anything from the portfolio prompt.
+      Uses `GEMINI_API_KEY` in Vercel. `/api/voice-token` picks the best live voice model for the key and hands
+      the browser a single-use token that expires within a minute, so the real key is never exposed.
+      Limited to 12 calls per visitor per day.
+   2. **ElevenLabs agent**: natural voice, uses monthly credits.
+   3. **Quick assistant** (below): always works.
+3. A voice that fails is skipped for the rest of that visit. No error is shown.
 4. The quick assistant is free and needs no account:
    - **Listening:** the browser's built-in speech recognition (Chrome, Edge, Safari including iPhone; not Firefox).
    - **Answers:** a small knowledge base in `content.json` under `voice_kb` (who you are, FarMart, each project,
@@ -25,7 +30,7 @@ To update what the quick assistant says, edit `voice_kb` in `content.json` and r
 | **A. Quick assistant only** (already live as the fallback) | Free | Fixed answers, device voice | None |
 | **B. ElevenLabs free plan** (current) | Free, monthly credits | Best: natural voice, answers anything | Done |
 | **C. ElevenLabs paid plan** | From about $5 a month (check current pricing) | Best, plus your cloned voice | Upgrade in ElevenLabs |
-| **D. Browser voice + Gemini free tier** | Free, within Google's daily limits | Smart answers, device voice | Get a Gemini API key, add it in Vercel |
+| **D. Gemini Live** (live now, tried first) | Free tier, within Google's daily limits | Natural voice, answers anything | Done: `GEMINI_API_KEY` in Vercel |
 
 ### Stretching ElevenLabs credits
 - Roughly 400 to 700 credits per minute (estimate; check your agent's call history for the exact rate).
@@ -34,11 +39,10 @@ To update what the quick assistant says, edit `voice_kb` in `content.json` and r
 - Choose a cheaper model ("flash" or "mini") in the agent's LLM setting.
 - Keep the domain allowlist on, so nobody else can use your agent.
 
-### Upgrading to option D later
-Needs a small server function on Vercel and a Gemini API key saved in Vercel's environment variables
-(never in the code). The call bar and knowledge base stay the same; Gemini would replace the fixed answers,
-and the fixed answers would stay as the safety net.
+### Gemini settings
+- Force a specific model: add `GEMINI_LIVE_MODEL` in Vercel (otherwise the best available one is picked).
+- The prompt Gemini uses is `voice_kb.system_prompt` in `content.json`. Keep it in sync with the ElevenLabs prompt.
 
 ## To do
-- [ ] Update the ElevenLabs agent's system prompt: it still describes RoarINK as a project and doesn't know
-      about Waffle or FarMart Dashak.
+- [ ] Paste the updated prompt into the ElevenLabs agent (same text as `voice_kb.system_prompt`).
+- [ ] Make a real test call and check it's using Gemini (the status line shows no "quick assistant" label).
