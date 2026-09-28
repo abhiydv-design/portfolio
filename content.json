@@ -511,8 +511,8 @@
               "content piece a day, roughly"
             ],
             [
-              "10",
-              "partner brands"
+              "14",
+              "brands designed for"
             ],
             [
               "~6,500",
@@ -568,6 +568,45 @@
           "note": "For this audience, bold type, strong product imagery and simple Hindi were usually more effective than complex or decorative layouts."
         },
         {
+          "type": "annot",
+          "label": "The rule, in practice",
+          "src": "/img/kirana/aashirvaad.jpg",
+          "alt": "An Aashirvaad Soya Chunks banner in Hindi. Left: 'Tasty soya, great profit' and a red box reading 'Only ₹7.35!', with 'best rate' below. Right: two soya chunk packs with a yellow '36% margin' badge. Bottom bar: 'Stock up on ITC Aashirvaad soya' and an 'Order' button.",
+          "marks": [
+            [
+              "1",
+              7.5,
+              47,
+              "Offer: only ₹7.35, and a 36% margin badge"
+            ],
+            [
+              "1",
+              45.5,
+              13,
+              ""
+            ],
+            [
+              "2",
+              97.5,
+              27,
+              "Product: the real packs, large"
+            ],
+            [
+              "3",
+              17,
+              67.5,
+              "Supporting info: best rate"
+            ],
+            [
+              "4",
+              80.5,
+              94,
+              "Call to action: order, last"
+            ]
+          ],
+          "caption": "Aashirvaad Soya Chunks. The price and the margin do the talking; the order button waits at the end."
+        },
+        {
           "type": "text",
           "label": "A daily content engine",
           "body": [
@@ -588,28 +627,6 @@
           ]
         },
         {
-          "type": "figures",
-          "items": [
-            [
-              "Video thumbnail",
-              "third"
-            ],
-            [
-              "Video thumbnail",
-              "third"
-            ],
-            [
-              "Video thumbnail",
-              "third"
-            ],
-            [
-              "Short video example",
-              "full"
-            ]
-          ],
-          "caption": "Thumbnails and a short video from the daily content."
-        },
-        {
           "type": "text",
           "label": "In-app banners",
           "body": [
@@ -621,44 +638,89 @@
           "type": "figures",
           "items": [
             [
-              "In-app banner",
-              "half"
+              "Johnson's Baby",
+              "half",
+              "/img/kirana/johnsons.jpg",
+              "A Johnson's Baby banner: 'Get a flat 28% margin' next to a baby powder bottle, and a bar below: MRP ₹125 per pack, retailer margin 28%, 'Your earnings: ₹35 per pack'.",
+              "Johnson's Baby: the offer translated into what the shop owner earns per pack."
             ],
             [
-              "In-app banner",
-              "half"
+              "Sunfeast Bourbon",
+              "half",
+              "/img/kirana/sunfeast.jpg",
+              "A yellow Sunfeast banner with a giant melting chocolate number 5: '5 Bourbon biscuits, now just ₹5!', next to a Bourbon pack and biscuits.",
+              "Sunfeast Bourbon: the price becomes the picture."
             ],
             [
-              "In-app banner",
-              "half"
+              "Mangaldeep",
+              "half",
+              "/img/kirana/mangaldeep.jpg",
+              "A Mangaldeep dhoop banner: '12+2' crossed out above a bold '12+4 FREE', a '10% extra profit' badge, four fragrance packs, and a row of other flavours.",
+              "Mangaldeep: the upgrade from 12+2 to 12+4 is read in one glance."
             ],
             [
-              "In-app banner",
-              "half"
-            ],
-            [
-              "Before and after",
-              "full"
+              "Anmol 2 in 1",
+              "half",
+              "/img/kirana/anmol-2in1.jpg",
+              "An Anmol banner: a hand bursts through paper holding a 2 in 1 biscuit pack. Text: 'Fast-selling Anmol biscuit. Stock up, grow profit!', available at ₹5, ₹10 and ₹20.",
+              "Anmol 2 in 1: playful, but it still ends in 'stock up, grow profit'."
             ]
           ],
-          "caption": "In-app banners, including the April Dhamaka scheme."
+          "caption": ""
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Sugandh Chai",
+              "half",
+              "/img/kirana/sugandh.jpg",
+              "A Sugandh tea banner: 'Up to 30% assured margin' and three product cards for masala, elaichi and Climax tea, each with MRP, price and margin, over a black 'Order' bar.",
+              ""
+            ],
+            [
+              "Cravitos",
+              "half",
+              "/img/kirana/cravitos.jpg",
+              "A Cravitos Raksha Bandhan banner: 'Boost sales this Raksha Bandhan' and three sweet boxes on cards with margin tags, MRP and price, over a black 'Order' bar.",
+              ""
+            ]
+          ],
+          "caption": "One template, two brands: Sugandh Chai and Cravitos share the same card layout for product, MRP, price and margin, and the same order bar."
         },
         {
           "type": "chips",
           "label": "Brand partnerships",
           "intro": "I made campaign, product and promotional creatives for FMCG and consumer brands, including:",
           "items": [
+            "Aashirvaad",
+            "Sunfeast",
             "Mangaldeep",
-            "Pansari",
-            "Anmol",
             "Johnson's Baby",
+            "Anmol",
             "Maxkleen",
+            "Sugandh Chai",
+            "Cravitos",
+            "Kwality Wall's",
+            "Chukde",
+            "Pansari",
             "Vasmol",
             "Somnath",
-            "Chukde",
-            "Sugandh Chai",
             "Apsara Chai"
           ]
+        },
+        {
+          "type": "figures",
+          "items": [
+            [
+              "Sigma Dhamaka",
+              "full",
+              "/img/kirana/sigma-dhamaka.jpg",
+              "A purple Mangaldeep campaign banner for the Sigma Dhamaka gift scheme, 1 July to 31 October 2025, with a marquee badge and prizes including a motorbike, a phone and trips to Singapore and Dubai.",
+              "Sigma Dhamaka: a campaign identity for Mangaldeep's gift scheme, not just a single offer."
+            ]
+          ],
+          "caption": ""
         },
         {
           "type": "process",
@@ -671,7 +733,7 @@
             "Revisions",
             "Final"
           ],
-          "note": "The balance in every project was the partner's own brand identity against Kirana Club's audience and communication style. Depending on the campaign, I decided how much weight to give the product, the offer, the price, the Hindi message, the key benefit and the brand itself."
+          "note": "Brands supplied their product shots and campaign photography; I designed the layouts, typography and hierarchy around them. The balance in every project was the partner's own brand identity against Kirana Club's audience and communication style."
         },
         {
           "type": "stat",

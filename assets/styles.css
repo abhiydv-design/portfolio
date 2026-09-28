@@ -596,3 +596,12 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .ctrl thead th { font: 500 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--meta); border-top: 1px solid var(--ink); }
 .ctrl tbody th { font-family: var(--serif); font-weight: 400; font-size: 22px; }
 .ctrl td:first-of-type { color: var(--ink); }
+.annot { margin: 0; }
+.annot-img { position: relative; }
+.annot-img img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+.pin { position: absolute; transform: translate(-50%, -50%); width: 30px; height: 30px; display: grid; place-items: center; background: var(--accent); color: var(--page); font: 500 13px var(--mono); box-shadow: 0 0 0 3px var(--page); }
+.annot-legend { list-style: none; margin: 18px 0 8px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+.annot-legend li { display: flex; align-items: center; gap: 12px; font-size: 15px; }
+.pin-n { width: 24px; height: 24px; flex-shrink: 0; display: grid; place-items: center; background: var(--accent); color: var(--page); font: 500 11px var(--mono); }
+.annot figcaption { margin-top: 8px; font: 12px/1.5 var(--mono); color: var(--meta); }
+@media (max-width: 640px) { .pin { width: 22px; height: 22px; font-size: 11px; } .annot-legend { grid-template-columns: 1fr; } }

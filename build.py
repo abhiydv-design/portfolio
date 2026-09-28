@@ -321,6 +321,15 @@ def render_sections(secs):
             hd = "".join(f'<th scope="col">{e(h)}</th>' for h in x["head"])
             rows = "".join("<tr>" + f'<th scope="row">{e(r[0])}</th>' + "".join(f"<td>{e(v)}</td>" for v in r[1:]) + "</tr>" for r in x["rows"])
             out.append(f'<section class="cs-block">{lab}<div class="copy"><div class="tbl-wrap"><table class="ctrl"><thead><tr>{hd}</tr></thead><tbody>{rows}</tbody></table></div><p>{e(x.get("note", ""))}</p></div></section>')
+        elif t == "annot":
+            try:
+                from PIL import Image as _I
+                iw, ih = _I.open(x["src"].lstrip("/")).size
+            except Exception:
+                iw, ih = 1400, 800
+            pins = "".join(f'<span class="pin" style="left:{m[1]}%;top:{m[2]}%" aria-hidden="true">{e(m[0])}</span>' for m in x["marks"])
+            legend = "".join(f'<li><span class="pin-n">{e(m[0])}</span>{e(m[3])}</li>' for m in x["marks"] if m[3])
+            out.append(f'<section class="cs-block">{lab}<div class="copy"><figure class="annot"><div class="annot-img"><img src="{e(x["src"])}" alt="{e(x["alt"])}" loading="lazy" decoding="async" width="{iw}" height="{ih}">{pins}</div><ol class="annot-legend">{legend}</ol><figcaption>{e(x.get("caption", ""))}</figcaption></figure></div></section>')
         elif t == "stat":
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p class="stat"><span class="stat-v">{e(x["value"])}</span><span class="stat-u">{e(x["unit"])}</span></p><p>{e(x["note"])}</p></div></section>')
     return "\n    ".join(out)
