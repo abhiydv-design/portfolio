@@ -149,5 +149,13 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && (state === 'live' || state === 'connecting')) end(); });
   window.addEventListener('pagehide', function () { if (convo) try { convo.endSession(); } catch (e) {} });
   document.querySelectorAll('[data-voice-open]').forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); start(); }); });
+  var foot = document.querySelector('.footer'), over = false;
+  function checkOverlap() {
+    if (!foot) return;
+    var a = root.getBoundingClientRect(), b = foot.getBoundingClientRect();
+    var o = a.bottom > b.top && a.top < b.bottom;
+    if (o !== over) { over = o; root.classList.toggle('over-footer', o); drawIcon(performance.now()); }
+  }
+  addEventListener('scroll', checkOverlap, { passive: true }); addEventListener('resize', checkOverlap); checkOverlap();
   setState('idle'); requestAnimationFrame(idleLoop);
 })();

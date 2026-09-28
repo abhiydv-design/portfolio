@@ -297,6 +297,7 @@
     var el = document.createElement('canvas'); el.className = 'field'; el.setAttribute('aria-hidden', 'true');
     document.body.prepend(el); this.el = el; this.raf = 0; this.last = null;
     var self = this;
+    if (!Field.TRAIL) { this.resize(); return; }
     window.addEventListener('pointermove', function (e) {
       if (e.pointerType !== 'mouse') return;
       var p = [e.clientX, e.clientY], a = self.last || p; self.last = p;
@@ -307,6 +308,7 @@
     document.addEventListener('pointerleave', function () { self.last = null; });
     this.resize();
   }
+  Field.TRAIL = false;
   Field.prototype.resize = function () {
     var c = setup(this.el); this.ctx = c.ctx; this.W = c.W; this.H = c.H;
     this.cols = Math.ceil(c.W / 16); this.rows = Math.ceil(c.H / 16); this.e = new Float32Array(this.cols * this.rows);

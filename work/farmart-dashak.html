@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FarMart Dashak: Event branding case study | Abhishek Yadav</title>
 <meta name="description" content="Branding for FarMart&#x27;s 10-year anniversary: one identity for a two-day celebration, from ten-year walls to trophies.">
-<meta name="theme-color" content="#F7F7F2" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1B1621" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#1B1621">
 <script>
-  try { var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light' || (t === 'ember' && localStorage.getItem('ember') === 'true')) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  (function () { var t = null; try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (!(t === 'dark' || t === 'light' || (t === 'ember' && localStorage.getItem('ember') === 'true'))) t = 'dark';
+    document.documentElement.setAttribute('data-theme', t); })();
   window.themeColors = function () {
     var s = getComputedStyle(document.documentElement), g = function (n) { return s.getPropertyValue('--' + n).trim(); };
     return { page: g('page'), ink: g('ink'), meta: g('meta'), field: g('field'), mark: g('mark'), soft: g('soft'), deep: g('deep'),

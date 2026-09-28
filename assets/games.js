@@ -31,6 +31,18 @@
       self.turn(Math.abs(dx) > Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)]); if (!self.running) self.go();
     });
     canvas.addEventListener('click', function () { if (!self.running) { if (self.dead) self.reset(); self.go(); } });
+    var pad = document.createElement('div'); pad.className = 'snake-pad'; pad.setAttribute('role', 'group'); pad.setAttribute('aria-label', 'Snake controls');
+    [['up', [0, -1], 'Up'], ['left', [-1, 0], 'Left'], ['down', [0, 1], 'Down'], ['right', [1, 0], 'Right']].forEach(function (b) {
+      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'sp-' + b[0]; btn.setAttribute('aria-label', b[2]);
+      btn.innerHTML = '<span aria-hidden="true"></span>';
+      btn.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        if (self.dead) { self.reset(); }
+        self.turn(b[1]); if (!self.running) self.go();
+      });
+      pad.appendChild(btn);
+    });
+    canvas.insertAdjacentElement('afterend', pad);
     this.reset();
   }
   Snake.prototype.reset = function () {
@@ -85,7 +97,8 @@
       if (i === 0) { ctx.fillStyle = C.accent; ctx.fillRect(b[0] * c + 2, b[1] * c + 2, c - 4, c - 4); }
       else { ctx.fillStyle = C.ink; var s = Math.max(8, c - 4 - i * 0.25); ctx.fillRect(b[0] * c + (c - s) / 2, b[1] * c + (c - s) / 2, s, s); }
     });
-    var msg = this.dead ? 'Game over. Press space or tap to go again' : (!this.running ? 'Arrow keys or swipe to start' : null);
+    var touch = false; try { touch = matchMedia('(pointer: coarse)').matches; } catch (e) {}
+    var msg = this.dead ? (touch ? 'Game over. Tap an arrow to go again' : 'Game over. Press space or tap to go again') : (!this.running ? (touch ? 'Tap an arrow to start' : 'Arrow keys or swipe to start') : null);
     if (msg) {
       ctx.font = '500 13px "Geist Mono", ui-monospace, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       var w = ctx.measureText(msg).width; ctx.fillStyle = C.ink; ctx.fillRect(this.W / 2 - w / 2 - 14, this.H / 2 - 16, w + 28, 32);

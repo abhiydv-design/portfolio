@@ -621,3 +621,19 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .film figcaption { margin-top: 10px; font: 12px/1.5 var(--mono); color: var(--meta); }
 @media (max-width: 1000px) { .film { grid-column: 1 / -1; } }
 .hero-role { margin: 0; }
+
+/* voice button: negative colours whenever it floats over the matching footer */
+.voice.over-footer .voice-pill { background: var(--on-footer); color: var(--footer-bg); box-shadow: 0 0 0 1px var(--footer-bg), 0 0 0 2px var(--on-footer); }
+.voice.over-footer .voice-pill:hover { background: var(--on-footer); opacity: .9; }
+
+/* Snake arrows: shown on touch screens only */
+.snake-pad { display: none; grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(2, 64px); gap: 8px; justify-content: center; padding: 16px 0 6px; }
+.snake-pad button { display: grid; place-items: center; border: 1px solid var(--ink); background: var(--page); color: var(--ink); touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; }
+.snake-pad button:active { background: var(--accent); color: var(--page); border-color: var(--accent); }
+.snake-pad button span { width: 18px; height: 18px; background: currentColor; clip-path: polygon(50% 8%, 100% 80%, 0 80%); }
+.snake-pad .sp-up { grid-column: 2; grid-row: 1; }
+.snake-pad .sp-left { grid-column: 1; grid-row: 2; } .snake-pad .sp-left span { transform: rotate(-90deg); }
+.snake-pad .sp-down { grid-column: 2; grid-row: 2; } .snake-pad .sp-down span { transform: rotate(180deg); }
+.snake-pad .sp-right { grid-column: 3; grid-row: 2; } .snake-pad .sp-right span { transform: rotate(90deg); }
+@media (pointer: coarse) { .snake-pad { display: grid; } .snake-dialog { max-height: calc(100vh - 24px); overflow: auto; } }
+@media (pointer: coarse) { .inline-snake { margin-bottom: 190px; } }
