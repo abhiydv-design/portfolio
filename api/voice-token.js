@@ -2,6 +2,8 @@
 // Needs GEMINI_API_KEY in Vercel. Optional: GEMINI_LIVE_MODEL to force a model.
 const crypto = require('crypto');
 const { GoogleGenAI } = require('@google/genai');
+const CONTENT = require('../content.json');   // the assistant's prompt lives with the rest of the site's content
+const PROMPT = (CONTENT.voice_kb && CONTENT.voice_kb.system_prompt) || '';
 
 const KEY = process.env.GEMINI_API_KEY;
 const KV_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -68,7 +70,18 @@ module.exports = async (req, res) => {
       uses: 1,
       expireTime: new Date(now + 5 * 60 * 1000).toISOString(),          // the call itself can run a few minutes
       newSessionExpireTime: new Date(now + 60 * 1000).toISOString(),     // but it must start within a minute
-      liveConnectConstraints: { model },
+      // Locking a token applies to every field, so the whole assistant setup is fixed here, on the server.
+      // Browsers can't change the prompt, and the prompt always arrives.
+      liveConnectConstraints: { model, config: {
+        responseModalities: ['AUDIO'],
+        systemInstruction: PROMPT,
+        inputAudioTranscription: {},
+        outputAudioTranscription: {},
+        realtimeInputConfig: { automaticActivityDetection: {
+          startOfSpeechSensitivity: 'START_SENSITIVITY_LOW', endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH',
+          prefixPaddingMs: 120, silenceDurationMs: 450 } }
+      } },
+      lockAdditionalFields: [],
       httpOptions: { apiVersion: 'v1alpha' }
     } });
     return res.status(200).json({ token: token.name, model });

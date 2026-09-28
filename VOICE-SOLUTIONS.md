@@ -40,6 +40,11 @@ To update what the quick assistant says, edit `voice_kb` in `content.json` and r
 - Keep the domain allowlist on, so nobody else can use your agent.
 
 ### Gemini settings
+- The assistant's whole setup (prompt, captions, turn-taking) is locked into each token on the server, in
+  `api/voice-token.js`. The prompt comes from `voice_kb.system_prompt` in `content.json`, so editing that and
+  pushing updates what Gemini knows.
+- Memory: each visitor's conversation is kept in their own browser for 24 hours (`localStorage`, key
+  `voice-memory`), and a new call picks up where the last one left off. Nothing is stored on a server.
 - Force a specific model: add `GEMINI_LIVE_MODEL` in Vercel (otherwise the best available one is picked).
 - The prompt Gemini uses is `voice_kb.system_prompt` in `content.json`. Keep it in sync with the ElevenLabs prompt.
 

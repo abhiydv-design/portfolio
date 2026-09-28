@@ -33,6 +33,14 @@
     var Lib = await loadSDK();
     var ai = new Lib.GoogleGenAI({ apiKey: tk.token, httpOptions: { apiVersion: 'v1alpha' } });
 
+    var MEM_KEY = 'voice-memory', DAY = 86400000, memory = [];
+    try { var saved = JSON.parse(localStorage.getItem(MEM_KEY) || 'null'); if (saved && Date.now() - saved.t < DAY) memory = saved.turns || []; } catch (e) {}
+    var heard = '';
+    function remember(role, text) {
+      text = String(text || '').trim(); if (!text) return;
+      memory.push({ r: role, x: text.slice(0, 300) }); memory = memory.slice(-14);
+      try { localStorage.setItem(MEM_KEY, JSON.stringify({ t: Date.now(), turns: memory })); } catch (e) {}
+    }
     var active = true, opened = false, mode = 'listening', caption = '', CAP = (kb.cap_seconds || 150) * 1000, t0 = 0, capT = 0;
     var shared = window.__voiceOutCtx, outCtx = shared || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
     try { outCtx.resume(); } catch (e) {}
@@ -74,6 +82,7 @@
           responseModalities: [Lib.Modality.AUDIO],
           systemInstruction: kb.system_prompt || '',
           outputAudioTranscription: {},
+          inputAudioTranscription: {},
           realtimeInputConfig: { automaticActivityDetection: {
             startOfSpeechSensitivity: 'START_SENSITIVITY_LOW',   // background noise and echo shouldn't count as the visitor talking
             endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH',      // but reply promptly once they stop
@@ -87,8 +96,12 @@
             if (sc.interrupted) { stopPlayback(); caption = ''; setMode('listening'); }
             var parts = sc.modelTurn && sc.modelTurn.parts || [];
             parts.forEach(function (pt) { if (pt.inlineData && pt.inlineData.data) play(pt.inlineData.data); });
-            if (sc.outputTranscription && sc.outputTranscription.text) { caption += sc.outputTranscription.text; if (o.onMessage) o.onMessage({ role: 'agent', source: 'ai', message: caption.trim() }); }
-            if (sc.turnComplete) caption = '';
+            if (sc.inputTranscription && sc.inputTranscription.text) heard += sc.inputTranscription.text;
+            if (sc.outputTranscription && sc.outputTranscription.text) {
+              if (heard) { remember('visitor', heard); heard = ''; }
+              caption += sc.outputTranscription.text; if (o.onMessage) o.onMessage({ role: 'agent', source: 'ai', message: caption.trim() });
+            }
+            if (sc.turnComplete) { if (heard) { remember('visitor', heard); heard = ''; } remember('assistant', caption); caption = ''; }
           },
           onerror: function (e) { if (!opened) reject(new Error('gemini socket error')); else console.warn('Gemini:', e); },
           onclose: function (e) { if (!opened) reject(new Error('gemini closed: ' + (e && (e.reason || e.code)))); else end('user'); }
@@ -135,7 +148,13 @@
 
     t0 = performance.now();
     if (o.onConnect) o.onConnect();
-    try { session.sendClientContent({ turns: [{ role: 'user', parts: [{ text: kb.gemini_kickoff || 'The visitor just started the call. Greet them warmly in one short sentence and invite a question.' }] }], turnComplete: true }); } catch (e) {}
+    var kick = kb.gemini_kickoff || 'The visitor just started the call. Greet them warmly in one short sentence and invite a question.';
+    if (memory.length) {
+      var recap = memory.map(function (m) { return (m.r === 'visitor' ? 'Visitor: ' : 'You: ') + m.x; }).join('\n');
+      kick = 'This visitor talked with you earlier today. Here is that conversation:\n' + recap +
+        '\n\nThey have just started a new call. Welcome them back in one short sentence, mention what they were interested in, and continue naturally. Keep using this context for the rest of the call.';
+    }
+    try { session.sendClientContent({ turns: [{ role: 'user', parts: [{ text: kick }] }], turnComplete: true }); } catch (e) {}
     capT = setTimeout(function () { end('user'); }, CAP);
 
     return {
