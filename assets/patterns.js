@@ -128,95 +128,64 @@
     }
   };
 
-  /* a pixel "10" for the tenth anniversary, with confetti */
-  DRAW.ten = function (ctx, W, H, p, show) {
-    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
-    var GLYPH = ['..##..####..', '.###.##..##.', '..##.##..##.', '..##.##..##.', '..##.##..##.', '..##.##..##.', '.####.####..'];
-    var gw = GLYPH[0].length, gh = GLYPH.length, block = Math.floor(Math.min(W * 0.62 / gw, H * 0.62 / gh));
-    var ox = Math.round(W * 0.56 - gw * block / 2), oy = Math.round(H * 0.5 - gh * block / 2), cell = 8;
-    var cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
-    for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) {
-      if (!show(i, j)) continue;
-      var x = i * cell + 4, y = j * cell + 4, gx = Math.floor((x - ox) / block), gy = Math.floor((y - oy) / block);
-      var inside = gx >= 0 && gy >= 0 && gx < gw && gy < gh && GLYPH[gy][gx] === '#';
-      if (inside) {
-        var fx = ((x - ox) % block) / block, fy = ((y - oy) % block) / block, edge = Math.min(fx, fy, 1 - fx, 1 - fy);
-        var r = edge < 0.12 ? 1.6 : 2.9; ctx.fillStyle = hash(i, j, 61) < 0.08 ? p.soft : p.accent;
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-      } else {
-        var hh = hash(i, j, 62);
-        if (hh < 0.018) { var cs = [p.accent, p.soft, p.deep, p.ink][Math.floor(hash(i, j, 63) * 4)]; ctx.fillStyle = cs; var s = hh < 0.006 ? 6 : 4; ctx.fillRect(x - s / 2, y - s / 2, s, s); }
-        else if (hh < 0.08) { ctx.fillStyle = p.ink; ctx.globalAlpha = 0.18; ctx.fillRect(x - 0.7, y - 0.7, 1.4, 1.4); ctx.globalAlpha = 1; }
-      }
-    }
-  };
-
-  /* Waffle: a 5x5 board with four gaps, tiles built from pixels, a few lit up */
-  DRAW.waffle = function (ctx, W, H, p, show) {
-    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
-    var n = 5, cell = 6, tile = Math.floor(Math.min(W * 0.66, H * 0.8) / n / cell) * cell, gap = cell * 2;
-    var bw = n * tile + (n - 1) * gap, ox = Math.round((W - bw) / 2 + W * 0.04), oy = Math.round((H - bw) / 2);
-    var lit = { '0,0': 1, '0,4': 2, '2,2': 1, '4,1': 2, '1,0': 3, '3,4': 3 };
-    for (var r = 0; r < n; r++) for (var q = 0; q < n; q++) {
-      if (r % 2 === 1 && q % 2 === 1) continue;
-      var x0 = ox + q * (tile + gap), y0 = oy + r * (tile + gap), k = lit[r + ',' + q] || 0;
-      var col = k === 1 ? p.accent : k === 2 ? p.soft : k === 3 ? p.deep : p.ink;
-      for (var j = 0; j < tile / cell; j++) for (var i = 0; i < tile / cell; i++) {
-        if (!show(q * 9 + i, r * 9 + j)) continue;
-        var edge = i === 0 || j === 0 || i === tile / cell - 1 || j === tile / cell - 1;
-        var x = x0 + i * cell, y = y0 + j * cell;
-        if (k) { ctx.fillStyle = col; ctx.fillRect(x + 0.5, y + 0.5, cell - 1, cell - 1); }
-        else if (edge) { ctx.fillStyle = col; ctx.globalAlpha = 0.85; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2); ctx.globalAlpha = 1; }
-        else if (hash(x, y, 71) < 0.18) { ctx.fillStyle = col; ctx.globalAlpha = 0.25; ctx.fillRect(x + 2, y + 2, cell - 4, cell - 4); ctx.globalAlpha = 1; }
-      }
-    }
-    // loose tiles drifting off to the side, like a game mid-move
-    for (var m = 0; m < 14; m++) {
-      var hx = hash(m, 3, 72), hy = hash(m, 4, 73);
-      if (!show(m, 90)) continue;
-      ctx.fillStyle = m % 3 ? p.soft : p.accent; ctx.globalAlpha = 0.35 + 0.5 * hash(m, 5, 74);
-      var s = cell * (1 + Math.floor(hash(m, 6, 75) * 2));
-      ctx.fillRect(Math.round(hx * W / cell) * cell, Math.round(hy * H / cell) * cell, s, s); ctx.globalAlpha = 1;
-    }
-  };
-
   /* ---------- a kirana store, in pixels ---------- */
   var FONT = { K: ['10001','10010','10100','11000','10100','10010','10001'], I: ['111','010','010','010','010','010','111'],
     R: ['11110','10001','10001','11110','10100','10010','10001'], A: ['01110','10001','10001','11111','10001','10001','10001'],
-    N: ['10001','11001','10101','10011','10001','10001','10001'] };
-  DRAW.shop = function (ctx, W, H, p, show) {
+    N: ['10001','11001','10101','10011','10001','10001','10001'], C: ['01110','10001','10000','10000','10000','10001','01110'],
+    L: ['10000','10000','10000','10000','10000','10000','11111'], U: ['10001','10001','10001','10001','10001','10001','01110'],
+    B: ['11110','10001','10001','11110','10001','10001','11110'], Y: ['10001','10001','01010','00100','00100','00100','00100'],
+    E: ['11111','10000','10000','11110','10000','10000','11111'], S: ['01111','10000','10000','01110','00001','00001','11110'],
+    ' ': ['000','000','000','000','000','000','000'],
+    0: ['01110','10001','10001','10001','10001','10001','01110'], 1: ['00100','01100','00100','00100','00100','00100','01110'],
+    2: ['01110','10001','00001','00010','00100','01000','11111'], 3: ['11110','00001','00001','01110','00001','00001','11110'],
+    4: ['00010','00110','01010','10010','11111','00010','00010'], 5: ['11111','10000','11110','00001','00001','10001','01110'],
+    6: ['00110','01000','10000','11110','10001','10001','01110'], 7: ['11111','00001','00010','00100','01000','01000','01000'],
+    8: ['01110','10001','10001','01110','10001','10001','01110'], 9: ['01110','10001','10001','01111','00001','00010','01100'] };
+  function textW(w) { var n = 0; for (var k = 0; k < w.length; k++) n += FONT[w[k]][0].length + 1; return n - 1; }
+  function text(px, w, x, y, col, a) { for (var k = 0; k < w.length; k++) { var g = FONT[w[k]];
+      for (var r = 0; r < 7; r++) for (var q = 0; q < g[r].length; q++) if (g[r][q] === '1') px(x + q, y + r, col, a); x += g[0].length + 1; } }
+
+  DRAW.shop = function (ctx, W, H, p, show, t) {
+    var still = t == null; t = still ? 0 : t;
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
-    var c = Math.max(4, Math.floor(Math.min(W / 64, H / 44))), gw = Math.floor(W / c), gh = Math.floor(H / c);
+    var c = Math.max(4, Math.floor(Math.min(W / 70, H / 56))), gw = Math.floor(W / c), gh = Math.floor(H / c);
     function px(i, j, col, a) { if (i < 0 || j < 0 || i >= gw || j >= gh || !show(i, j)) return; ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
     function rect(x0, y0, w, h, col, a) { for (var j = y0; j < y0 + h; j++) for (var i = x0; i < x0 + w; i++) px(i, j, col, a); }
-    // faint dotted ground and sky
     for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) if (hash(i, j, 81) < 0.05) px(i, j, p.soft, 0.35);
-    var sw = 46, sh = 32, x0 = Math.round((gw - sw) / 2) + 2, base = gh - 5, y0 = base - sh;
-    rect(0, base, gw, 1, p.ink, 0.5);                                           // pavement line
-    // sign board with KIRANA in a pixel font
-    rect(x0 + 3, y0, sw - 6, 9, p.accent);
-    var word = 'KIRANA', cx = x0 + 3 + Math.floor((sw - 6 - (word.length * 6 - 3)) / 2);
-    for (var k = 0; k < word.length; k++) { var g = FONT[word[k]], off = cx + k * 6 + (word[k] === 'I' ? 1 : 0);
-      for (var r = 0; r < 7; r++) for (var q = 0; q < g[r].length; q++) if (g[r][q] === '1') px(off + q, y0 + 1 + r, p.page); }
+    var sw = 46, x0 = Math.round((gw - sw) / 2) + 2, base = gh - 4, y0 = base - 47;
+    rect(0, base, gw, 1, p.ink, 0.5);
+    // sign: KIRANA / CLUB, framed by chasing bulbs
+    var sx = x0 + 2, sgw = sw - 4, sgh = 19;
+    rect(sx, y0, sgw, sgh, p.accent);
+    text(px, 'KIRANA', sx + Math.floor((sgw - textW('KIRANA')) / 2), y0 + 2, p.page);
+    text(px, 'CLUB', sx + Math.floor((sgw - textW('CLUB')) / 2), y0 + 10, p.page);
+    var bulbs = [], k;
+    for (k = sx; k < sx + sgw; k += 2) { bulbs.push([k, y0 - 1]); bulbs.push([k, y0 + sgh]); }
+    for (k = y0 + 1; k < y0 + sgh; k += 2) { bulbs.push([sx - 1, k]); bulbs.push([sx + sgw, k]); }
+    var chase = Math.floor(t * 8);
+    bulbs.forEach(function (b, n) { var lit = still || (n + chase) % 3 === 0; px(b[0], b[1], lit ? p.deep : p.soft, lit ? 1 : 0.35); });
     // walls and a striped, scalloped awning
-    rect(x0, y0 + 9, sw, sh - 9, p.ink, 0.9);
+    var ay = y0 + sgh + 1;
+    rect(x0, ay, sw, base - ay, p.ink, 0.9);
     for (var i = x0 - 2; i < x0 + sw + 2; i++) { var stripe = Math.floor((i - x0) / 3) % 2 ? p.page : p.accent;
-      for (var r = 0; r < 4; r++) px(i, y0 + 9 + r, stripe); if (((i - x0) % 3) !== 1) px(i, y0 + 13, stripe); }
-    // the opening, three stocked shelves
-    var ox = x0 + 3, oy = y0 + 15, ow = sw - 6, oh = sh - 21;
+      for (var r = 0; r < 4; r++) px(i, ay + r, stripe); if (((i - x0) % 3) !== 1) px(i, ay + 4, stripe); }
+    var ox = x0 + 3, oy = ay + 6, ow = sw - 6, oh = base - 6 - oy;
     rect(ox, oy, ow, oh, p.night);
     var cols = [p.accent, p.soft, p.deep, p.mark];
-    for (var sh2 = 0; sh2 < 3; sh2++) { var sy = oy + 3 + sh2 * 4;
+    for (var sh2 = 0; sh2 < 3; sh2++) { var sy = oy + 3 + sh2 * 4; if (sy + 1 >= oy + oh) break;
       rect(ox + 1, sy + 1, ow - 2, 1, p.soft, 0.7);
       for (var i = ox + 2; i < ox + ow - 2; ) { var bw = 1 + Math.floor(hash(i, sy, 82) * 2), bh = 2 + Math.floor(hash(i, sy, 83) * 2), col = cols[Math.floor(hash(i, sy, 84) * 4)];
         if (hash(i, sy, 85) > 0.15) rect(i, sy + 1 - bh, bw, bh, col); i += bw + 1; } }
-    // counter with jars
     rect(ox - 1, base - 6, ow + 2, 6, p.accent);
     rect(ox - 1, base - 6, ow + 2, 1, p.page, 0.6);
     for (var jx = ox + 3; jx < ox + ow - 3; jx += 5) { rect(jx, base - 9, 3, 3, p.soft, 0.9); rect(jx, base - 10, 3, 1, p.deep); }
-    // grain sacks out front
-    [[x0 - 9, 0], [x0 - 5, 1], [x0 + sw + 2, 2], [x0 + sw + 6, 3]].forEach(function (sk) {
-      var sx = sk[0]; rect(sx, base - 5, 4, 5, p.soft); rect(sx + 1, base - 6, 2, 1, p.soft); px(sx + 1, base - 3, p.page, 0.6); px(sx + 2, base - 2, p.page, 0.6); });
+    [[x0 - 9], [x0 - 5], [x0 + sw + 2], [x0 + sw + 6]].forEach(function (sk) {
+      var sx2 = sk[0]; rect(sx2, base - 5, 4, 5, p.soft); rect(sx2 + 1, base - 6, 2, 1, p.soft); px(sx2 + 1, base - 3, p.page, 0.6); px(sx2 + 2, base - 2, p.page, 0.6); });
+    // a shopper strolls past with a bag
+    var mx = still ? x0 - 15 : Math.floor((t * 5) % (gw + 14)) - 7, step = still ? 0 : Math.floor(t * 5) % 2, my = base - 9;
+    rect(mx + 1, my, 2, 2, p.mark); rect(mx, my + 2, 4, 4, p.deep);
+    px(mx + (step ? 0 : 1), my + 6, p.ink); px(mx + (step ? 0 : 1), my + 7, p.ink); px(mx + (step ? 3 : 2), my + 6, p.ink); px(mx + (step ? 3 : 2), my + 7, p.ink);
+    rect(mx + 4, my + 3, 2, 3, p.accent); px(mx + 4, my + 2, p.accent);
   };
 
   /* ---------- a goods truck on the move (animated) ---------- */
@@ -261,6 +230,95 @@
       var hub = [[0, 0], [1, 1], [0, 2], [-1, 1]][spin]; px(wx + hub[0] * 0 , y + 14, p.mark); px(wx + hub[0], y + 13 + hub[1], p.soft);
     });
     for (var k = 1; k < 5; k++) if (hash(k, Math.floor(t * 8), 86) > 0.4) px(x - 2 - k * 2, y + 13 + (k % 2), p.soft, 0.6 - k * 0.1);  // dust
+  };
+
+  /* ---------- FarMart Dashak: a counter that climbs from 1 to 10 ---------- */
+  DRAW.ten = function (ctx, W, H, p, show, t) {
+    var still = t == null, T = still ? 6 : t % 8.5;
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var cell = 8, cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+    for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) if (show(i, j) && hash(i, j, 62) < 0.06) { ctx.fillStyle = p.ink; ctx.globalAlpha = 0.16; ctx.fillRect(i * cell + 3, j * cell + 3, 2, 2); ctx.globalAlpha = 1; }
+    var n = Math.min(10, 1 + Math.floor(T / 0.42)), str = String(n), fresh = !still && n < 10 && (T % 0.42) < 0.1;
+    var block = cell * Math.max(1, Math.floor(H * 0.5 / 7 / cell)), gl = str.length * 6 - 1;
+    var ox = Math.round((W - gl * block) / 2 / cell) * cell, oy = Math.round((H * 0.42 - 3.5 * block) / cell) * cell;
+    for (var d = 0; d < str.length; d++) { var g = FONT[str[d]];
+      for (var r = 0; r < 7; r++) for (var q = 0; q < 5; q++) { if (g[r][q] !== '1') continue;
+        var bx = ox + (d * 6 + q) * block, by = oy + r * block, sub = block / cell;
+        for (var jj = 0; jj < sub; jj++) for (var ii = 0; ii < sub; ii++) {
+          var ci = Math.floor(bx / cell) + ii, cj = Math.floor(by / cell) + jj; if (!show(ci, cj)) continue;
+          var edge = ii === 0 || jj === 0 || ii === sub - 1 || jj === sub - 1, rad = (edge ? 1.7 : 2.9) * (fresh ? 1.15 : 1);
+          ctx.fillStyle = hash(ci, cj, 61) < 0.08 ? p.soft : p.accent; ctx.beginPath(); ctx.arc(ci * cell + 4, cj * cell + 4, rad, 0, Math.PI * 2); ctx.fill(); } } }
+    // ten progress squares
+    var ty = oy + 7 * block + cell * 3, tw = 10 * cell * 2 - cell, tx = Math.round((W - tw) / 2 / cell) * cell;
+    for (var k = 0; k < 10; k++) { ctx.fillStyle = k < n ? p.accent : p.ink; ctx.globalAlpha = k < n ? 1 : 0.18; ctx.fillRect(tx + k * cell * 2, ty, cell, cell); }
+    ctx.globalAlpha = 1;
+    if (n === 10) {
+      var lc = Math.max(3, Math.floor(cell / 2)), lw = textW('YEARS') * lc, lx = Math.round((W - lw) / 2), ly = ty + cell * 2.5;
+      text(function (i, j, col) { ctx.fillStyle = col; ctx.fillRect(lx + i * lc, ly + j * lc, lc - 1, lc - 1); }, 'YEARS', 0, 0, p.ink);
+      var since = still ? 3 : T - 3.78;
+      for (var m = 0; m < 70; m++) {
+        var sx = hash(m, 1, 63) * W, sp = 60 + hash(m, 2, 64) * 110, sy = -20 - hash(m, 3, 65) * H * 0.6 + since * sp;
+        if (still) sy = hash(m, 4, 66) * H;
+        if (sy < -10 || sy > H) continue;
+        ctx.fillStyle = [p.accent, p.soft, p.deep, p.ink][m % 4]; var sz = m % 3 ? 4 : 6;
+        ctx.fillRect(Math.round((sx + Math.sin(since * 3 + m) * 8) / 2) * 2, Math.round(sy / 2) * 2, sz, sz);
+      }
+    }
+  };
+
+  /* ---------- Waffle: a golden waffle with butter, strawberries, syrup and steam ---------- */
+  DRAW.waffle = function (ctx, W, H, p, show, t) {
+    var still = t == null; t = still ? 1.4 : t;
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var c = Math.max(4, Math.floor(Math.min(W / 84, H / 52))), gw = Math.floor(W / c), gh = Math.floor(H / c);
+    function px(i, j, col, a) { if (i < 0 || j < 0 || i >= gw || j >= gh || !show(i, j)) return; ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
+    var G = { hi: '#F7D27A', ridge: '#E7A945', pocket: '#B8721F', rim: '#8E5314', syrup: '#6E3310', butter: '#F8DE78', butterHi: '#FFF3C2', berry: '#E0445A', seed: '#FFD6DC', leaf: '#4E9B47' };
+    var cx = gw / 2, cy = gh * 0.56, R = Math.min(gw * 0.26, gh * 0.4), sq = 0.66;
+    // plate
+    for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
+      var u = (i + 0.5 - cx) / (R * 1.42), v = (j + 0.5 - cy - 3) / (R * 1.42 * sq), d = u * u + v * v;
+      if (d < 1) px(i, j, p.ink, d > 0.86 ? 0.3 : 0.1);
+    }
+    // waffle body, thickness first, then the gridded top
+    for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
+      var u = (i + 0.5 - cx) / R, v = (j + 0.5 - cy - 2) / (R * sq);
+      if (u * u + v * v < 1) px(i, j, G.rim);
+    }
+    for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
+      var u = (i + 0.5 - cx) / R, v = (j + 0.5 - cy) / (R * sq), d = u * u + v * v; if (d >= 1) continue;
+      var gi = ((i - Math.floor(cx)) % 4 + 4) % 4, gj = ((j - Math.floor(cy)) % 3 + 3) % 3, pocket = gi >= 2 && gj >= 1;
+      var col = pocket ? G.pocket : (d > 0.8 ? G.rim : G.ridge);
+      if (!pocket && d < 0.8 && u < -0.1 && v < -0.1 && hash(i, j, 91) < 0.45) col = G.hi;
+      px(i, j, col);
+    }
+    // syrup pooled in the pockets around the butter
+    for (var j = 0; j < gh; j++) for (var i = 0; i < gw; i++) {
+      var u = (i + 0.5 - cx) / (R * 0.55), v = (j + 0.5 - cy + 1) / (R * 0.55 * sq), d = u * u + v * v;
+      if (d < 1 && hash(i, j, 92) < 0.7 - d * 0.4) px(i, j, G.syrup, 0.85);
+    }
+    // syrup drips over the front edge, growing and falling
+    [-0.55, -0.15, 0.3, 0.62].forEach(function (f, n) {
+      var x = Math.round(cx + f * R), edge = Math.round(cy + Math.sqrt(Math.max(0, 1 - f * f)) * R * sq) + 1;
+      var cyc = (t * 0.9 + n * 0.37) % 1, len = Math.floor(cyc * 7);
+      for (var q = 0; q < Math.min(len, 4); q++) px(x, edge + q, G.syrup);
+      if (len > 4) px(x, edge + len, G.syrup, 0.9);
+    });
+    // butter pat
+    var bx = Math.round(cx - 3), by = Math.round(cy - 3);
+    for (var j = 0; j < 4; j++) for (var i = 0; i < 6; i++) px(bx + i, by + j, (i < 2 && j < 2) ? G.butterHi : G.butter);
+    for (var i = 0; i < 6; i++) px(bx + i, by + 4, G.rim, 0.6);
+    // strawberry slices
+    [[-0.52, -0.25], [0.45, -0.3], [0.1, 0.42]].forEach(function (s2) {
+      var x = Math.round(cx + s2[0] * R), y = Math.round(cy + s2[1] * R * sq);
+      [[1,0],[2,0],[0,1],[1,1],[2,1],[3,1],[0,2],[1,2],[2,2],[3,2],[1,3],[2,3]].forEach(function (q) { px(x + q[0], y + q[1], G.berry); });
+      px(x + 1, y + 1, G.seed); px(x + 2, y + 2, G.seed); px(x + 1, y - 1, G.leaf); px(x + 2, y - 1, G.leaf);
+    });
+    // steam rising
+    if (!still) [-0.35, 0.05, 0.4].forEach(function (f, n) {
+      var x0 = cx + f * R, top = Math.round(cy - R * sq) - 2;
+      for (var k = 0; k < 12; k++) { var rise = (t * 5 + n * 4) % 12, y = top - ((k + rise) % 12), wob = Math.round(Math.sin((y + t * 4) * 0.55 + n) * 1.2);
+        px(Math.round(x0 + wob), y, p.ink, 0.28 * (1 - ((k + rise) % 12) / 12)); }
+    });
   };
 
   DRAW.band = function (ctx, W, H, p) {
@@ -693,11 +751,11 @@
       if (el.getAttribute('data-pattern') === 'band') { band = new Band(el); band.draw(); return; }
       var s = new Static(el);
       if (el.hasAttribute('data-instant')) { s.progress = 1; s.started = true; }
-      if (s.name === 'truck') s.animated = true;
+      if (['truck', 'shop', 'ten', 'waffle'].indexOf(s.name) > -1) s.animated = true;
       statics.push(s); s.draw();
       if (s.animated && !reduced && 'IntersectionObserver' in window) {
         var on = false, raf2 = 0;
-        var loop = function (ts) { if (!on) { raf2 = 0; return; } s.t = ts / 1000; s.draw(); raf2 = requestAnimationFrame(loop); };
+        var last = 0, loop = function (ts) { if (!on) { raf2 = 0; return; } if (ts - last > 32) { last = ts; s.t = ts / 1000; s.draw(); } raf2 = requestAnimationFrame(loop); };
         new IntersectionObserver(function (en) { on = en[0].isIntersecting; if (on && !raf2) raf2 = requestAnimationFrame(loop); }).observe(el);
       }
       var card = el.closest('.card');
