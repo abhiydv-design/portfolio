@@ -91,6 +91,9 @@ __OG__
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Devanagari:wght@400;500&display=swap">
 <link rel="stylesheet" href="{root}assets/styles.css">
+<script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }}; window.si = window.si || function () {{ (window.siq = window.siq || []).push(arguments); }};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
