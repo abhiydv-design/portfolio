@@ -6,8 +6,8 @@
   function pickVoice(synth) {
     var vs = synth.getVoices() || [], score = function (v) {
       var n = (v.name + ' ' + v.lang).toLowerCase(), s = 0;
-      if (/^en/.test(v.lang.toLowerCase())) s += 5; if (/en[-_]in/.test(v.lang.toLowerCase())) s += 4;
-      if (/natural|neural|google|samantha|daniel|rishi|veena|microsoft/.test(n)) s += 3; if (v.localService) s += 1;
+      if (/^en/.test(v.lang.toLowerCase())) s += 5; if (/en[-_]in/.test(v.lang.toLowerCase())) s += 9;   // Indian English first
+      if (/natural|neural|google|rishi|veena|heera|ravi|neerja|prabhat|microsoft/.test(n)) s += 3; if (v.localService) s += 1;
       return s; };
     return vs.slice().sort(function (a, b) { return score(b) - score(a); })[0] || null;
   }

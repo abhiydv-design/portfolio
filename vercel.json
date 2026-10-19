@@ -12,5 +12,8 @@
       "destination": "/#work",
       "permanent": false
     }
+  ],
+  "regions": [
+    "bom1"
   ]
 }

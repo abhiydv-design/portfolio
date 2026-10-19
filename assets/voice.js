@@ -157,7 +157,8 @@
   if (ORDER.indexOf('gemini') > -1) {
     var warmUp = function () { if (window.GeminiVoice && !off('gemini')) window.GeminiVoice.warm(); };
     setTimeout(function () { (window.requestIdleCallback || setTimeout)(warmUp); }, 3500);
-    ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { startBtn.addEventListener(ev, warmUp, { passive: true }); });
+    var intent = function () { warmUp(); if (window.GeminiVoice && window.GeminiVoice.prefetch && ORDER[0] === 'gemini' && !off('gemini')) window.GeminiVoice.prefetch(true); };
+    ['pointerenter', 'focus', 'touchstart'].forEach(function (ev) { startBtn.addEventListener(ev, intent, { passive: true }); });
   }
   function startLocal() {
     releaseMic();
@@ -193,6 +194,7 @@
     note(null); capEl.textContent = ''; setState('connecting'); statusEl.textContent = 'Connecting'; timeEl.textContent = '00:00';
     root.classList.remove('local', 'gemini'); log = [];
     raf = requestAnimationFrame(live);
+    if (window.GeminiVoice && window.GeminiVoice.prefetch && ORDER[0] === 'gemini' && !off('gemini')) window.GeminiVoice.prefetch(false);   // token loads while the mic permission is asked
     try {
       var stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
       if (ORDER[0] === 'gemini' && !off('gemini')) window.__voiceMic = stream;      // Gemini reuses it: no second permission round-trip

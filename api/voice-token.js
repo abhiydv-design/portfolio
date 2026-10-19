@@ -8,7 +8,7 @@ const PROMPT = (CONTENT.voice_kb && CONTENT.voice_kb.system_prompt) || '';
 const KEY = process.env.GEMINI_API_KEY;
 const KV_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-const DAILY_LIMIT = 12;           // calls per visitor per day
+const DAILY_LIMIT = 20;           // tokens per visitor per day (a few are fetched early on hover, so this is a little higher)
 let cachedModel = null;
 
 async function redis(cmd) {
