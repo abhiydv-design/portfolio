@@ -14,6 +14,9 @@
 
   window.LocalVoice = { start: function (o) {
     var kb = { intents: [] }; try { kb = JSON.parse(document.getElementById('voice-kb').textContent); } catch (e) {}
+    var SAY = [[/\bYadav\b/g, 'Yaadav'], [/\bDashak\b/g, 'Dushuk'], [/\bFarMart\b/g, 'Far Mart'], [/\bRoarink\b/gi, 'Roar ink'],
+      [/\bKirana\b/g, 'Kiraana'], [/\bGurugram\b/g, 'Guru gram'], [/\bTrulySafe\b/g, 'Truly Safe'], [/\bSugarwatchers\b/g, 'Sugar watchers'],
+      [/\bMediaPipe\b/g, 'Media Pipe'], [/\bUI\/UX\b/g, 'U I, U X'], [/\bB2B\b/g, 'B to B'], [/\bB2C\b/g, 'B to C'], [/\bAashirvaad\b/g, 'Aashirvaad']];
     var Rec = window.SpeechRecognition || window.webkitSpeechRecognition, synth = window.speechSynthesis;
     var active = true, mode = 'listening', rec = null, stream = null, ac = null, an = null, buf = null, t0 = performance.now(), speakT = 0, voice = null, restarts = 0;
     var CAP = (kb.cap_seconds || 150) * 1000;
@@ -44,9 +47,17 @@
       var done = false, finish = function () { if (done) return; done = true; clearTimeout(speakT); if (!active) return; setMode('listening'); if (then) then(); else listen(); };
       if (!synth) { speakT = setTimeout(finish, 900 + text.length * 55); return; }
       try { synth.cancel(); } catch (e) {}
-      var u = new SpeechSynthesisUtterance(text); voice = voice || pickVoice(synth); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-IN';
-      u.rate = 1.02; u.pitch = 1; u.onend = finish; u.onerror = finish;
-      synth.speak(u);
+      voice = voice || pickVoice(synth);
+      // say names the way people actually say them, then speak sentence by sentence with small natural pauses
+      var said = SAY.reduce(function (str, r) { return str.replace(r[0], r[1]); }, text);
+      var parts = said.match(/[^.!?]+[.!?]*/g) || [said];
+      parts.forEach(function (part, i) {
+        var u = new SpeechSynthesisUtterance(part.trim()); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-IN';
+        var excited = /!\s*$/.test(part);
+        u.rate = excited ? 1.06 : 1.0; u.pitch = excited ? 1.12 : 1.04;            // a little lift on excited lines, warm otherwise
+        if (i === parts.length - 1) { u.onend = finish; u.onerror = finish; }
+        synth.speak(u);
+      });
       speakT = setTimeout(finish, 2500 + text.split(' ').length * 450);   // Chrome sometimes never fires onend
     }
     function listen() {

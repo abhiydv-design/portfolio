@@ -75,11 +75,13 @@ module.exports = async (req, res) => {
       liveConnectConstraints: { model, config: {
         responseModalities: ['AUDIO'],
         systemInstruction: PROMPT,
+        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: process.env.GEMINI_VOICE || 'Puck' } } },   // upbeat, expressive
+        ...(/native-audio/.test(model) ? { enableAffectiveDialog: true } : {}),   // the voice reacts to the visitor's tone
         inputAudioTranscription: {},
         outputAudioTranscription: {},
         realtimeInputConfig: { automaticActivityDetection: {
-          startOfSpeechSensitivity: 'START_SENSITIVITY_LOW', endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH',
-          prefixPaddingMs: 120, silenceDurationMs: 450 } }
+          startOfSpeechSensitivity: 'START_SENSITIVITY_HIGH', endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH',   // notice speech sooner
+          prefixPaddingMs: 80, silenceDurationMs: 380 } }   // reply after a shorter pause, still long enough not to cut people off
       } },
       lockAdditionalFields: [],
       httpOptions: { apiVersion: 'v1alpha' }
