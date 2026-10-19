@@ -35,7 +35,10 @@
     lose: function () { beep(330, 0.12, 'square', 0.035); beep(196, 0.22, 'square', 0.035, 0.12); },
     water: function () { beep(392, 0.08, 'sine', 0.06); beep(587, 0.12, 'sine', 0.05, 0.07); },
     sticker: function () { [523, 659, 784, 1046].forEach(function (f, i) { beep(f, 0.09, 'square', 0.03, i * 0.075); }); },
-    toggle: function () { beep(740, 0.05, 'triangle', 0.05); }
+    toggle: function () { beep(740, 0.05, 'triangle', 0.05); },
+    arrow: function () { [988, 880, 784, 659, 523].forEach(function (f, i) { beep(f, 0.05, 'triangle', 0.04, i * 0.035); }); },
+    boom: function () { beep(98, 0.35, 'sawtooth', 0.06); beep(73, 0.45, 'square', 0.04, 0.05);
+      for (var i = 0; i < 7; i++) beep(900 + Math.random() * 900, 0.05, 'square', 0.018, 0.12 + i * 0.07); }
   };
   window.pixelSound = function (n, p) {
     if (!soundOn || !SFX[n]) return; var now = performance.now();

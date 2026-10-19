@@ -297,7 +297,7 @@ def index():
 </main>
 """
     ld = [person(), {"@type": "WebSite", "@id": C["site_url"] + "/#site", "url": C["site_url"] + "/", "name": C["full_name"] + ", Product Designer", "inLanguage": "en-IN", "author": {"@id": C["site_url"] + "/#person"}}]
-    return head(f"{C['full_name']} | Product Designer, UI/UX & Creative Designer", "Abhishek Yadav is a product designer, UI/UX designer and creative designer in Gurugram, India. Case studies in B2B, B2C, branding and AI-built products.", "/", "/", "/og.png", ld) + nav(True) + body + footer("/")
+    return head(f"{C['full_name']} | Product Designer, UI/UX & Creative Designer", "Abhishek Yadav is a product designer, UI/UX designer and creative designer in Gurugram, India. Case studies in B2B, B2C, branding and AI-built products.", "/", "/", "/og.png", ld) + nav(True) + body + footer("/") + '<script src="/assets/dussehra.js" defer></script>\n'
 
 def render_sections(secs):
     out = []
