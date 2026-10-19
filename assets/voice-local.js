@@ -14,6 +14,7 @@
 
   window.LocalVoice = { start: function (o) {
     var kb = { intents: [] }; try { kb = JSON.parse(document.getElementById('voice-kb').textContent); } catch (e) {}
+    var REACT = ['Oh, nice!', 'Ooh, good one.', 'Hmm... okay.', 'Oh, I love this one!', 'Ah, okay.'];
     var SAY = [[/\bYadav\b/g, 'Yaadav'], [/\bDashak\b/g, 'Dushuk'], [/\bFarMart\b/g, 'Far Mart'], [/\bRoarink\b/gi, 'Roar ink'],
       [/\bKirana\b/g, 'Kiraana'], [/\bGurugram\b/g, 'Guru gram'], [/\bTrulySafe\b/g, 'Truly Safe'], [/\bSugarwatchers\b/g, 'Sugar watchers'],
       [/\bMediaPipe\b/g, 'Media Pipe'], [/\bUI\/UX\b/g, 'U I, U X'], [/\bB2B\b/g, 'B to B'], [/\bB2C\b/g, 'B to C'], [/\bAashirvaad\b/g, 'Aashirvaad']];
@@ -50,15 +51,20 @@
       voice = voice || pickVoice(synth);
       // say names the way people actually say them, then speak sentence by sentence with small natural pauses
       var said = SAY.reduce(function (str, r) { return str.replace(r[0], r[1]); }, text);
-      var parts = said.match(/[^.!?]+[.!?]*/g) || [said];
-      parts.forEach(function (part, i) {
-        var u = new SpeechSynthesisUtterance(part.trim()); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-IN';
-        var excited = /!\s*$/.test(part);
-        u.rate = excited ? 1.06 : 1.0; u.pitch = excited ? 1.12 : 1.04;            // a little lift on excited lines, warm otherwise
-        if (i === parts.length - 1) { u.onend = finish; u.onerror = finish; }
+      if (!/^(hi|hello|that's our time|sorry)/i.test(said) && Math.random() < 0.5) said = REACT[Math.floor(Math.random() * REACT.length)] + ' ' + said;   // a small, human reaction
+      var parts = (said.match(/[^.!?…]+[.!?…]*/g) || [said]).map(function (x) { return x.trim(); }).filter(Boolean), n = 0;
+      function next() {                                   // one sentence at a time, with a real breath in between
+        if (!active || done) return;
+        if (n >= parts.length) return finish();
+        var part = parts[n++], u = new SpeechSynthesisUtterance(part); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-IN';
+        var excited = /!$/.test(part), asking = /\?$/.test(part), thinking = /^(hmm|so)\b/i.test(part);
+        u.rate = excited ? 1.07 : thinking ? 0.94 : 1.0; u.pitch = excited ? 1.15 : asking ? 1.08 : 1.03;
+        u.onend = function () { clearTimeout(speakT); speakT = setTimeout(next, asking ? 420 : excited ? 260 : thinking ? 380 : 320); };
+        u.onerror = finish;
         synth.speak(u);
-      });
-      speakT = setTimeout(finish, 2500 + text.split(' ').length * 450);   // Chrome sometimes never fires onend
+        clearTimeout(speakT); speakT = setTimeout(next, 2200 + part.split(' ').length * 420);   // Chrome sometimes never fires onend
+      }
+      next();
     }
     function listen() {
       if (!active) return;

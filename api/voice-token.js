@@ -75,6 +75,7 @@ module.exports = async (req, res) => {
       liveConnectConstraints: { model, config: {
         responseModalities: ['AUDIO'],
         systemInstruction: PROMPT,
+        temperature: 1.15,                                                       // a bit more expressive variety in the delivery
         speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: process.env.GEMINI_VOICE || 'Puck' } } },   // upbeat, expressive
         ...(/native-audio/.test(model) ? { enableAffectiveDialog: true } : {}),   // the voice reacts to the visitor's tone
         inputAudioTranscription: {},
