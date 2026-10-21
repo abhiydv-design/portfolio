@@ -219,7 +219,12 @@ def index():
     P = C["projects"]
     idx = "\n".join(f'          <a href="/work/{p["slug"]}">{mark(p["mark"])}{e(p["title"])}</a>' for p in P)
     cards = []
-    for p, (span, drop) in zip(P, LAYOUT):
+    # pairs alternate 7+5 (the second one dropped) and 5+7; an odd card out at the end becomes one wide card
+    layout = []
+    for k in range(len(P)):
+        if k == len(P) - 1 and len(P) % 2 == 1: layout.append(("wide", ""))
+        else: layout.append(LAYOUT[k % 4])
+    for p, (span, drop) in zip(P, layout):
         cards.append(f"""      <a class="card {span}{drop}" href="/work/{p['slug']}">
         <div class="card-art" style="view-transition-name: art-{p['slug']}"><canvas data-pattern="{p['pattern']}" role="img" aria-label="{ALT[p['pattern']]}"></canvas></div>
         <div class="card-title"><h3>{e(p['title'])}</h3><span class="meta">{e(p['client'])}, {e(p['year'])}</span></div>

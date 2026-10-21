@@ -102,6 +102,10 @@ img { max-width: 100%; }
 .card.span-7 { grid-column: span 7; }
 .card.span-5 { grid-column: span 5; }
 .card.drop { padding-top: 120px; }
+.card.wide { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-content: start; }
+.card.wide .card-art { grid-column: 1 / span 7; grid-row: 1 / span 4; }
+.card.wide .card-title, .card.wide p, .card.wide .more { grid-column: 9 / -1; }
+.card.wide .card-title { align-self: end; }
 .card-art { height: clamp(300px, 29vw, 420px); border: 1px solid var(--line); overflow: hidden; }
 .card-art canvas { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .card:hover .card-art canvas { transform: scale(1.025); }
@@ -158,6 +162,7 @@ img { max-width: 100%; }
   .hero-copy { padding-top: 40px; }
   .work-grid { row-gap: 72px; }
   .card.span-7, .card.span-5 { grid-column: 1 / -1; }
+  .card.wide { display: flex; flex-direction: column; }
   .card.drop { padding-top: 0; }
   .about .label, .about-text, .facts { grid-column: 1 / -1; }
   .about { row-gap: 40px; }
