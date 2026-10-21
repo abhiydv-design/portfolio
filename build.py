@@ -14,6 +14,7 @@ ALT = {
     "shop": "A kirana store drawn in pixels: a KIRANA CLUB sign ringed with bulbs, a striped awning, stocked shelves, a counter with jars, grain sacks and a shopper walking past.",
     "truck": "A goods truck loaded with sacks driving along a road, drawn in pixels, with a dotted route leading to a location pin.",
     "waffle": "A pink pixel waffle on a plate, with butter, red strawberry slices, syrup dripping over the edge and steam rising.",
+    "reel": "A pixel film strip scrolling past a large play button, with sparkles twinkling around it.",
 }
 MARK = {
     "square": '<rect width="10" height="10" style="fill:var(--accent)"/>',
@@ -270,7 +271,7 @@ def index():
   </section>
 
   <section class="work" id="work">
-    <div class="section-head"><h2>Selected work</h2><div class="label">Four projects</div></div>
+    <div class="section-head"><h2>Selected work</h2><div class="label">{["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"][len(C["projects"]) - 1]} projects</div></div>
     <div class="work-grid">
 {chr(10).join(cards)}
     </div>
@@ -392,6 +393,10 @@ def render_sections(secs):
                     iw, ih = 716, 1600
                 ph += f'<figure class="phone"><div class="phone-frame"><img src="{e(src)}" alt="{e(alt)}" loading="lazy" decoding="async" width="{iw}" height="{ih}"></div><figcaption>{e(cap)}</figcaption></figure>'
             out.append(f'<section class="cs-block">{lab}<div class="copy"><p>{e(x["intro"])}</p></div><div class="phones">{ph}</div></section>')
+        elif t == "films":
+            cells = "".join(f'<figure class="ad"><video src="{e(v["src"])}" poster="{e(v["poster"])}" controls playsinline preload="none" width="1280" height="720" aria-label="{e(v["title"])}: {e(v["alt"])}"></video><figcaption><span class="ad-t">{e(v["title"])}</span><span class="ad-d">{e(v["len"])}</span>{e(v["caption"])}</figcaption></figure>' for v in x["items"])
+            intro = f'<div class="copy"><p>{e(x["intro"])}</p></div>' if x.get("intro") else ""
+            out.append(f'<section class="cs-block">{lab}{intro}<div class="ads">{cells}</div></section>')
         elif t == "film":
             out.append(f'<section class="cs-block">{lab}<figure class="film"><video src="{e(x["src"])}" poster="{e(x["poster"])}" controls playsinline preload="none" width="1280" height="720"></video><figcaption>{e(x.get("caption", ""))}</figcaption></figure></section>')
         elif t == "stat":

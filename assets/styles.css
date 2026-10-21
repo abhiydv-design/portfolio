@@ -651,3 +651,14 @@ section[id], footer[id] { scroll-margin-top: 88px; }
 .phone { display: inline-block; margin-top: 14px; font-family: var(--serif); font-size: clamp(22px, 2.2vw, 32px); color: var(--foot-accent); text-underline-offset: 6px; text-decoration-thickness: 1px; }
 .phone:hover { color: var(--on-footer); }
 .footer .email + .phone { display: block; width: fit-content; }
+
+/* AI video ads: a grid of playable ads */
+.ads { grid-column: 4 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+.ad { margin: 0; }
+.ads .ad:first-child { grid-column: 1 / -1; }   /* each brand leads with one big ad, then two side by side */
+.ad video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); }
+.ad figcaption { margin-top: 10px; font: 13px/1.5 var(--sans); color: var(--meta); }
+.ad-t { display: inline; font-weight: 600; color: var(--ink); margin-right: 8px; }
+.ad-d { display: inline-block; margin-right: 8px; padding: 1px 6px; border: 1px solid var(--line); font: 11px/1.5 var(--mono); color: var(--meta); }
+@media (max-width: 1000px) { .ads { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .ads { grid-template-columns: 1fr; } }

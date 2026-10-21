@@ -322,6 +322,55 @@
     });
   };
 
+  /* ---------- AI video ads: a film strip of little ad frames scrolling past a play button, with sparkles ---------- */
+  DRAW.reel = function (ctx, W, H, p, show, t) {
+    var still = t == null; t = still ? 0.6 : t;
+    ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
+    var c = Math.max(4, Math.floor(Math.min(W / 84, H / 52))), gw = Math.floor(W / c), gh = Math.floor(H / c);
+    function px(i, j, col, a) { if (i < 0 || j < 0 || i >= gw || j >= gh || !show(i, j)) return; ctx.globalAlpha = a == null ? 1 : a; ctx.fillStyle = col; ctx.fillRect(i * c + 0.5, j * c + 0.5, c - 1, c - 1); ctx.globalAlpha = 1; }
+    var top = Math.round(gh * 0.3), bot = Math.round(gh * 0.72), shift = Math.floor(t * 7);   // the strip, and how far it has rolled
+    // the strip itself, with sprocket holes along both edges
+    for (var j = top; j <= bot; j++) for (var i = 0; i < gw; i++) {
+      var edge = j - top < 3 || bot - j < 3;
+      if (edge && (j === top + 1 || j === bot - 1) && ((i + shift) % 4) < 2) continue;   // a hole
+      px(i, j, p.ink, edge ? 0.92 : 0.86);
+    }
+    // frames: a pack, a bowl with steam, a sunrise over a field, repeating
+    var fw = 15, gap = 3, inTop = top + 4, inBot = bot - 4, fh = inBot - inTop;
+    for (var k = -1; k < gw / (fw + gap) + 2; k++) {
+      var x0 = k * (fw + gap) - (shift % (fw + gap)), kind = ((k + Math.floor(shift / (fw + gap))) % 3 + 3) % 3;
+      for (var j = inTop; j <= inBot; j++) for (var i = 0; i < fw; i++) px(x0 + i, j, p.page);
+      var mx = x0 + Math.floor(fw / 2), base = inBot - 1;
+      if (kind === 0) {           // a product pack with a label band
+        for (var j = 0; j < Math.min(9, fh - 2); j++) for (var i = -3; i <= 3; i++) px(mx + i, base - j, j > 2 && j < 6 ? p.soft : p.accent);
+        px(mx - 1, base - 9, p.accent); px(mx + 1, base - 9, p.accent);
+      } else if (kind === 1) {    // a bowl with rising steam
+        for (var i = -5; i <= 5; i++) for (var j = 0; j < 3 - Math.floor(Math.abs(i) / 3); j++) px(mx + i, base - j, p.accent);
+        for (var i = -4; i <= 4; i++) px(mx + i, base - 3, p.soft);
+        for (var n = 0; n < 3; n++) { var wob = Math.round(Math.sin(t * 3 + n * 2) * 0.8); px(mx - 3 + n * 3 + wob, base - 5 - n % 2, p.mark, 0.7); px(mx - 3 + n * 3, base - 7, p.mark, 0.4); }
+      } else {                    // a sunrise over field rows
+        for (var i = 0; i < fw; i++) { px(x0 + i, base, p.soft); px(x0 + i, base - 2, p.soft, 0.6); }
+        for (var i = -2; i <= 2; i++) for (var j = 0; j <= 2 - Math.abs(i) / 1.5; j++) px(mx + i, base - 4 - j, p.accent);
+      }
+    }
+    // the play button, gently pulsing
+    var cx = gw / 2, cy = (top + bot) / 2, R = Math.min(gw, gh) * 0.2 * (still ? 1 : 1 + Math.sin(t * 2.4) * 0.04);
+    for (var j = Math.floor(cy - R - 1); j <= cy + R + 1; j++) for (var i = Math.floor(cx - R - 1); i <= cx + R + 1; i++) {
+      var d = Math.hypot(i + 0.5 - cx, j + 0.5 - cy);
+      if (d < R - 1) px(i, j, p.page); else if (d < R + 0.6) px(i, j, p.accent);
+    }
+    var tw = R * 0.55;
+    for (var j = Math.floor(cy - tw); j <= cy + tw; j++) for (var i = Math.floor(cx - tw * 0.6); i <= cx + tw; i++) {
+      var u = (i + 0.5 - (cx - tw * 0.6)) / (tw * 1.6), half = (1 - u) * tw;
+      if (u >= 0 && u <= 1 && Math.abs(j + 0.5 - cy) <= half) px(i, j, p.accent);
+    }
+    // sparkles: the "AI" magic, twinkling above and below the strip
+    [[0.12, 0.14], [0.3, 0.86], [0.7, 0.12], [0.88, 0.84], [0.55, 0.9], [0.45, 0.1]].forEach(function (s2, n) {
+      var x = Math.round(gw * s2[0]), y = Math.round(gh * s2[1]), a = still ? 0.8 : 0.25 + 0.75 * Math.abs(Math.sin(t * 1.6 + n * 1.3)), r = a > 0.7 ? 2 : 1;
+      px(x, y, p.accent, a); for (var q = 1; q <= r; q++) { px(x + q, y, p.accent, a * 0.7); px(x - q, y, p.accent, a * 0.7); px(x, y + q, p.accent, a * 0.7); px(x, y - q, p.accent, a * 0.7); }
+    });
+  };
+
   DRAW.band = function (ctx, W, H, p) {
     ctx.fillStyle = p.page; ctx.fillRect(0, 0, W, H);
     var cell = 8, cols = Math.ceil(W / cell), rows = Math.round(H / cell);
@@ -752,7 +801,7 @@
       if (el.getAttribute('data-pattern') === 'band') { band = new Band(el); band.draw(); return; }
       var s = new Static(el);
       if (el.hasAttribute('data-instant')) { s.progress = 1; s.started = true; }
-      if (['truck', 'shop', 'ten', 'waffle'].indexOf(s.name) > -1) s.animated = true;
+      if (['truck', 'shop', 'ten', 'waffle', 'reel'].indexOf(s.name) > -1) s.animated = true;
       statics.push(s); s.draw();
       if (s.animated && !reduced && 'IntersectionObserver' in window) {
         var on = false, raf2 = 0;

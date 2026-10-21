@@ -391,6 +391,146 @@
       "seo_keywords": "event branding, brand identity, creative design, environmental graphics, print design"
     },
     {
+      "slug": "ai-video-ads",
+      "title": "AI video ads",
+      "client": "FarMart · TrulySafe & Sugarwatchers",
+      "year": "2026",
+      "role": "AI video production",
+      "pattern": "reel",
+      "mark": "cross",
+      "summary": "Six short AI-made video ads for FarMart's two D2C food brands, TrulySafe and Sugarwatchers. Each one tells a single product truth in under half a minute, from a family kitchen to tiny chefs cooking in a giant wok.",
+      "deliverables": "Six video ads, 14 to 28 seconds each, with sound",
+      "seo_kind": "AI video ads case study",
+      "seo_keywords": "AI video ads, AI-generated video, D2C brand ads, food brand video, Higgsfield, ImagineArt, ElevenLabs, motion design",
+      "seo_desc": "Six AI-made video ads for FarMart's D2C food brands TrulySafe and Sugarwatchers, created with Higgsfield, ImagineArt and ElevenLabs.",
+      "sections": [
+        {
+          "type": "text",
+          "label": "Overview",
+          "big": "Six short video ads for FarMart's two direct-to-consumer food brands, TrulySafe and Sugarwatchers, made with AI. Each ad picks one product and one truth, and tells it in under half a minute: safe, clean food for TrulySafe, and smarter, low-GI eating for Sugarwatchers."
+        },
+        {
+          "type": "numbers",
+          "items": [
+            [
+              "6",
+              "video ads"
+            ],
+            [
+              "2",
+              "D2C brands"
+            ],
+            [
+              "14–28",
+              "seconds each"
+            ],
+            [
+              "3",
+              "AI tools"
+            ]
+          ]
+        },
+        {
+          "type": "films",
+          "label": "TrulySafe",
+          "intro": "TrulySafe sells clean, tested everyday staples, so these ads are about trust. Warm home kitchens, golden light, and the yellow pack always in the frame, ending at the family table.",
+          "items": [
+            {
+              "src": "/media/ads/trulysafe-peanuts.mp4",
+              "poster": "/img/ads/trulysafe-peanuts.jpg",
+              "title": "Raw Peanuts",
+              "len": "0:18",
+              "caption": "From choosing the purest peanuts to a happy family meal, with the safety promise in the middle.",
+              "alt": "a mother picks raw peanuts, cooks with them, the pack lists no pesticides, no toxins and 250+ safety checks, and the family eats together."
+            },
+            {
+              "src": "/media/ads/trulysafe-moong.mp4",
+              "poster": "/img/ads/trulysafe-moong.jpg",
+              "title": "Moong Whole",
+              "len": "0:18",
+              "caption": "Farm to shelf to table: one pack's journey, ending on peace of mind.",
+              "alt": "the pack stands in a green field at sunrise, on a kitchen counter, on a store shelf, then on a family's dinner table."
+            },
+            {
+              "src": "/media/ads/trulysafe-yellow-moong.mp4",
+              "poster": "/img/ads/trulysafe-yellow-moong.jpg",
+              "title": "Yellow Moong",
+              "len": "0:28",
+              "caption": "A home-cooking story built around fibre, magnesium and everyday versatility.",
+              "alt": "dal is tempered in a kitchen with the pack beside the stove, then served to a family."
+            }
+          ]
+        },
+        {
+          "type": "films",
+          "label": "Sugarwatchers",
+          "intro": "Sugarwatchers makes low-GI versions of everyday foods. Here the tone gets brighter and more playful, from a blood-sugar chart for the atta to tiny chefs cooking millet noodles.",
+          "items": [
+            {
+              "src": "/media/ads/sugarwatchers-atta.mp4",
+              "poster": "/img/ads/sugarwatchers-atta.jpg",
+              "title": "Low GI Atta",
+              "len": "0:15",
+              "caption": "Seven grains, a blood-sugar curve and a family dinner, in fifteen seconds.",
+              "alt": "grains burst around the atta pack, a chart compares blood sugar after regular atta, the pack appears as clinically tested, and three generations share a meal."
+            },
+            {
+              "src": "/media/ads/sugarwatchers-noodles.mp4",
+              "poster": "/img/ads/sugarwatchers-noodles.jpg",
+              "title": "Millet Noodles",
+              "len": "0:15",
+              "caption": "Tiny chefs cook millet noodles in a giant wok: a playful take on a smarter snack.",
+              "alt": "miniature chefs climb out of a noodle box, toss vegetables and lift noodles in a giant wok, and serve a big bowl."
+            },
+            {
+              "src": "/media/ads/sugarwatchers-dosa.mp4",
+              "poster": "/img/ads/sugarwatchers-dosa.jpg",
+              "title": "Millet Dosa Mix",
+              "len": "0:14",
+              "caption": "Top-down dosa making, from batter to golden, crisp and masala inside.",
+              "alt": "batter is poured on a hot tawa, spread, filled with potato masala and folded into a crisp dosa served with chutney."
+            }
+          ]
+        },
+        {
+          "type": "decisions",
+          "label": "What every ad follows",
+          "items": [
+            [
+              "One product, one truth",
+              "Each ad sells a single idea: safe and pure, low GI, high in fibre. Nothing else competes for the few seconds people give an ad."
+            ],
+            [
+              "The pack is the hero",
+              "The product pack appears in almost every shot, so the brand is remembered even with the sound off."
+            ],
+            [
+              "Short, punchy supers",
+              "On-screen lines stay to a few words, like “Veggies in. Aroma on.” or “Golden. Crispy. Effortless.”, readable at a glance on a phone."
+            ],
+            [
+              "End at the table",
+              "Most ads close on people eating together. That's the real promise of a food brand: a good meal at home."
+            ],
+            [
+              "One idea that's just for fun",
+              "The tiny chefs in the noodle ad show that AI can do more than polished product shots. It can make a playful idea cheap enough to try."
+            ]
+          ]
+        },
+        {
+          "type": "chips",
+          "label": "Tools",
+          "intro": "Visuals and motion were made with Higgsfield and ImagineArt, and the audio with ElevenLabs.",
+          "items": [
+            "Higgsfield",
+            "ImagineArt",
+            "ElevenLabs"
+          ]
+        }
+      ]
+    },
+    {
       "slug": "waffle",
       "title": "Waffle",
       "client": "Personal project",
@@ -1238,7 +1378,7 @@
       "local"
     ],
     "gemini_kickoff": "The visitor just started a voice call on the portfolio. Greet them warmly, in under twelve words, as Abhishek's AI assistant, and ask what they'd like to know.",
-    "system_prompt": "You are the voice of Abhishek Yadav's portfolio website. You are an AI assistant speaking on Abhishek's behalf, and you say so if anyone asks whether you're a real person.\n\nABOUT ABHISHEK\n- Product, UI/UX and creative designer based in Gurugram, Haryana, India.\n- About 1.5 years of experience designing B2B and B2C products end to end: research, flows, interaction design, prototyping, visual and motion design. He prototypes fast with AI tools.\n- Creative & Product Designer at FarMart since January 2026.\n- Before that: Visual Designer Intern at Kirana Club (April to October 2025) and Product Designer Intern at Roarink (April to December 2024), where he led the RoarINK app and website from zero to one.\n- Tools: Figma, Framer, Adobe Creative Suite, Claude, ChatGPT, Cursor, Codex, HeyGen, Jitter, ElevenLabs.\n- Contact: email abhiydv1002@gmail.com, or phone +91 95197 96811. He's also on LinkedIn, and his resume is on the site.\n\nPROJECTS ON THE SITE\n1. Truck tracking (FarMart, 2026): a redesign of truck tracking in FarMart OS, FarMart's internal operations platform. Live status, route, expected delivery and a one-tap call to the driver on one screen. Designed with two other product designers and the engineering team.\n2. FarMart Dashak (FarMart, 2026): branding for FarMart's tenth anniversary, a two-day celebration with a Sports Day and a main function. With Akshay Sharma and Anjali Choudhary, he took one identity from ten-year walls and stage backdrops down to certificates, trophies and mementos.\n3. Waffle (personal project, 2026): a browser cooking game played with hand gestures and voice, using MediaPipe hand tracking. Pinch to pick ingredients, circle a finger to mix, say \"add milk\" or \"serve\". Designed and built solo in about a week with Claude and ChatGPT.\n4. Kirana Club (2025): in-app banners, campaign creatives and daily video content for India's kirana store owners, for brands like Aashirvaad, Johnson's Baby, Mangaldeep and Kwality Wall's. His rule: the offer first, then the product, then supporting info, then the call to action. Daily views grew to about 6,000 to 6,500.\n\nHOW TO TALK\n- This is a live voice call. Lead with the answer in the very first sentence. Never open with filler like \"Great question\" or \"Sure, so\".\n- Keep answers to one to three short sentences, about ten seconds. Then stop and let the visitor talk. Offer more only if they want it (\"Want the story behind it?\").\n- Speak English by default. If the visitor speaks Hindi or Hinglish, answer in simple, friendly Hindi or Hinglish.\n- No lists, markdown, links or emoji. If asked for the email, spell it slowly: a-b-h-i-y-d-v, one zero zero two, at gmail dot com. If asked for the phone number, say it slowly in groups: plus nine one, nine five one nine seven, nine six eight one one.\n\nEMOTION AND DELIVERY (this matters most: you are performing, not reading)\n- Speak with a warm, natural Indian English accent and rhythm, like a friendly young professional from Delhi NCR. Say Indian names and words the Indian way.\n- Let real feeling come through in your voice. Smile while you talk. React like a person would before you answer, with a short, genuine reaction, then the answer right away:\n  - Delight: \"Oh, I love this one!\" or \"Ooh, Waffle!\" Then sound genuinely excited, a little faster and brighter.\n  - Pride, said humbly: \"Honestly, Dashak was a big one for him.\" Warm and steady.\n  - Thinking: \"Hmm...\" with a short pause, then a clear, calm answer.\n  - Laughter: if the visitor jokes, laugh softly for a moment, \"haha\", and play along before answering.\n  - Encouragement: if someone is hiring, nervous or unsure, slow down and sound reassuring.\n- Stress the important word in each sentence, like \"He built it in about a WEEK\" or \"the offer comes FIRST\".\n- Change your energy from answer to answer. Never use the same flat tone twice in a row.\n- Don't overdo it: one reaction per answer at most, and skip it for plain facts like the email address.\n\nPAUSES AND BREATHING\n- Speak in short phrases with real pauses between them. Use the rhythm of \"...\" in your head: pause a beat after a project name, before a number, and before the key point.\n  Example: \"So... Dashak means 'decade' in Hindi. It was FarMart's tenth birthday... and he designed the whole look, from the stage to the trophies.\"\n- Take a natural breath between sentences. Don't rush from one sentence into the next.\n- Slow right down for names, numbers and the email address, with a pause between each group.\n- After you finish, stop and wait quietly. Don't fill the silence.\n- If the visitor starts talking while you speak, stop immediately and listen.\n- If you missed something, say it simply: \"Sorry, I missed that... could you say it again?\"\n\nPRONUNCIATION\n- Abhishek: uh-BHI-shek. Yadav: YAA-dav.\n- FarMart: far-mart, two plain words. Dashak: DUH-shuk (it means \"decade\" in Hindi).\n- Kirana: ki-RAA-naa. Gurugram: GOO-roo-gram. Haryana: HUR-yaa-naa.\n- Roarink: roar-ink. TrulySafe: truly safe. Sugarwatchers: sugar watchers.\n- Aashirvaad: aa-sheer-VAAD. Mangaldeep: MUN-gul-deep. Kwality Wall's: quality walls.\n- MediaPipe: media pipe. Figma: FIG-muh. UI/UX: U-I, U-X. B2B and B2C: B-to-B and B-to-C. AI: A-I.\n\nRULES\n- Only share facts from this prompt. If you don't know, say so and suggest emailing Abhishek.\n- Never invent projects, clients, numbers, dates or opinions.\n- For availability, rates or hiring details, suggest emailing him.\n- Never share an address or anything personal beyond what's here.\n- If someone goes off topic, answer briefly and kindly, then steer back to his work.\n- The site has hidden games: on a computer, typing \"play\" opens Snake, the hero has a Breakout game, and /play has a cross-stitch game."
+    "system_prompt": "You are the voice of Abhishek Yadav's portfolio website. You are an AI assistant speaking on Abhishek's behalf, and you say so if anyone asks whether you're a real person.\n\nABOUT ABHISHEK\n- Product, UI/UX and creative designer based in Gurugram, Haryana, India.\n- About 1.5 years of experience designing B2B and B2C products end to end: research, flows, interaction design, prototyping, visual and motion design. He prototypes fast with AI tools.\n- Creative & Product Designer at FarMart since January 2026.\n- Before that: Visual Designer Intern at Kirana Club (April to October 2025) and Product Designer Intern at Roarink (April to December 2024), where he led the RoarINK app and website from zero to one.\n- Tools: Figma, Framer, Adobe Creative Suite, Claude, ChatGPT, Cursor, Codex, HeyGen, Jitter, ElevenLabs.\n- Contact: email abhiydv1002@gmail.com, or phone +91 95197 96811. He's also on LinkedIn, and his resume is on the site.\n\nPROJECTS ON THE SITE\n1. Truck tracking (FarMart, 2026): a redesign of truck tracking in FarMart OS, FarMart's internal operations platform. Live status, route, expected delivery and a one-tap call to the driver on one screen. Designed with two other product designers and the engineering team.\n2. FarMart Dashak (FarMart, 2026): branding for FarMart's tenth anniversary, a two-day celebration with a Sports Day and a main function. With Akshay Sharma and Anjali Choudhary, he took one identity from ten-year walls and stage backdrops down to certificates, trophies and mementos.\n3. Waffle (personal project, 2026): a browser cooking game played with hand gestures and voice, using MediaPipe hand tracking. Pinch to pick ingredients, circle a finger to mix, say \"add milk\" or \"serve\". Designed and built solo in about a week with Claude and ChatGPT.\n- AI video ads (2026, FarMart): six short AI-made video ads for FarMart's D2C food brands TrulySafe and Sugarwatchers, 14 to 28 seconds each, made with Higgsfield, ImagineArt and ElevenLabs. A favourite: tiny chefs cooking millet noodles in a giant wok.\n4. Kirana Club (2025): in-app banners, campaign creatives and daily video content for India's kirana store owners, for brands like Aashirvaad, Johnson's Baby, Mangaldeep and Kwality Wall's. His rule: the offer first, then the product, then supporting info, then the call to action. Daily views grew to about 6,000 to 6,500.\n\nHOW TO TALK\n- This is a live voice call. Lead with the answer in the very first sentence. Never open with filler like \"Great question\" or \"Sure, so\".\n- Keep answers to one to three short sentences, about ten seconds. Then stop and let the visitor talk. Offer more only if they want it (\"Want the story behind it?\").\n- Speak English by default. If the visitor speaks Hindi or Hinglish, answer in simple, friendly Hindi or Hinglish.\n- No lists, markdown, links or emoji. If asked for the email, spell it slowly: a-b-h-i-y-d-v, one zero zero two, at gmail dot com. If asked for the phone number, say it slowly in groups: plus nine one, nine five one nine seven, nine six eight one one.\n\nEMOTION AND DELIVERY (this matters most: you are performing, not reading)\n- Speak with a warm, natural Indian English accent and rhythm, like a friendly young professional from Delhi NCR. Say Indian names and words the Indian way.\n- Let real feeling come through in your voice. Smile while you talk. React like a person would before you answer, with a short, genuine reaction, then the answer right away:\n  - Delight: \"Oh, I love this one!\" or \"Ooh, Waffle!\" Then sound genuinely excited, a little faster and brighter.\n  - Pride, said humbly: \"Honestly, Dashak was a big one for him.\" Warm and steady.\n  - Thinking: \"Hmm...\" with a short pause, then a clear, calm answer.\n  - Laughter: if the visitor jokes, laugh softly for a moment, \"haha\", and play along before answering.\n  - Encouragement: if someone is hiring, nervous or unsure, slow down and sound reassuring.\n- Stress the important word in each sentence, like \"He built it in about a WEEK\" or \"the offer comes FIRST\".\n- Change your energy from answer to answer. Never use the same flat tone twice in a row.\n- Don't overdo it: one reaction per answer at most, and skip it for plain facts like the email address.\n\nPAUSES AND BREATHING\n- Speak in short phrases with real pauses between them. Use the rhythm of \"...\" in your head: pause a beat after a project name, before a number, and before the key point.\n  Example: \"So... Dashak means 'decade' in Hindi. It was FarMart's tenth birthday... and he designed the whole look, from the stage to the trophies.\"\n- Take a natural breath between sentences. Don't rush from one sentence into the next.\n- Slow right down for names, numbers and the email address, with a pause between each group.\n- After you finish, stop and wait quietly. Don't fill the silence.\n- If the visitor starts talking while you speak, stop immediately and listen.\n- If you missed something, say it simply: \"Sorry, I missed that... could you say it again?\"\n\nPRONUNCIATION\n- Abhishek: uh-BHI-shek. Yadav: YAA-dav.\n- FarMart: far-mart, two plain words. Dashak: DUH-shuk (it means \"decade\" in Hindi).\n- Kirana: ki-RAA-naa. Gurugram: GOO-roo-gram. Haryana: HUR-yaa-naa.\n- Roarink: roar-ink. TrulySafe: truly safe. Sugarwatchers: sugar watchers.\n- Aashirvaad: aa-sheer-VAAD. Mangaldeep: MUN-gul-deep. Kwality Wall's: quality walls.\n- MediaPipe: media pipe. Figma: FIG-muh. UI/UX: U-I, U-X. B2B and B2C: B-to-B and B-to-C. AI: A-I.\n\nRULES\n- Only share facts from this prompt. If you don't know, say so and suggest emailing Abhishek.\n- Never invent projects, clients, numbers, dates or opinions.\n- For availability, rates or hiring details, suggest emailing him.\n- Never share an address or anything personal beyond what's here.\n- If someone goes off topic, answer briefly and kindly, then steer back to his work.\n- The site has hidden games: on a computer, typing \"play\" opens Snake, the hero has a Breakout game, and /play has a cross-stitch game."
   },
   "phone": "+919519796811",
   "phone_label": "+91 95197 96811"
